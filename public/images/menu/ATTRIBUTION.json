@@ -1,0 +1,454 @@
+{
+  "generatedAt": "2026-05-20T06:32:20.920Z",
+  "attributions": [
+    {
+      "id": "m1",
+      "dish": "Paneer Tikka",
+      "localPath": "/images/menu/m1-paneer-tikka.jpg",
+      "sourceTitle": "Paneer tikka",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Paneer_tikka",
+      "provider": "Wikipedia"
+    },
+    {
+      "id": "m2",
+      "dish": "Veg Spring Rolls",
+      "localPath": "/images/menu/m2-veg-spring-rolls.jpg",
+      "sourceTitle": "Veg Spring Rolls keyword food photo",
+      "sourceUrl": "https://loremflickr.com/",
+      "provider": "LoremFlickr/Flickr keyword search"
+    },
+    {
+      "id": "m3",
+      "dish": "Hara Bhara Kabab",
+      "localPath": "/images/menu/m3-hara-bhara-kabab.jpg",
+      "sourceTitle": "File:Hara Bhara kebab with cheese.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Hara_Bhara_kebab_with_cheese.jpg",
+      "provider": "Wikimedia Commons"
+    },
+    {
+      "id": "m4",
+      "dish": "Crispy Corn",
+      "localPath": "/images/menu/m4-crispy-corn.jpg",
+      "sourceTitle": "Corn kernel",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Corn_kernel",
+      "provider": "Wikipedia"
+    },
+    {
+      "id": "m5",
+      "dish": "Mushroom Pepper Fry",
+      "localPath": "/images/menu/m5-mushroom-pepper-fry.jpg",
+      "sourceTitle": "File:Grilled ground meat filled in bell pepper (2317777479).jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Grilled_ground_meat_filled_in_bell_pepper_(2317777479).jpg",
+      "provider": "Wikimedia Commons"
+    },
+    {
+      "id": "m6",
+      "dish": "Chicken 65",
+      "localPath": "/images/menu/m6-chicken-65.jpg",
+      "sourceTitle": "File:Chicken 65 (Dish).jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Chicken_65_(Dish).jpg",
+      "provider": "Wikimedia Commons"
+    },
+    {
+      "id": "m7",
+      "dish": "Chicken Wings",
+      "localPath": "/images/menu/m7-chicken-wings.jpg",
+      "sourceTitle": "Chicken Wings keyword food photo",
+      "sourceUrl": "https://loremflickr.com/",
+      "provider": "LoremFlickr/Flickr keyword search"
+    },
+    {
+      "id": "m8",
+      "dish": "Fish Fingers",
+      "localPath": "/images/menu/m8-fish-fingers.jpg",
+      "sourceTitle": "Fish finger",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Fish_finger",
+      "provider": "Wikipedia"
+    },
+    {
+      "id": "m9",
+      "dish": "Prawn Fry",
+      "localPath": "/images/menu/m9-prawn-fry.jpg",
+      "sourceTitle": "File:Crispy deep-fried prawn of Ulakan.JPG",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Crispy_deep-fried_prawn_of_Ulakan.JPG",
+      "provider": "Wikimedia Commons"
+    },
+    {
+      "id": "m10",
+      "dish": "Mutton Seekh Kabab",
+      "localPath": "/images/menu/m10-mutton-seekh-kabab.jpg",
+      "sourceTitle": "Seekh kebab",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Seekh_kebab",
+      "provider": "Wikipedia"
+    },
+    {
+      "id": "m11",
+      "dish": "Paneer Butter Masala",
+      "localPath": "/images/menu/m11-paneer-butter-masala.jpg",
+      "sourceTitle": "Paneer Butter Masala keyword food photo",
+      "sourceUrl": "https://loremflickr.com/",
+      "provider": "LoremFlickr/Flickr keyword search"
+    },
+    {
+      "id": "m12",
+      "dish": "Dal Makhani",
+      "localPath": "/images/menu/m12-dal-makhani.jpg",
+      "sourceTitle": "Dal makhani",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Dal_makhani",
+      "provider": "Wikipedia"
+    },
+    {
+      "id": "m13",
+      "dish": "Veg Biryani",
+      "localPath": "/images/menu/m13-veg-biryani.jpg",
+      "sourceTitle": "Veg Biryani keyword food photo",
+      "sourceUrl": "https://loremflickr.com/",
+      "provider": "LoremFlickr/Flickr keyword search"
+    },
+    {
+      "id": "m14",
+      "dish": "Palak Paneer",
+      "localPath": "/images/menu/m14-palak-paneer.jpg",
+      "sourceTitle": "Palak Paneer keyword food photo",
+      "sourceUrl": "https://loremflickr.com/",
+      "provider": "LoremFlickr/Flickr keyword search"
+    },
+    {
+      "id": "m15",
+      "dish": "Veg Fried Rice",
+      "localPath": "/images/menu/m15-veg-fried-rice.jpg",
+      "sourceTitle": "Fried rice",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Fried_rice",
+      "provider": "Wikipedia"
+    },
+    {
+      "id": "m16",
+      "dish": "Chole Bhature",
+      "localPath": "/images/menu/m16-chole-bhature.jpg",
+      "sourceTitle": "Chole Bhature keyword food photo",
+      "sourceUrl": "https://loremflickr.com/",
+      "provider": "LoremFlickr/Flickr keyword search"
+    },
+    {
+      "id": "m17",
+      "dish": "Veg Hakka Noodles",
+      "localPath": "/images/menu/m17-veg-hakka-noodles.jpg",
+      "sourceTitle": "Indian Chinese cuisine",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Indian_Chinese_cuisine",
+      "provider": "Wikipedia"
+    },
+    {
+      "id": "m18",
+      "dish": "Mushroom Masala",
+      "localPath": "/images/menu/m18-mushroom-masala.jpg",
+      "sourceTitle": "Mushroom",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Mushroom",
+      "provider": "Wikipedia"
+    },
+    {
+      "id": "m19",
+      "dish": "Butter Chicken",
+      "localPath": "/images/menu/m19-butter-chicken.jpg",
+      "sourceTitle": "Butter Chicken keyword food photo",
+      "sourceUrl": "https://loremflickr.com/",
+      "provider": "LoremFlickr/Flickr keyword search"
+    },
+    {
+      "id": "m20",
+      "dish": "Chicken Biryani",
+      "localPath": "/images/menu/m20-chicken-biryani.jpg",
+      "sourceTitle": "Biryani",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Biryani",
+      "provider": "Wikipedia"
+    },
+    {
+      "id": "m21",
+      "dish": "Mutton Rogan Josh",
+      "localPath": "/images/menu/m21-mutton-rogan-josh.jpg",
+      "sourceTitle": "File:Rogan josh02.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Rogan_josh02.jpg",
+      "provider": "Wikimedia Commons"
+    },
+    {
+      "id": "m22",
+      "dish": "Fish Curry",
+      "localPath": "/images/menu/m22-fish-curry.jpg",
+      "sourceTitle": "Fish Curry keyword food photo",
+      "sourceUrl": "https://loremflickr.com/",
+      "provider": "LoremFlickr/Flickr keyword search"
+    },
+    {
+      "id": "m23",
+      "dish": "Prawn Masala",
+      "localPath": "/images/menu/m23-prawn-masala.jpg",
+      "sourceTitle": "Prawn Masala keyword food photo",
+      "sourceUrl": "https://loremflickr.com/",
+      "provider": "LoremFlickr/Flickr keyword search"
+    },
+    {
+      "id": "m24",
+      "dish": "Chicken Fried Rice",
+      "localPath": "/images/menu/m24-chicken-fried-rice.jpg",
+      "sourceTitle": "Fried rice",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Fried_rice",
+      "provider": "Wikipedia"
+    },
+    {
+      "id": "m25",
+      "dish": "Chicken Noodles",
+      "localPath": "/images/menu/m25-chicken-noodles.jpg",
+      "sourceTitle": "Indian Chinese cuisine",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Indian_Chinese_cuisine",
+      "provider": "Wikipedia"
+    },
+    {
+      "id": "m26",
+      "dish": "Egg Curry",
+      "localPath": "/images/menu/m26-egg-curry.jpg",
+      "sourceTitle": "Egg Curry keyword food photo",
+      "sourceUrl": "https://loremflickr.com/",
+      "provider": "LoremFlickr/Flickr keyword search"
+    },
+    {
+      "id": "m27",
+      "dish": "Margherita Pizza",
+      "localPath": "/images/menu/m27-margherita-pizza.jpg",
+      "sourceTitle": "File:Eq it-na pizza-margherita sep2005 sml.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Eq_it-na_pizza-margherita_sep2005_sml.jpg",
+      "provider": "Wikimedia Commons"
+    },
+    {
+      "id": "m28",
+      "dish": "Chicken Pizza",
+      "localPath": "/images/menu/m28-chicken-pizza.jpg",
+      "sourceTitle": "Pizza",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Pizza",
+      "provider": "Wikipedia"
+    },
+    {
+      "id": "m29",
+      "dish": "Paneer Tikka Pizza",
+      "localPath": "/images/menu/m29-paneer-tikka-pizza.jpg",
+      "sourceTitle": "Paneer Tikka Pizza keyword food photo",
+      "sourceUrl": "https://loremflickr.com/",
+      "provider": "LoremFlickr/Flickr keyword search"
+    },
+    {
+      "id": "m30",
+      "dish": "Pasta Alfredo",
+      "localPath": "/images/menu/m30-pasta-alfredo.jpg",
+      "sourceTitle": "Pasta Alfredo keyword food photo",
+      "sourceUrl": "https://loremflickr.com/",
+      "provider": "LoremFlickr/Flickr keyword search"
+    },
+    {
+      "id": "m31",
+      "dish": "Chicken Pasta",
+      "localPath": "/images/menu/m31-chicken-pasta.jpg",
+      "sourceTitle": "Chicken Pasta keyword food photo",
+      "sourceUrl": "https://loremflickr.com/",
+      "provider": "LoremFlickr/Flickr keyword search"
+    },
+    {
+      "id": "m32",
+      "dish": "Veg Burger",
+      "localPath": "/images/menu/m32-veg-burger.jpg",
+      "sourceTitle": "Veg Burger keyword food photo",
+      "sourceUrl": "https://loremflickr.com/",
+      "provider": "LoremFlickr/Flickr keyword search"
+    },
+    {
+      "id": "m33",
+      "dish": "Chicken Burger",
+      "localPath": "/images/menu/m33-chicken-burger.jpg",
+      "sourceTitle": "Chicken Burger keyword food photo",
+      "sourceUrl": "https://loremflickr.com/",
+      "provider": "LoremFlickr/Flickr keyword search"
+    },
+    {
+      "id": "m34",
+      "dish": "Grilled Sandwich",
+      "localPath": "/images/menu/m34-grilled-sandwich.jpg",
+      "sourceTitle": "Grilled Sandwich keyword food photo",
+      "sourceUrl": "https://loremflickr.com/",
+      "provider": "LoremFlickr/Flickr keyword search"
+    },
+    {
+      "id": "m35",
+      "dish": "Club Sandwich",
+      "localPath": "/images/menu/m35-club-sandwich.jpg",
+      "sourceTitle": "Club Sandwich keyword food photo",
+      "sourceUrl": "https://loremflickr.com/",
+      "provider": "LoremFlickr/Flickr keyword search"
+    },
+    {
+      "id": "m36",
+      "dish": "Caesar Salad",
+      "localPath": "/images/menu/m36-caesar-salad.jpg",
+      "sourceTitle": "Caesar Salad keyword food photo",
+      "sourceUrl": "https://loremflickr.com/",
+      "provider": "LoremFlickr/Flickr keyword search"
+    },
+    {
+      "id": "m37",
+      "dish": "Greek Salad",
+      "localPath": "/images/menu/m37-greek-salad.jpg",
+      "sourceTitle": "Greek Salad keyword food photo",
+      "sourceUrl": "https://loremflickr.com/",
+      "provider": "LoremFlickr/Flickr keyword search"
+    },
+    {
+      "id": "m38",
+      "dish": "Tomato Soup",
+      "localPath": "/images/menu/m38-tomato-soup.jpg",
+      "sourceTitle": "Tomato Soup keyword food photo",
+      "sourceUrl": "https://loremflickr.com/",
+      "provider": "LoremFlickr/Flickr keyword search"
+    },
+    {
+      "id": "m39",
+      "dish": "Chicken Soup",
+      "localPath": "/images/menu/m39-chicken-soup.jpg",
+      "sourceTitle": "Chicken Soup keyword food photo",
+      "sourceUrl": "https://loremflickr.com/",
+      "provider": "LoremFlickr/Flickr keyword search"
+    },
+    {
+      "id": "m40",
+      "dish": "Gulab Jamun",
+      "localPath": "/images/menu/m40-gulab-jamun.jpg",
+      "sourceTitle": "Gulab jamun",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Gulab_jamun",
+      "provider": "Wikipedia"
+    },
+    {
+      "id": "m41",
+      "dish": "Chocolate Brownie",
+      "localPath": "/images/menu/m41-chocolate-brownie.jpg",
+      "sourceTitle": "Chocolate Brownie keyword food photo",
+      "sourceUrl": "https://loremflickr.com/",
+      "provider": "LoremFlickr/Flickr keyword search"
+    },
+    {
+      "id": "m42",
+      "dish": "Ice Cream",
+      "localPath": "/images/menu/m42-ice-cream.jpg",
+      "sourceTitle": "Ice cream",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Ice_cream",
+      "provider": "Wikipedia"
+    },
+    {
+      "id": "m43",
+      "dish": "Rasmalai",
+      "localPath": "/images/menu/m43-rasmalai.jpg",
+      "sourceTitle": "Rasmalai keyword food photo",
+      "sourceUrl": "https://loremflickr.com/",
+      "provider": "LoremFlickr/Flickr keyword search"
+    },
+    {
+      "id": "m44",
+      "dish": "Tiramisu",
+      "localPath": "/images/menu/m44-tiramisu.jpg",
+      "sourceTitle": "Tiramisu keyword food photo",
+      "sourceUrl": "https://loremflickr.com/",
+      "provider": "LoremFlickr/Flickr keyword search"
+    },
+    {
+      "id": "m45",
+      "dish": "Cheesecake",
+      "localPath": "/images/menu/m45-cheesecake.jpg",
+      "sourceTitle": "Cheesecake keyword food photo",
+      "sourceUrl": "https://loremflickr.com/",
+      "provider": "LoremFlickr/Flickr keyword search"
+    },
+    {
+      "id": "m46",
+      "dish": "Mango Lassi",
+      "localPath": "/images/menu/m46-mango-lassi.jpg",
+      "sourceTitle": "Mango Lassi keyword food photo",
+      "sourceUrl": "https://loremflickr.com/",
+      "provider": "LoremFlickr/Flickr keyword search"
+    },
+    {
+      "id": "m47",
+      "dish": "Fresh Lime Soda",
+      "localPath": "/images/menu/m47-fresh-lime-soda.jpg",
+      "sourceTitle": "Limeade",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Limeade",
+      "provider": "Wikipedia"
+    },
+    {
+      "id": "m48",
+      "dish": "Masala Chai",
+      "localPath": "/images/menu/m48-masala-chai.jpg",
+      "sourceTitle": "Masala chai",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Masala_chai",
+      "provider": "Wikipedia"
+    },
+    {
+      "id": "m49",
+      "dish": "Cold Coffee",
+      "localPath": "/images/menu/m49-cold-coffee.jpg",
+      "sourceTitle": "Cold Coffee keyword food photo",
+      "sourceUrl": "https://loremflickr.com/",
+      "provider": "LoremFlickr/Flickr keyword search"
+    },
+    {
+      "id": "m50",
+      "dish": "Fresh Juice",
+      "localPath": "/images/menu/m50-fresh-juice.jpg",
+      "sourceTitle": "Juice",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Juice",
+      "provider": "Wikipedia"
+    },
+    {
+      "id": "m51",
+      "dish": "Soft Drinks",
+      "localPath": "/images/menu/m51-soft-drinks.jpg",
+      "sourceTitle": "Soft drink",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Soft_drink",
+      "provider": "Wikipedia"
+    },
+    {
+      "id": "m52",
+      "dish": "North Indian Veg Thali",
+      "localPath": "/images/menu/m52-north-indian-veg-thali.jpg",
+      "sourceTitle": "North Indian Veg Thali keyword food photo",
+      "sourceUrl": "https://loremflickr.com/",
+      "provider": "LoremFlickr/Flickr keyword search"
+    },
+    {
+      "id": "m53",
+      "dish": "South Indian Meals",
+      "localPath": "/images/menu/m53-south-indian-meals.jpg",
+      "sourceTitle": "South Indian Meals keyword food photo",
+      "sourceUrl": "https://loremflickr.com/",
+      "provider": "LoremFlickr/Flickr keyword search"
+    },
+    {
+      "id": "m54",
+      "dish": "Masala Dosa",
+      "localPath": "/images/menu/m54-masala-dosa.jpg",
+      "sourceTitle": "Masala dosa",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Masala_dosa",
+      "provider": "Wikipedia"
+    },
+    {
+      "id": "m55",
+      "dish": "Idli Vada Combo",
+      "localPath": "/images/menu/m55-idli-vada-combo.jpg",
+      "sourceTitle": "Idli",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Idli",
+      "provider": "Wikipedia"
+    },
+    {
+      "id": "m56",
+      "dish": "Hyderabadi Dum Biryani",
+      "localPath": "/images/menu/m56-hyderabadi-dum-biryani.jpg",
+      "sourceTitle": "Hyderabadi Dum Biryani keyword food photo",
+      "sourceUrl": "https://loremflickr.com/",
+      "provider": "LoremFlickr/Flickr keyword search"
+    }
+  ],
+  "failures": []
+}
