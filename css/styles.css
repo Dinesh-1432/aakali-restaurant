@@ -4486,19 +4486,21 @@ body.theme-mint .swad-nav {
 .swad-rest-section{padding:2rem 2rem 5rem}
 .swad-rest-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:2rem}
 
-/* Restaurant Card */
+/* Restaurant Card — floating above the fixed background */
 .swad-rest-card{
-  background: var(--card);
-  border: 1px solid rgba(var(--border-rgb), 0.5);
+  background: rgba(var(--bg-rgb, 255,255,255), 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(var(--border-rgb), 0.3);
   border-radius:var(--radius2);
   overflow:hidden;
   cursor:pointer;
-  box-shadow:var(--shadow);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04);
   transition:all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
 }
 .swad-rest-card:hover{
-  transform:translateY(-6px);
-  box-shadow:var(--shadow2);
+  transform:translateY(-8px) scale(1.01);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.12), 0 8px 20px rgba(0,0,0,0.06);
   border-color:rgba(var(--accent-rgb), 0.3);
 }
 .swad-rest-card-img{height:168px;overflow:hidden;position:relative}
@@ -8347,4 +8349,76 @@ body:has(#paymentPage:not([style*="display: none"]):not([style*="display:none"])
   .apg-upi-apps { grid-template-columns: repeat(4, 1fr); }
   .apg-bank-grid { grid-template-columns: repeat(3, 1fr); }
   .apg-wallet-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   FLOATING CARDS OVER FIXED BACKGROUND
+   Background stays constant, all content floats above it with
+   depth, glass effect, and subtle shadows.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Main content sections — slight glass effect so the floral background
+   peeks through, giving depth */
+.swad-restaurant-section,
+.aakali-market-intro,
+.aakali-partner-strip,
+.swad-rest-section {
+  position: relative;
+  z-index: 1;
+}
+
+/* All cards across the app get the floating treatment */
+.swad-rest-card,
+.swad-dish-card,
+.swad-bs-container,
+.food-grid > div,
+[class*="card"] {
+  background: rgba(var(--bg-rgb, 255,255,255), 0.88);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04);
+  border: 1px solid rgba(var(--border-rgb, 200,200,200), 0.3);
+  transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1),
+              box-shadow 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Hover lift for all floating cards */
+.swad-rest-card:hover,
+.swad-dish-card:hover,
+.food-grid > div:hover,
+[class*="card"]:hover {
+  transform: translateY(-6px) scale(1.005);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.12), 0 8px 20px rgba(0,0,0,0.06);
+}
+
+/* Banner/hero slider — glass card floating */
+.swad-bs-container {
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+/* Ensure the fixed background is never hidden by content layers */
+body.theme-sunset > *:not(script):not(style):not(link) {
+  position: relative;
+  z-index: 1;
+}
+
+/* Dark theme floating cards — darker glass */
+body.theme-midnight .swad-rest-card,
+body.theme-midnight .swad-dish-card,
+body.theme-midnight .food-grid > div,
+body.theme-midnight [class*="card"],
+body.dark-theme .swad-rest-card,
+body.dark-theme .swad-dish-card,
+body.dark-theme .food-grid > div,
+body.dark-theme [class*="card"] {
+  background: rgba(20, 25, 40, 0.85);
+  border-color: rgba(255,255,255,0.08);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 2px 8px rgba(0,0,0,0.2);
+}
+body.theme-midnight .swad-rest-card:hover,
+body.theme-midnight [class*="card"]:hover,
+body.dark-theme .swad-rest-card:hover,
+body.dark-theme [class*="card"]:hover {
+  box-shadow: 0 20px 50px rgba(0,0,0,0.4), 0 8px 20px rgba(0,0,0,0.25);
 }
