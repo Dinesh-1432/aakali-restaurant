@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: swad-restaurant
+    name: aakali
     runtime: node
     region: singapore  # Closest to India
     plan: free         # Change to "starter" ($7/mo) for always-on
