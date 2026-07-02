@@ -626,7 +626,12 @@ body.theme-mint{
   --shadow2:0 24px 60px rgba(15, 60, 20, 0.08);
 }
 body{
-  background:var(--bg);
+  background-color:var(--bg);
+  background-image: url('/images/main_bg.png');
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
   color:var(--text);
   /* System font stack as immediate fallback while Google Fonts load */
   font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
@@ -635,32 +640,27 @@ body{
   /* Only transition color, not background — avoids repaints on every frame */
   transition:color 0.3s ease;
 }
-body.theme-sunset{
-  background-color: #fdf6ee;
-  background-image: url('/images/main_bg.png');
-  background-position: center;
-  background-size: cover;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-}
 
 /* iOS Safari doesn't support background-attachment:fixed on body.
    Use a pseudo-element as a fixed background layer instead. */
-body.theme-sunset::before {
+body::before {
   content: '';
   position: fixed;
   inset: 0;
   z-index: -1;
-  background: #fdf6ee url('/images/main_bg.png') center/cover no-repeat;
+  background: var(--bg) url('/images/main_bg.png') center/cover no-repeat;
   pointer-events: none;
 }
-body.theme-midnight, body.dark-theme {
-  background:#070a13 radial-gradient(circle at 50% 0%, #161c2a 0%, #070a13 100%) fixed !important;
-  background-image:radial-gradient(circle at 50% 0%, #161c2a 0%, #070a13 100%) !important;
+
+/* Dark theme: overlay a dark tint so the leaves are subtly visible */
+body.theme-midnight::before, body.dark-theme::before {
+  background: url('/images/main_bg.png') center/cover no-repeat;
+  filter: brightness(0.15) saturate(0.3);
 }
-body.theme-mint {
-  background:#f4f9f6 radial-gradient(circle at 50% 0%, #e6f0ea 0%, #f4f9f6 100%) fixed !important;
-  background-image:radial-gradient(circle at 50% 0%, #e6f0ea 0%, #f4f9f6 100%) !important;
+/* Mint theme: overlay a green tint */
+body.theme-mint::before {
+  background: url('/images/main_bg.png') center/cover no-repeat;
+  filter: brightness(0.92) saturate(0.6) hue-rotate(80deg);
 }
 h1,h2,h3,h4{font-family:'Playfair Display',serif}
 button{font-family:'Plus Jakarta Sans',sans-serif; outline:none;}
@@ -4816,8 +4816,10 @@ body.theme-mint .swad-nav {
 
 /* Home Hero Section */
 .swad-hero {
-  background: linear-gradient(135deg, rgba(232, 71, 10, 0.15), rgba(245, 192, 122, 0.08));
-  border-bottom: 1px solid rgba(245, 192, 122, 0.08);
+  background: rgba(var(--card-rgb), 0.7);
+  backdrop-filter: blur(12px) saturate(160%);
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
+  border-bottom: 1px solid rgba(var(--border-rgb), 0.3);
   padding: 3.5rem 2rem 3rem;
   text-align: center;
   margin-top: 70px;
@@ -5154,6 +5156,13 @@ body:not(.dark-theme) .swad-hero p {
 }
 .swad-restaurant-section {
   padding: 1.5rem 1.25rem 4rem;
+  background: rgba(var(--card-rgb), 0.55);
+  backdrop-filter: blur(10px) saturate(140%);
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
+  border-radius: var(--radius2);
+  margin-top: 1rem;
+  border: 1px solid rgba(var(--border-rgb), 0.25);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.06);
 }
 .swad-section-head {
   display: flex;
