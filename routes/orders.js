@@ -15,6 +15,7 @@ router.get('/my-orders', orderController.getMyOrders);
 router.get('/admin/all', authorize('admin', 'super_admin', 'rest_admin', 'kds'), orderController.getAllOrders);
 router.patch('/:id/status', authorize('admin', 'super_admin', 'rest_admin', 'kds'), orderController.updateOrderStatus);
 router.patch('/:id/assign-rider', authorize('admin', 'super_admin'), orderController.assignRider);
+router.post('/:id/refund', authorize('admin', 'super_admin'), orderController.refundOrder);
 
 router.get('/:id', orderController.getOrderById);
 router.post('/:id/cancel', orderController.cancelOrder);

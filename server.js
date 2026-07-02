@@ -21,6 +21,7 @@ const restaurantRoutes = require('./routes/restaurants');
 const promoRoutes = require('./routes/promos');
 const riderRoutes = require('./routes/riders');
 const addressRoutes = require('./routes/addresses');
+const webhookRoutes = require('./routes/webhooks');
 
 // Import middleware
 const { errorHandler } = require('./middleware/errorHandler');
@@ -45,6 +46,11 @@ app.use(helmet({
 }));
 app.use(compression());
 app.use(cors());
+
+// Webhooks MUST be mounted before express.json() so the raw request body
+// remains available for HMAC signature verification.
+app.use('/api/webhooks', webhookRoutes);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));

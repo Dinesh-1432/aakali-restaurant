@@ -4,6 +4,7 @@ const MenuItem = require('../models/MenuItem');
 const Restaurant = require('../models/Restaurant');
 const Address = require('../models/Address');
 const PromoCode = require('../models/PromoCode');
+const Payment = require('../models/Payment');
 const Rider = require('../models/Rider');
 const Delivery = require('../models/Delivery');
 const { sendEmail } = require('../utils/email');
@@ -13,6 +14,140 @@ const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID || 'rzp_test_5g2xU1S2XqWb8r',
   key_secret: process.env.RAZORPAY_KEY_SECRET || ''
 });
+
+// Expose the Razorpay client so other controllers (e.g. webhooks) can reuse it
+exports.razorpayClient = razorpay;
+
+/**
+ * Finalize an order after successful payment.
+ * Idempotent — safe to call from both /verify (browser callback) and the
+ * Razorpay webhook. Second invocation is a no-op.
+ *
+ * Handles:
+ *   - marking order paymentStatus = completed
+ *   - creating/updating a Payment audit record
+ *   - clearing the user's cart
+ *   - incrementing MenuItem popularity
+ *   - incrementing PromoCode usedCount (only fires here, never on order create)
+ *   - sending confirmation email + emitting socket event
+ */
+exports.finalizePaidOrder = async function finalizePaidOrder(order, {
+  gatewayPaymentId,
+  gatewayResponse = null,
+  io = null
+} = {}) {
+  // Idempotency guard — bail if already completed
+  if (order.paymentStatus === 'completed') {
+    return { alreadyFinalized: true, order };
+  }
+
+  order.paymentStatus = 'completed';
+  if (gatewayPaymentId) order.gatewayPaymentId = gatewayPaymentId;
+  await order.save();
+
+  // Upsert Payment audit record keyed on gatewayTxnId
+  let payment = null;
+  if (gatewayPaymentId) {
+    payment = await Payment.findOneAndUpdate(
+      { gatewayTxnId: gatewayPaymentId },
+      {
+        $setOnInsert: {
+          orderId: order._id,
+          userId: order.userId._id || order.userId,
+          amountPaise: order.totalPaise,
+          method: order.paymentMethod,
+          gateway: 'razorpay',
+          gatewayOrderId: order.gatewayOrderId,
+          gatewayTxnId: gatewayPaymentId
+        },
+        $set: {
+          status: 'success',
+          gatewayResponse: gatewayResponse || undefined,
+          settledAt: new Date()
+        }
+      },
+      { upsert: true, new: true }
+    );
+    if (payment && !order.paymentId) {
+      order.paymentId = payment._id;
+      await order.save();
+    }
+  }
+
+  // Clear the user's cart (best-effort)
+  try {
+    const cart = await Cart.findOne({ user: order.userId._id || order.userId });
+    if (cart && cart.items.length) {
+      cart.items = [];
+      await cart.save();
+    }
+  } catch (err) {
+    console.error('finalizePaidOrder: cart clear failed:', err);
+  }
+
+  // Bump menu item popularity
+  try {
+    for (const item of order.items) {
+      await MenuItem.findByIdAndUpdate(item.menuItemId, {
+        $inc: { popularity: item.quantity }
+      });
+    }
+  } catch (err) {
+    console.error('finalizePaidOrder: popularity bump failed:', err);
+  }
+
+  // Now that payment is confirmed, register the promo use globally
+  if (order.promoCodeId) {
+    try {
+      await PromoCode.findByIdAndUpdate(order.promoCodeId, { $inc: { usedCount: 1 } });
+    } catch (err) {
+      console.error('finalizePaidOrder: promo usedCount bump failed:', err);
+    }
+  }
+
+  // Confirmation email (best-effort)
+  try {
+    const populated = order.userId && order.userId.email
+      ? order
+      : await Order.findById(order._id).populate('userId', 'name email phone');
+    const email = populated.userId && populated.userId.email;
+    if (email) {
+      await sendEmail({
+        to: email,
+        subject: `Order Confirmation - ${order.orderNumber}`,
+        html: `
+          <h2>Order Confirmed!</h2>
+          <p>Thank you for your order. Your order number is <strong>${order.orderNumber}</strong></p>
+          <p>Total Amount Paid: ₹${(order.totalPaise / 100).toFixed(2)}</p>
+          <p>Estimated Delivery: ${order.estimatedDeliveryTime ? order.estimatedDeliveryTime.toLocaleString() : 'shortly'}</p>
+        `
+      });
+    }
+  } catch (err) {
+    console.error('finalizePaidOrder: confirmation email failed:', err);
+  }
+
+  // Notify admin dashboard
+  try {
+    if (io) {
+      const restaurant = await Restaurant.findById(order.restaurantId);
+      const populated = order.userId && order.userId.name
+        ? order
+        : await Order.findById(order._id).populate('userId', 'name');
+      io.to('admin_room').emit('new_order', {
+        orderId: order._id,
+        orderNumber: order.orderNumber,
+        total: order.totalPaise / 100,
+        user: populated.userId && populated.userId.name,
+        restaurant: restaurant ? restaurant.name : 'Restaurant'
+      });
+    }
+  } catch (err) {
+    console.error('finalizePaidOrder: socket emit failed:', err);
+  }
+
+  return { alreadyFinalized: false, order, payment };
+};
 
 // @desc    Create new order
 // @route   POST /api/orders
@@ -192,10 +327,9 @@ exports.createOrder = async (req, res) => {
             discountPaise = validation.discountPaise;
             promoCodeId = promo._id;
             promoCodeStr = promo.code;
-            
-            // Increment usedCount
-            promo.usedCount += 1;
-            await promo.save();
+            // NOTE: promo.usedCount is incremented in finalizePaidOrder() after
+            // successful payment (or immediately on COD via finalizeCodOrder path).
+            // Doing it here would inflate usage counts when users abandon checkout.
           }
         }
       }
@@ -219,9 +353,13 @@ exports.createOrder = async (req, res) => {
     // Normalize payment method to match database schema enum
     const normalizedPaymentMethod = paymentMethod === 'cod' ? 'cash' : (paymentMethod || 'cash');
 
-    // Create Razorpay Order if not COD
+    // Create Razorpay Order if not COD, UNLESS the client is using an
+    // externally-hosted collection link (razorpay.me / payment page). Those
+    // links don't need a Checkout-SDK order_id and would fail without valid
+    // merchant API keys.
+    const skipGatewayOrder = req.body.skipGatewayOrder === true;
     let gatewayOrderId = null;
-    if (normalizedPaymentMethod !== 'cash') {
+    if (normalizedPaymentMethod !== 'cash' && !skipGatewayOrder) {
       try {
         const rzpOrder = await razorpay.orders.create({
           amount: totalPaise,
@@ -279,11 +417,21 @@ exports.createOrder = async (req, res) => {
     }
 
     // Increment popularity on MenuItem ONLY if Cash on Delivery
+    // (paid orders bump popularity from finalizePaidOrder after payment succeeds)
     if (normalizedPaymentMethod === 'cash') {
       for (const item of orderItems) {
         await MenuItem.findByIdAndUpdate(item.menuItemId, {
           $inc: { popularity: item.quantity }
         });
+      }
+
+      // Register promo usage globally for COD orders (paid orders do this in finalizePaidOrder)
+      if (promoCodeId) {
+        try {
+          await PromoCode.findByIdAndUpdate(promoCodeId, { $inc: { usedCount: 1 } });
+        } catch (err) {
+          console.error('createOrder: promo usedCount bump failed:', err);
+        }
       }
     }
 
@@ -643,88 +791,252 @@ exports.updateOrderStatus = async (req, res) => {
   }
 };
 
-// @desc    Verify Razorpay payment signature
+// @desc    Verify Razorpay payment signature (browser callback)
 // @route   POST /api/orders/verify
 // @access  Private
 exports.verifyPayment = async (req, res) => {
   try {
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature, orderId } = req.body;
-    
-    // Find the order
+
+    if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature || !orderId) {
+      return res.status(400).json({
+        success: false,
+        message: 'Missing required fields for payment verification'
+      });
+    }
+
     const order = await Order.findById(orderId).populate('userId', 'name email phone');
     if (!order) {
       return res.status(404).json({ success: false, message: 'Order not found' });
     }
 
-    // Verify signature
+    // Ownership check — never let one user verify another user's order
+    const orderUserId = order.userId._id ? order.userId._id.toString() : order.userId.toString();
+    if (orderUserId !== req.user.id) {
+      return res.status(403).json({ success: false, message: 'Not authorized for this order' });
+    }
+
+    // CRITICAL: the Razorpay order id must match the one we stored when the
+    // order was created. Without this check, an attacker could submit a valid
+    // signature for one Razorpay order together with a different (more
+    // expensive) internal orderId and get that order marked paid.
+    if (!order.gatewayOrderId || order.gatewayOrderId !== razorpay_order_id) {
+      console.warn(`verifyPayment: gatewayOrderId mismatch for order ${order._id}. Expected ${order.gatewayOrderId}, got ${razorpay_order_id}`);
+      return res.status(400).json({
+        success: false,
+        message: 'Razorpay order does not belong to this order'
+      });
+    }
+
+    // Timing-safe HMAC-SHA256 signature check
     const crypto = require('crypto');
     const expectedSignature = crypto
       .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET || '')
       .update(razorpay_order_id + '|' + razorpay_payment_id)
       .digest('hex');
 
-    if (expectedSignature !== razorpay_signature) {
+    let signatureValid = false;
+    try {
+      const expectedBuf = Buffer.from(expectedSignature, 'utf8');
+      const actualBuf = Buffer.from(String(razorpay_signature), 'utf8');
+      signatureValid = expectedBuf.length === actualBuf.length &&
+        crypto.timingSafeEqual(expectedBuf, actualBuf);
+    } catch (_) {
+      signatureValid = false;
+    }
+
+    if (!signatureValid) {
       order.paymentStatus = 'failed';
       await order.save();
+
+      // Record the failed attempt for the audit trail
+      try {
+        await Payment.findOneAndUpdate(
+          { gatewayTxnId: razorpay_payment_id },
+          {
+            $setOnInsert: {
+              orderId: order._id,
+              userId: orderUserId,
+              amountPaise: order.totalPaise,
+              method: order.paymentMethod,
+              gateway: 'razorpay',
+              gatewayOrderId: razorpay_order_id,
+              gatewayTxnId: razorpay_payment_id
+            },
+            $set: {
+              status: 'failed',
+              failureReason: 'Signature verification failed'
+            }
+          },
+          { upsert: true, new: true }
+        );
+      } catch (err) {
+        console.error('verifyPayment: failed-payment record write failed:', err);
+      }
+
       return res.status(400).json({ success: false, message: 'Payment signature verification failed' });
     }
 
-    // Success! Update payment & order details
-    order.paymentStatus = 'completed';
-    order.gatewayPaymentId = razorpay_payment_id;
-    await order.save();
-
-    // Clear user's cart
-    const cart = await Cart.findOne({ user: req.user.id });
-    if (cart) {
-      cart.items = [];
-      await cart.save();
-    }
-
-    // Increment popularity on MenuItem
-    for (const item of order.items) {
-      await MenuItem.findByIdAndUpdate(item.menuItemId, {
-        $inc: { popularity: item.quantity }
-      });
-    }
-
-    // Send confirmation email
+    // Signature is valid — as defense in depth, fetch the payment from
+    // Razorpay's API and confirm the amount + order id match what we expect.
+    // Best-effort: if the fetch itself fails (network / Razorpay 5xx) we still
+    // trust the signature since only the merchant secret could produce it.
+    let gatewayPayment = null;
     try {
-      await sendEmail({
-        to: order.userId.email,
-        subject: `Order Confirmation - ${order.orderNumber}`,
-        html: `
-          <h2>Order Confirmed!</h2>
-          <p>Thank you for your order. Your order number is <strong>${order.orderNumber}</strong></p>
-          <p>Total Amount Paid: ₹${(order.totalPaise / 100).toFixed(2)}</p>
-          <p>Estimated Delivery: ${order.estimatedDeliveryTime.toLocaleString()}</p>
-        `
-      });
-    } catch (err) {
-      console.error('Confirmation email failed:', err);
+      gatewayPayment = await razorpay.payments.fetch(razorpay_payment_id);
+    } catch (fetchErr) {
+      console.warn(`verifyPayment: unable to fetch payment ${razorpay_payment_id} from Razorpay:`, fetchErr.message);
     }
 
-    // Emit socket event to admin
-    const io = req.app.get('io');
-    const restaurant = await Restaurant.findById(order.restaurantId);
-    if (io) {
-      io.to('admin_room').emit('new_order', {
-        orderId: order._id,
-        orderNumber: order.orderNumber,
-        total: order.totalPaise / 100,
-        user: order.userId.name,
-        restaurant: restaurant ? restaurant.name : 'Restaurant'
-      });
+    if (gatewayPayment) {
+      if (gatewayPayment.order_id !== razorpay_order_id) {
+        console.warn(`verifyPayment: payment ${razorpay_payment_id} belongs to order ${gatewayPayment.order_id}, not ${razorpay_order_id}`);
+        return res.status(400).json({
+          success: false,
+          message: 'Payment does not belong to this Razorpay order'
+        });
+      }
+      if (gatewayPayment.amount !== order.totalPaise) {
+        console.warn(`verifyPayment: amount mismatch for order ${order._id}. Expected ${order.totalPaise} paise, gateway reports ${gatewayPayment.amount}`);
+        return res.status(400).json({
+          success: false,
+          message: 'Payment amount does not match order total'
+        });
+      }
+      if (gatewayPayment.status !== 'captured' && gatewayPayment.status !== 'authorized') {
+        return res.status(400).json({
+          success: false,
+          message: `Payment is in an unexpected state at the gateway: ${gatewayPayment.status}`
+        });
+      }
     }
+
+    // All checks passed — hand off to the shared finalizer
+    const io = req.app.get('io');
+    const { alreadyFinalized } = await exports.finalizePaidOrder(order, {
+      gatewayPaymentId: razorpay_payment_id,
+      gatewayResponse: {
+        source: 'browser_verify',
+        razorpay_order_id,
+        razorpay_signature,
+        gateway_amount: gatewayPayment ? gatewayPayment.amount : null,
+        gateway_status: gatewayPayment ? gatewayPayment.status : null
+      },
+      io
+    });
 
     res.json({
       success: true,
-      message: 'Payment verified and order confirmed successfully',
+      message: alreadyFinalized
+        ? 'Payment already confirmed'
+        : 'Payment verified and order confirmed successfully',
       data: order
     });
   } catch (error) {
     console.error('Verify payment error:', error);
     res.status(500).json({ success: false, message: 'Server error verifying payment' });
+  }
+};
+
+// @desc    Refund a paid order via Razorpay
+// @route   POST /api/orders/:id/refund
+// @access  Private/Admin
+exports.refundOrder = async (req, res) => {
+  try {
+    const { amountPaise, reason } = req.body;
+
+    const order = await Order.findById(req.params.id).populate('userId', 'name email');
+    if (!order) {
+      return res.status(404).json({ success: false, message: 'Order not found' });
+    }
+
+    if (order.paymentStatus !== 'completed') {
+      return res.status(400).json({
+        success: false,
+        message: `Cannot refund order — payment status is "${order.paymentStatus}"`
+      });
+    }
+
+    if (!order.gatewayPaymentId) {
+      return res.status(400).json({
+        success: false,
+        message: 'No gateway payment ID recorded for this order'
+      });
+    }
+
+    // Default to a full refund if no amount specified
+    const refundPaise = Number.isInteger(amountPaise) && amountPaise > 0
+      ? Math.min(amountPaise, order.totalPaise - (order.refundedAmountPaise || 0))
+      : order.totalPaise - (order.refundedAmountPaise || 0);
+
+    if (refundPaise <= 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'Nothing left to refund on this order'
+      });
+    }
+
+    let refund;
+    try {
+      refund = await razorpay.payments.refund(order.gatewayPaymentId, {
+        amount: refundPaise,
+        notes: {
+          reason: reason || 'requested_by_admin',
+          orderNumber: order.orderNumber
+        }
+      });
+    } catch (err) {
+      console.error('Razorpay refund failed:', err);
+      return res.status(502).json({
+        success: false,
+        message: 'Razorpay refund request failed: ' + (err.error?.description || err.message)
+      });
+    }
+
+    // Update Payment record
+    const isFullRefund = refundPaise >= order.totalPaise;
+    await Payment.findOneAndUpdate(
+      { gatewayTxnId: order.gatewayPaymentId },
+      {
+        $set: {
+          status: isFullRefund ? 'refunded' : 'partially_refunded',
+          refundedAt: new Date()
+        },
+        $inc: { refundAmountPaise: refundPaise }
+      }
+    );
+
+    order.paymentStatus = 'refunded';
+    order.updateStatus('cancelled', req.user.id, req.user.role, `Refunded ₹${(refundPaise / 100).toFixed(2)} — ${reason || 'no reason'}`);
+    await order.save();
+
+    // Best-effort email
+    try {
+      if (order.userId?.email) {
+        await sendEmail({
+          to: order.userId.email,
+          subject: `Refund Initiated - ${order.orderNumber}`,
+          html: `
+            <h2>Refund Initiated</h2>
+            <p>Order <strong>${order.orderNumber}</strong></p>
+            <p>Amount: ₹${(refundPaise / 100).toFixed(2)}</p>
+            <p>${reason ? `Reason: ${reason}` : ''}</p>
+            <p>The amount will reflect in your original payment method within 5-7 business days.</p>
+          `
+        });
+      }
+    } catch (err) {
+      console.error('Refund email failed:', err);
+    }
+
+    res.json({
+      success: true,
+      message: `Refund of ₹${(refundPaise / 100).toFixed(2)} initiated`,
+      data: { order, refund }
+    });
+  } catch (error) {
+    console.error('Refund order error:', error);
+    res.status(500).json({ success: false, message: 'Server error processing refund' });
   }
 };
 
