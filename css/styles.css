@@ -584,16 +584,16 @@
   }
 }
 body.theme-sunset{
-  --bg:#fdf6ee;--bg2:#faf0e6;--bg3:#f5e8d8;--bg4:#eddcc8;
-  --bg-rgb: 253, 246, 238;
-  --card:#ffffff;--card2:#fffbf7;
+  --bg:#ffffff;--bg2:#ffffff;--bg3:#f5f5f5;--bg4:#eeeeee;
+  --bg-rgb: 255, 255, 255;
+  --card:#ffffff;--card2:#ffffff;
   --card-rgb: 255, 255, 255;
   --accent:#c8392b;--accent2:#e85d04;--accent-light:#fdecea;--accent-xlight:#fff5f4;
   --accent-rgb: 200, 57, 43;
   --text:#1c1008;--text2:#42301c;--muted:#8a6f58;--muted2:#b8a090;
   --border:#e8d9c8;--border2:#d9c5b0;
   --border-rgb: 232, 217, 200;
-  --user-nav-bg:rgba(253, 246, 238, 0.95);
+  --user-nav-bg:rgba(255, 255, 255, 0.95);
 }
 body.theme-midnight, body.dark-theme{
   --bg:#070a13;--bg2:#0d111d;--bg3:#161c2a;--bg4:#21293a;
@@ -627,40 +627,11 @@ body.theme-mint{
 }
 body{
   background-color:var(--bg);
-  background-image: url('/images/main_bg.png');
-  background-position: center;
-  background-size: cover;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
   color:var(--text);
-  /* System font stack as immediate fallback while Google Fonts load */
   font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
   min-height:100vh;
   overflow-x:hidden;
-  /* Only transition color, not background — avoids repaints on every frame */
   transition:color 0.3s ease;
-}
-
-/* iOS Safari doesn't support background-attachment:fixed on body.
-   Use a pseudo-element as a fixed background layer instead. */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  background: var(--bg) url('/images/main_bg.png') center/cover no-repeat;
-  pointer-events: none;
-}
-
-/* Dark theme: overlay a dark tint so the leaves are subtly visible */
-body.theme-midnight::before, body.dark-theme::before {
-  background: url('/images/main_bg.png') center/cover no-repeat;
-  filter: brightness(0.15) saturate(0.3);
-}
-/* Mint theme: overlay a green tint */
-body.theme-mint::before {
-  background: url('/images/main_bg.png') center/cover no-repeat;
-  filter: brightness(0.92) saturate(0.6) hue-rotate(80deg);
 }
 h1,h2,h3,h4{font-family:'Playfair Display',serif}
 button{font-family:'Plus Jakarta Sans',sans-serif; outline:none;}
@@ -4355,7 +4326,7 @@ body.dark-theme .promo-coupon-btn {
 /* SWAD Home Navbar */
 .swad-nav{
   position:fixed;top:0;left:0;right:0;height:72px;
-  background:rgba(253, 246, 238, 0.94);
+  background:#ffffff;
   backdrop-filter:blur(20px);
   -webkit-backdrop-filter:blur(20px);
   border-bottom:1px solid rgba(var(--border-rgb), 0.5);
@@ -4816,10 +4787,7 @@ body.theme-mint .swad-nav {
 
 /* Home Hero Section */
 .swad-hero {
-  background: rgba(var(--card-rgb), 0.7);
-  backdrop-filter: blur(12px) saturate(160%);
-  -webkit-backdrop-filter: blur(12px) saturate(160%);
-  border-bottom: 1px solid rgba(var(--border-rgb), 0.3);
+  background: #ffffff;
   padding: 3.5rem 2rem 3rem;
   text-align: center;
   margin-top: 70px;
@@ -4836,24 +4804,11 @@ body.theme-mint .swad-nav {
   font-size: 0.95rem;
 }
 
-body:not(.dark-theme) .swad-hero {
-  background: linear-gradient(135deg, var(--bg3) 0%, var(--bg4) 100%) !important;
-  border-bottom: 1px solid var(--border) !important;
-}
-body:not(.dark-theme) .swad-hero h1 {
-  color: var(--text) !important;
-}
-body:not(.dark-theme) .swad-hero p {
-  color: var(--muted) !important;
-}
-
 /* Aakali marketplace home */
 #swadHome {
   min-height: 100vh;
   padding-top: 72px;
-  background:
-    radial-gradient(circle at 18% 4%, rgba(var(--accent-rgb), 0.16), transparent 28%),
-    linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+  background: #ffffff;
 }
 .aakali-market-intro {
   max-width: 1180px;
@@ -5156,13 +5111,9 @@ body:not(.dark-theme) .swad-hero p {
 }
 .swad-restaurant-section {
   padding: 1.5rem 1.25rem 4rem;
-  background: rgba(var(--card-rgb), 0.55);
-  backdrop-filter: blur(10px) saturate(140%);
-  -webkit-backdrop-filter: blur(10px) saturate(140%);
+  background: #ffffff;
   border-radius: var(--radius2);
   margin-top: 1rem;
-  border: 1px solid rgba(var(--border-rgb), 0.25);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.06);
 }
 .swad-section-head {
   display: flex;
@@ -8360,74 +8311,4 @@ body:has(#paymentPage:not([style*="display: none"]):not([style*="display:none"])
   .apg-wallet-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
-/* ═══════════════════════════════════════════════════════════════════
-   FLOATING CARDS OVER FIXED BACKGROUND
-   Background stays constant, all content floats above it with
-   depth, glass effect, and subtle shadows.
-   ═══════════════════════════════════════════════════════════════════ */
 
-/* Main content sections — slight glass effect so the floral background
-   peeks through, giving depth */
-.swad-restaurant-section,
-.aakali-market-intro,
-.aakali-partner-strip,
-.swad-rest-section {
-  position: relative;
-  z-index: 1;
-}
-
-/* All cards across the app get the floating treatment */
-.swad-rest-card,
-.swad-dish-card,
-.swad-bs-container,
-.food-grid > div,
-[class*="card"] {
-  background: rgba(var(--bg-rgb, 255,255,255), 0.88);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04);
-  border: 1px solid rgba(var(--border-rgb, 200,200,200), 0.3);
-  transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1),
-              box-shadow 0.35s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-/* Hover lift for all floating cards */
-.swad-rest-card:hover,
-.swad-dish-card:hover,
-.food-grid > div:hover,
-[class*="card"]:hover {
-  transform: translateY(-6px) scale(1.005);
-  box-shadow: 0 20px 50px rgba(0,0,0,0.12), 0 8px 20px rgba(0,0,0,0.06);
-}
-
-/* Banner/hero slider — glass card floating */
-.swad-bs-container {
-  border-radius: 20px;
-  overflow: hidden;
-}
-
-/* Ensure the fixed background is never hidden by content layers */
-body.theme-sunset > *:not(script):not(style):not(link) {
-  position: relative;
-  z-index: 1;
-}
-
-/* Dark theme floating cards — darker glass */
-body.theme-midnight .swad-rest-card,
-body.theme-midnight .swad-dish-card,
-body.theme-midnight .food-grid > div,
-body.theme-midnight [class*="card"],
-body.dark-theme .swad-rest-card,
-body.dark-theme .swad-dish-card,
-body.dark-theme .food-grid > div,
-body.dark-theme [class*="card"] {
-  background: rgba(20, 25, 40, 0.85);
-  border-color: rgba(255,255,255,0.08);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 2px 8px rgba(0,0,0,0.2);
-}
-body.theme-midnight .swad-rest-card:hover,
-body.theme-midnight [class*="card"]:hover,
-body.dark-theme .swad-rest-card:hover,
-body.dark-theme [class*="card"]:hover {
-  box-shadow: 0 20px 50px rgba(0,0,0,0.4), 0 8px 20px rgba(0,0,0,0.25);
-}
