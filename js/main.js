@@ -849,23 +849,24 @@ function renderSwadRestaurants() {
     <div class="swad-rest-card" onclick="openRestaurant('${r.id}')" data-id="${r.id}">
       <div class="swad-rest-img-wrap">
         <img src="${r.img}" alt="${r.name}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&q=80'"/>
-        ${r.discount ? `<div class="swad-rest-discount-tag">🎁 ${r.discount}</div>` : ''}
-        ${r.isVeg ? `<div class="swad-veg-only-tag">Pure Veg</div>` : ''}
+        <div class="swad-rest-img-gradient"></div>
+        ${r.discount ? `<div class="swad-rest-discount-tag">${r.discount}</div>` : ''}
+        ${r.isVeg ? `<div class="swad-veg-only-tag"><span>&#9679;</span> Pure Veg</div>` : ''}
         ${r.isClosed ? `<div class="swad-rest-closed-tag">CLOSED</div>` : ''}
-        ${r.isNew ? `<div style="position:absolute;top:0.6rem;left:0.6rem;background:#7c3aed;color:#fff;font-size:0.6rem;font-weight:800;padding:0.2rem 0.5rem;border-radius:4px;letter-spacing:0.05em;">NEW</div>` : ''}
+        ${r.isNew ? `<div class="swad-rest-new-tag">NEW</div>` : ''}
+        <div class="swad-rest-time-badge">${r.deliveryTime}</div>
       </div>
       <div class="swad-rest-body">
-        <div class="swad-rest-name">${r.name}</div>
-        <div class="swad-rest-cuisine">${r.cuisine}</div>
-        <div class="swad-rest-meta">
-          <div class="swad-rest-rating">⭐ ${r.rating} (${r.ratingCount})</div>
-          <div class="swad-rest-dot"></div>
-          <div class="swad-rest-time">🕐 ${r.deliveryTime}</div>
-          <div class="swad-rest-price-range">${r.priceRange}</div>
+        <div class="swad-rest-header">
+          <div class="swad-rest-name">${r.name}</div>
+          <div class="swad-rest-rating-pill"><span>★</span> ${r.rating}</div>
         </div>
-        <div class="swad-rest-open-row">
-          <span>Open ${r.name}'s restaurant page</span>
-          <button class="swad-rest-open-btn" type="button" onclick="event.stopPropagation(); openRestaurant('${r.id}')">View Menu</button>
+        <div class="swad-rest-cuisine">${r.cuisine}</div>
+        <div class="swad-rest-footer">
+          <div class="swad-rest-price-range">${r.priceRange}</div>
+          <button class="swad-rest-open-btn" type="button" onclick="event.stopPropagation(); openRestaurant('${r.id}')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:14px;height:14px"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
         </div>
       </div>
     </div>
