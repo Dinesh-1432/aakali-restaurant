@@ -757,7 +757,7 @@ async function showSwadHome() {
         ratingCount: r.ratingCount || 0,
         deliveryTime: `${r.deliveryTimeMins?.min || 25}–${r.deliveryTimeMins?.max || 35} min`,
         priceRange: `₹${((r.minOrderPaise || 15000) / 100)} for two`,
-        discount: r.discountTag || (r.deliveryFeePaise === 0 ? 'Free Delivery' : `₹${(r.deliveryFeePaise / 100)} Delivery Fee`),
+        discount: r.discountTag || (r.deliveryFeePaise === 0 ? 'Free Delivery' : ''),
         isVeg: r.isVeg,
         isNew: r.isNew || false,
         isClosed: !r.isOpen,
