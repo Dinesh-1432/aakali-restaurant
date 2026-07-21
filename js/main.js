@@ -1174,7 +1174,6 @@ function setTheme(theme) {
   document.body.classList.remove('theme-earth', 'theme-dark');
   document.body.classList.add('theme-' + theme);
   localStorage.setItem('theme', theme);
-  updateThemeIcon(theme);
 }
 
 function toggleTheme() {
@@ -1183,20 +1182,82 @@ function toggleTheme() {
   setTheme(next);
 }
 
-function updateThemeIcon(theme) {
-  const btn = document.getElementById('themeToggleBtn');
-  if (!btn) return;
-  if (theme === 'dark') {
-    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
-  } else {
-    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>';
-  }
-}
-
 function toggleProfileTheme() { toggleTheme(); }
 function updateThemeUI() {}
 function setupSystemThemeListener() {}
 function handleSystemThemeChange() {}
+
+// --- Navbar: Shrink on scroll ---
+(function() {
+  let ticking = false;
+  window.addEventListener('scroll', function() {
+    if (!ticking) {
+      requestAnimationFrame(function() {
+        const nav = document.getElementById('swadNav');
+        if (nav) {
+          if (window.scrollY > 50) {
+            nav.classList.add('scrolled');
+          } else {
+            nav.classList.remove('scrolled');
+          }
+        }
+        ticking = false;
+      });
+      ticking = true;
+    }
+  });
+})();
+
+// --- Navbar: Animated typing placeholder ---
+(function() {
+  const words = ['Biryani', 'Pizza', 'Burger', 'Chinese', 'Desserts', 'Tandoor', 'South Indian', 'Drinks'];
+  let wordIdx = 0, charIdx = 0, deleting = false;
+  function typePlaceholder() {
+    const input = document.getElementById('swadHomeSearch');
+    if (!input || document.activeElement === input) {
+      setTimeout(typePlaceholder, 200);
+      return;
+    }
+    const word = words[wordIdx];
+    if (!deleting) {
+      charIdx++;
+      input.placeholder = 'Search for ' + word.substring(0, charIdx) + '...';
+      if (charIdx === word.length) {
+        deleting = true;
+        setTimeout(typePlaceholder, 1800);
+        return;
+      }
+      setTimeout(typePlaceholder, 80);
+    } else {
+      charIdx--;
+      input.placeholder = 'Search for ' + word.substring(0, charIdx) + '...';
+      if (charIdx === 0) {
+        deleting = false;
+        wordIdx = (wordIdx + 1) % words.length;
+        setTimeout(typePlaceholder, 300);
+        return;
+      }
+      setTimeout(typePlaceholder, 40);
+    }
+  }
+  document.addEventListener('DOMContentLoaded', function() { setTimeout(typePlaceholder, 1000); });
+})();
+
+// --- Cart badge bounce ---
+function updateNavCartBadge(count) {
+  const badge = document.getElementById('swadNavCartBadge');
+  if (!badge) return;
+  badge.textContent = count;
+  badge.setAttribute('data-count', count);
+  if (count > 0) {
+    badge.style.display = 'flex';
+    badge.classList.remove('bounce');
+    void badge.offsetWidth;
+    badge.classList.add('bounce');
+  } else {
+    badge.style.display = 'none';
+  }
+}
 
 let swadBannerCurrent = 0;
 let swadBannerInterval = null;
@@ -1231,7 +1292,6 @@ function swadBannerStart() {
 (function() {
   const saved = localStorage.getItem('theme') || 'earth';
   document.body.classList.add('theme-' + saved);
-  document.addEventListener('DOMContentLoaded', function() { updateThemeIcon(saved); });
 })();
 
 // Hook into initUser
