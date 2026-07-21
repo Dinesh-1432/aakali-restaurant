@@ -1,4 +1,4 @@
-﻿﻿<!DOCTYPE html>
+﻿﻿﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
@@ -161,46 +161,78 @@
     <!-- Brand -->
     <div class="swad-nav-brand" onclick="backToSwadHome()">
       <div class="swad-nav-brand-logo">
-        <i data-lucide="flame" style="width:18px;height:18px;color:#fff"></i>
+        <!-- Premium flame icon with inner detail -->
+        <svg viewBox="0 0 24 24" fill="none" style="width:18px;height:18px">
+          <path d="M12 2C8.5 6 6 9.5 6 13a6 6 0 0012 0c0-3.5-2.5-7-6-11z" fill="#fff" opacity="0.9"/>
+          <path d="M12 6c-2 2.5-3 4.5-3 6.5a3 3 0 006 0c0-2-1-4-3-6.5z" fill="currentColor" opacity="0.3"/>
+        </svg>
       </div>
       <div class="swad-nav-brand-text">AAK<span>ALI</span></div>
     </div>
 
-    <!-- Location -->
+    <!-- Location with filled pin -->
     <div class="swad-nav-loc" onclick="openSwadLocDropdown()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:14px;height:14px"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      <svg viewBox="0 0 24 24" style="width:15px;height:15px">
+        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="currentColor" opacity="0.85"/>
+        <circle cx="12" cy="9" r="2.5" fill="#fff"/>
+      </svg>
       <span id="swadNavLoc">Hyderabad</span>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:10px;height:10px"><path d="M6 9l6 6 6-6"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:10px;height:10px"><polyline points="6 9 12 15 18 9"/></svg>
     </div>
 
-    <!-- Search with animated placeholder -->
+    <!-- Search with premium magnifier -->
     <div class="swad-search-wrap">
       <span class="swad-search-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" style="width:16px;height:16px">
+          <circle cx="10.5" cy="10.5" r="7" stroke="currentColor" stroke-width="2.2"/>
+          <path d="M15.5 15.5L21 21" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
       </span>
       <input type="text" id="swadHomeSearch" placeholder="Search for Biryani..." oninput="swadHomeFilter(this.value)" autocomplete="off"/>
     </div>
 
     <!-- Right: toggle + cart + profile -->
     <div class="swad-nav-right">
-      <!-- Sliding Theme Toggle -->
+      <!-- Sliding Theme Toggle with premium icons -->
       <div class="swad-toggle-pill" id="themeTogglePill" onclick="toggleTheme()">
         <div class="swad-toggle-slider" id="themeToggleSlider"></div>
         <span class="swad-toggle-icon swad-toggle-sun">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <!-- Filled sun with rays -->
+          <svg viewBox="0 0 24 24" style="width:14px;height:14px">
+            <circle cx="12" cy="12" r="4.5" fill="currentColor"/>
+            <g stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <line x1="12" y1="1.5" x2="12" y2="3.5"/>
+              <line x1="12" y1="20.5" x2="12" y2="22.5"/>
+              <line x1="4.2" y1="4.2" x2="5.6" y2="5.6"/>
+              <line x1="18.4" y1="18.4" x2="19.8" y2="19.8"/>
+              <line x1="1.5" y1="12" x2="3.5" y2="12"/>
+              <line x1="20.5" y1="12" x2="22.5" y2="12"/>
+              <line x1="4.2" y1="19.8" x2="5.6" y2="18.4"/>
+              <line x1="18.4" y1="5.6" x2="19.8" y2="4.2"/>
+            </g>
+          </svg>
         </span>
         <span class="swad-toggle-icon swad-toggle-moon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+          <!-- Crescent moon with star -->
+          <svg viewBox="0 0 24 24" style="width:14px;height:14px">
+            <path d="M20.35 11.35a8 8 0 01-9.7-9.7A8.5 8.5 0 1020.35 11.35z" fill="currentColor"/>
+            <circle cx="18" cy="5" r="1" fill="currentColor" opacity="0.7"/>
+            <circle cx="20" cy="8" r="0.6" fill="currentColor" opacity="0.5"/>
+          </svg>
         </span>
       </div>
 
-      <!-- Cart -->
+      <!-- Premium shopping bag icon -->
       <button class="swad-nav-cart" id="swadNavCart" onclick="openCart()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+        <svg viewBox="0 0 24 24" style="width:20px;height:20px">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+          <path d="M3 6h18" stroke="currentColor" stroke-width="1.8"/>
+          <path d="M16 10a4 4 0 01-8 0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
         <span class="swad-cart-badge" id="swadNavCartBadge">0</span>
       </button>
 
-      <!-- Profile -->
+      <!-- Profile avatar -->
       <button class="swad-nav-user-btn" id="swadNavUserBtn" onclick="swadUserMenu()"></button>
     </div>
   </nav>
@@ -213,71 +245,89 @@
       <span class="aakali-hero-badge">Premium Food Delivery</span>
       <h1 class="aakali-hero-title">Taste the<br><span>Extraordinary</span></h1>
       <p class="aakali-hero-sub">500+ restaurants. 30 min delivery. One app.</p>
-      <button class="aakali-hero-cta" onclick="document.getElementById('swadCategories').scrollIntoView({behavior:'smooth'})">Explore Restaurants</button>
+      <button class="aakali-hero-cta" onclick="document.getElementById('swadCategories').scrollIntoView({behavior:'smooth'})">
+        <svg viewBox="0 0 24 24" fill="none" style="width:18px;height:18px"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.3 4.6a1 1 0 00.9 1.4h12.8M10 21a1 1 0 100-2 1 1 0 000 2zm8 0a1 1 0 100-2 1 1 0 000 2z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Explore Restaurants
+      </button>
     </div>
     <div class="aakali-hero-scroll" onclick="document.getElementById('swadCategories').scrollIntoView({behavior:'smooth'})">
       <span>Scroll to explore</span>
       <div class="aakali-hero-arrow">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" style="width:22px;height:22px">
+          <path d="M7 8l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/>
+          <path d="M7 13l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
       </div>
     </div>
   </section>
 
-  <!-- What's on your mind? Category Section -->
-  <section class="aakali-categories-section" id="swadCategories">
-    <h2 class="aakali-section-title">What's on your mind?</h2>
-    <div class="aakali-cat-grid">
-      <div class="aakali-cat-item active" data-cat="all" onclick="swadCatFilter('all', this)">
-        <div class="aakali-cat-circle"><span>🍽</span></div>
-        <span class="aakali-cat-name">All</span>
-      </div>
-      <div class="aakali-cat-item" data-cat="biryani" onclick="swadCatFilter('biryani', this)">
-        <div class="aakali-cat-circle"><span>🍚</span></div>
-        <span class="aakali-cat-name">Biryani</span>
-      </div>
-      <div class="aakali-cat-item" data-cat="pizza" onclick="swadCatFilter('pizza', this)">
-        <div class="aakali-cat-circle"><span>🍕</span></div>
-        <span class="aakali-cat-name">Pizza</span>
-      </div>
-      <div class="aakali-cat-item" data-cat="burger" onclick="swadCatFilter('burger', this)">
-        <div class="aakali-cat-circle"><span>🍔</span></div>
-        <span class="aakali-cat-name">Burger</span>
-      </div>
-      <div class="aakali-cat-item" data-cat="south" onclick="swadCatFilter('south', this)">
-        <div class="aakali-cat-circle"><span>🥘</span></div>
-        <span class="aakali-cat-name">South Indian</span>
-      </div>
-      <div class="aakali-cat-item" data-cat="chinese" onclick="swadCatFilter('chinese', this)">
-        <div class="aakali-cat-circle"><span>🥢</span></div>
-        <span class="aakali-cat-name">Chinese</span>
-      </div>
-      <div class="aakali-cat-item" data-cat="dessert" onclick="swadCatFilter('dessert', this)">
-        <div class="aakali-cat-circle"><span>🍨</span></div>
-        <span class="aakali-cat-name">Desserts</span>
-      </div>
-      <div class="aakali-cat-item" data-cat="tandoor" onclick="swadCatFilter('tandoor', this)">
-        <div class="aakali-cat-circle"><span>🔥</span></div>
-        <span class="aakali-cat-name">Tandoor</span>
-      </div>
-      <div class="aakali-cat-item" data-cat="drinks" onclick="swadCatFilter('drinks', this)">
-        <div class="aakali-cat-circle"><span>🥤</span></div>
-        <span class="aakali-cat-name">Drinks</span>
-      </div>
-      <div class="aakali-cat-item" data-cat="north" onclick="swadCatFilter('north', this)">
-        <div class="aakali-cat-circle"><span>🍛</span></div>
-        <span class="aakali-cat-name">North Indian</span>
-      </div>
+  <section class="aakali-partner-strip" aria-label="Restaurant marketplace highlights">
+    <div>
+      <strong>Restaurant storefronts</strong>
+      <span>Each card opens a dedicated restaurant menu page.</span>
+    </div>
+    <div>
+      <strong>Smart discovery</strong>
+      <span>Filter by cuisine, rating, fastest delivery, veg, and offers.</span>
+    </div>
+    <div>
+      <strong>Unified checkout</strong>
+      <span>Cart, payment, order status, and delivery tracking stay inside Aakali.</span>
     </div>
   </section>
 
-  <!-- Filter Tabs -->
-  <div class="aakali-filters" id="aakaliFilters">
-    <button class="aakali-filter-btn active" id="swadTabAll" onclick="swadSortFilter('all', this)">All</button>
-    <button class="aakali-filter-btn" id="swadTabRating" onclick="swadSortFilter('rating', this)">Top Rated</button>
-    <button class="aakali-filter-btn" id="swadTabFast" onclick="swadSortFilter('fast', this)">Fastest</button>
-    <button class="aakali-filter-btn" id="swadTabOffer" onclick="swadSortFilter('offer', this)">Offers</button>
-    <button class="aakali-filter-btn" id="swadTabVeg" onclick="swadSortFilter('veg', this)">Pure Veg</button>
-    <button class="aakali-filter-btn" id="swadTabNew" onclick="swadSortFilter('new', this)">New</button>
+  <!-- Category Chips -->
+  <div class="swad-categories" id="swadCategories">
+    <div class="swad-cat-chip active" data-cat="all" onclick="swadCatFilter('all', this)">
+      <span class="swad-cat-emoji">🍽</span>
+      <span class="swad-cat-label">All</span>
+    </div>
+    <div class="swad-cat-chip" data-cat="biryani" onclick="swadCatFilter('biryani', this)">
+      <span class="swad-cat-emoji">🍚</span>
+      <span class="swad-cat-label">Biryani</span>
+    </div>
+    <div class="swad-cat-chip" data-cat="pizza" onclick="swadCatFilter('pizza', this)">
+      <span class="swad-cat-emoji">🍕</span>
+      <span class="swad-cat-label">Pizza</span>
+    </div>
+    <div class="swad-cat-chip" data-cat="burger" onclick="swadCatFilter('burger', this)">
+      <span class="swad-cat-emoji">🍔</span>
+      <span class="swad-cat-label">Burger</span>
+    </div>
+    <div class="swad-cat-chip" data-cat="south" onclick="swadCatFilter('south', this)">
+      <span class="swad-cat-emoji">🥘</span>
+      <span class="swad-cat-label">South Indian</span>
+    </div>
+    <div class="swad-cat-chip" data-cat="chinese" onclick="swadCatFilter('chinese', this)">
+      <span class="swad-cat-emoji">🥢</span>
+      <span class="swad-cat-label">Chinese</span>
+    </div>
+    <div class="swad-cat-chip" data-cat="dessert" onclick="swadCatFilter('dessert', this)">
+      <span class="swad-cat-emoji">🍨</span>
+      <span class="swad-cat-label">Desserts</span>
+    </div>
+    <div class="swad-cat-chip" data-cat="tandoor" onclick="swadCatFilter('tandoor', this)">
+      <span class="swad-cat-emoji">🔥</span>
+      <span class="swad-cat-label">Tandoor</span>
+    </div>
+    <div class="swad-cat-chip" data-cat="drinks" onclick="swadCatFilter('drinks', this)">
+      <span class="swad-cat-emoji">🥤</span>
+      <span class="swad-cat-label">Drinks</span>
+    </div>
+    <div class="swad-cat-chip" data-cat="north" onclick="swadCatFilter('north', this)">
+      <span class="swad-cat-emoji">🍛</span>
+      <span class="swad-cat-label">North Indian</span>
+    </div>
+  </div>
+
+  <!-- Sort / Filter Tabs -->
+  <div class="swad-filter-tabs">
+    <button class="swad-filter-tab active" id="swadTabAll" onclick="swadSortFilter('all', this)">All</button>
+    <button class="swad-filter-tab" id="swadTabRating" onclick="swadSortFilter('rating', this)">⭐ Top Rated</button>
+    <button class="swad-filter-tab" id="swadTabFast" onclick="swadSortFilter('fast', this)">⚡ Fastest</button>
+    <button class="swad-filter-tab" id="swadTabOffer" onclick="swadSortFilter('offer', this)">🞁 Offers</button>
+    <button class="swad-filter-tab" id="swadTabVeg" onclick="swadSortFilter('veg', this)">🥦 Pure Veg</button>
+    <button class="swad-filter-tab" id="swadTabNew" onclick="swadSortFilter('new', this)">✨ New</button>
   </div>
 
   <!-- Dish Search Results -->
