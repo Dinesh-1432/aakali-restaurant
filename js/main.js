@@ -775,6 +775,7 @@ async function showSwadHome() {
 
   // Render restaurants
   renderSwadRestaurants();
+  renderPopularNearYou(SWAD_RESTAURANTS);
   // Set location
   const cached = localStorage.getItem('swad_detected_location');
   if (cached) {
@@ -873,14 +874,14 @@ function renderSwadRestaurants() {
 
 function swadCatFilter(cat, el) {
   swadActiveCat = cat;
-  document.querySelectorAll('.aakali-cat-item').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('.swad-cat-chip').forEach(c => c.classList.remove('active'));
   if (el) el.classList.add('active');
   renderSwadRestaurants();
 }
 
 function swadSortFilter(sort, el) {
   swadActiveSort = sort;
-  document.querySelectorAll('.aakali-filter-btn').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.swad-filter-tab').forEach(t => t.classList.remove('active'));
   if (el) el.classList.add('active');
   renderSwadRestaurants();
 }
@@ -1309,6 +1310,30 @@ initUser = function() { _origInitUserTheme(); };
 
 // Kick off banner on load
 window.addEventListener('load', () => { swadBannerGoTo(0); swadBannerStart(); });
+
+// --- Popular Near You: show top 4 rated restaurants ---
+function renderPopularNearYou(restaurants) {
+  const grid = document.getElementById('aakaliPopularGrid');
+  if (!grid || !restaurants || !restaurants.length) return;
+  const top4 = [...restaurants].sort((a, b) => b.rating - a.rating).slice(0, 4);
+  grid.innerHTML = top4.map(r => `
+    <div class="swad-rest-card" onclick="openRestaurant('${r.id}')" data-id="${r.id}">
+      <div class="swad-rest-img-wrap">
+        <img src="${r.img}" alt="${r.name}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&q=80'"/>
+        ${r.discount ? '<div class="swad-rest-discount-tag">' + r.discount + '</div>' : ''}
+      </div>
+      <div class="swad-rest-body">
+        <div class="swad-rest-name">${r.name}</div>
+        <div class="swad-rest-cuisine">${r.cuisine}</div>
+        <div class="swad-rest-meta">
+          <div class="swad-rest-rating">${r.rating} ★</div>
+          <div class="swad-rest-dot"></div>
+          <div class="swad-rest-time">${r.deliveryTime}</div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
 
 // ============================================================
 // Context-aware taskbar

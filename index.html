@@ -261,18 +261,94 @@
     </div>
   </section>
 
-  <section class="aakali-partner-strip" aria-label="Restaurant marketplace highlights">
-    <div>
-      <strong>Restaurant storefronts</strong>
-      <span>Each card opens a dedicated restaurant menu page.</span>
+  <!-- Stats / Trust Bar -->
+  <section class="aakali-stats-bar">
+    <div class="aakali-stat-item">
+      <div class="aakali-stat-icon">
+        <svg viewBox="0 0 24 24" fill="none" style="width:22px;height:22px"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="10" cy="21" r="1.5" fill="currentColor"/><circle cx="19" cy="21" r="1.5" fill="currentColor"/></svg>
+      </div>
+      <div class="aakali-stat-text">
+        <strong>500+</strong>
+        <span>Restaurants</span>
+      </div>
     </div>
-    <div>
-      <strong>Smart discovery</strong>
-      <span>Filter by cuisine, rating, fastest delivery, veg, and offers.</span>
+    <div class="aakali-stat-divider"></div>
+    <div class="aakali-stat-item">
+      <div class="aakali-stat-icon">
+        <svg viewBox="0 0 24 24" fill="none" style="width:22px;height:22px"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v5l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </div>
+      <div class="aakali-stat-text">
+        <strong>30 min</strong>
+        <span>Avg Delivery</span>
+      </div>
     </div>
-    <div>
-      <strong>Unified checkout</strong>
-      <span>Cart, payment, order status, and delivery tracking stay inside Aakali.</span>
+    <div class="aakali-stat-divider"></div>
+    <div class="aakali-stat-item">
+      <div class="aakali-stat-icon">
+        <svg viewBox="0 0 24 24" fill="none" style="width:22px;height:22px"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="currentColor" opacity="0.2" stroke="currentColor" stroke-width="1.5"/></svg>
+      </div>
+      <div class="aakali-stat-text">
+        <strong>4.8</strong>
+        <span>Avg Rating</span>
+      </div>
+    </div>
+    <div class="aakali-stat-divider"></div>
+    <div class="aakali-stat-item">
+      <div class="aakali-stat-icon">
+        <svg viewBox="0 0 24 24" fill="none" style="width:22px;height:22px"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="1.8"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="aakali-stat-text">
+        <strong>100%</strong>
+        <span>Safe & Hygienic</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Offers Carousel -->
+  <section class="aakali-offers">
+    <h2 class="aakali-section-title">Deals for you</h2>
+    <div class="aakali-offers-scroll">
+      <div class="aakali-offer-card aakali-offer-1">
+        <div class="aakali-offer-content">
+          <span class="aakali-offer-badge">FLAT DEAL</span>
+          <h3>&#8377;100 OFF</h3>
+          <p>On your first order above &#8377;299</p>
+          <span class="aakali-offer-code">Use: AAKALI100</span>
+        </div>
+        <div class="aakali-offer-art">
+          <svg viewBox="0 0 80 80" fill="none" style="width:60px;height:60px;opacity:0.3"><circle cx="40" cy="40" r="38" stroke="#fff" stroke-width="2"/><circle cx="40" cy="40" r="25" stroke="#fff" stroke-width="1.5"/><circle cx="40" cy="40" r="12" fill="#fff" opacity="0.2"/></svg>
+        </div>
+      </div>
+      <div class="aakali-offer-card aakali-offer-2">
+        <div class="aakali-offer-content">
+          <span class="aakali-offer-badge">FREE DELIVERY</span>
+          <h3>No delivery fee</h3>
+          <p>On all orders above &#8377;199</p>
+          <span class="aakali-offer-code">Auto-applied</span>
+        </div>
+        <div class="aakali-offer-art">
+          <svg viewBox="0 0 80 80" fill="none" style="width:60px;height:60px;opacity:0.3"><rect x="5" y="5" width="70" height="70" rx="14" stroke="#fff" stroke-width="2"/><path d="M25 55l15-30 15 30" stroke="#fff" stroke-width="1.5"/></svg>
+        </div>
+      </div>
+      <div class="aakali-offer-card aakali-offer-3">
+        <div class="aakali-offer-content">
+          <span class="aakali-offer-badge">PREMIUM</span>
+          <h3>60% OFF up to &#8377;120</h3>
+          <p>On select restaurants this week</p>
+          <span class="aakali-offer-code">Use: AAKALI60</span>
+        </div>
+        <div class="aakali-offer-art">
+          <svg viewBox="0 0 80 80" fill="none" style="width:60px;height:60px;opacity:0.3"><polygon points="40,5 50,30 78,35 57,52 63,78 40,65 17,78 23,52 2,35 30,30" stroke="#fff" stroke-width="1.5"/></svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Popular Near You -->
+  <section class="aakali-popular">
+    <h2 class="aakali-section-title">Popular near you</h2>
+    <div class="aakali-popular-grid" id="aakaliPopularGrid">
+      <!-- Filled dynamically by JS -->
     </div>
   </section>
 
@@ -347,6 +423,47 @@
     </div>
     <div class="swad-rest-grid" id="swadRestGrid"></div>
   </div>
+
+  <!-- Footer -->
+  <footer class="aakali-footer">
+    <div class="aakali-footer-inner">
+      <div class="aakali-footer-brand">
+        <div class="aakali-footer-logo">
+          <svg viewBox="0 0 24 24" fill="none" style="width:20px;height:20px"><path d="M12 2C8.5 6 6 9.5 6 13a6 6 0 0012 0c0-3.5-2.5-7-6-11z" fill="currentColor" opacity="0.9"/></svg>
+          <span>AAKALI</span>
+        </div>
+        <p>Premium food delivery from the best restaurants near you. Fast, reliable, and delicious.</p>
+      </div>
+      <div class="aakali-footer-links">
+        <h4>Company</h4>
+        <a href="#">About Us</a>
+        <a href="#">Careers</a>
+        <a href="#">Partner with us</a>
+        <a href="#">Blog</a>
+      </div>
+      <div class="aakali-footer-links">
+        <h4>Support</h4>
+        <a href="#">Help Center</a>
+        <a href="#">Safety</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Privacy Policy</a>
+      </div>
+      <div class="aakali-footer-links">
+        <h4>Contact</h4>
+        <a href="#">support@aakali.com</a>
+        <a href="#">+91 98765 43210</a>
+        <div class="aakali-footer-socials">
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="width:18px;height:18px"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor"/></svg></a>
+          <a href="#" aria-label="Twitter"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="width:18px;height:18px"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg></a>
+          <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="width:18px;height:18px"><path d="M22.54 6.42a2.78 2.78 0 00-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 2A29 29 0 001 11.75a29 29 0 00.46 5.33A2.78 2.78 0 003.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 001.94-2 29 29 0 00.46-5.25 29 29 0 00-.46-5.33z"/><polygon points="9.75,15.02 15.5,11.75 9.75,8.48" fill="currentColor"/></svg></a>
+        </div>
+      </div>
+    </div>
+    <div class="aakali-footer-bottom">
+      <span>&copy; 2024 Aakali. All rights reserved.</span>
+      <span>Made with ❤ in India</span>
+    </div>
+  </footer>
 </div>
 
 <!-- ===== FORGOT PASSWORD MODAL ===== -->
