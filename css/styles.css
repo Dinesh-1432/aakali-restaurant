@@ -747,44 +747,115 @@ button{font-family:'Plus Jakarta Sans',sans-serif; outline:none;}
   100% { box-shadow: 0 0 0 0 rgba(var(--accent-rgb), 0); }
 }
 
-/* Skeleton Loader */
+/* ═══════════════════════════════════════════════════
+   SKELETON LOADING — Premium shimmer system
+   ═══════════════════════════════════════════════════ */
 @keyframes skeletonShimmer {
   0% { background-position: -200% 0; }
   100% { background-position: 200% 0; }
 }
+@keyframes skeletonPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
 .skeleton-shimmer {
-  background: linear-gradient(90deg, var(--bg2) 25%, var(--bg3) 50%, var(--bg2) 75%);
-  background-size: 200% 100%;
-  animation: skeletonShimmer 1.8s infinite linear;
+  background: linear-gradient(90deg, var(--bg2) 25%, var(--bg3) 37%, var(--bg2) 63%);
+  background-size: 400% 100%;
+  animation: skeletonShimmer 1.4s ease infinite;
   border-radius: 8px;
-  display: inline-block;
 }
-.skeleton-card {
+/* Card skeleton */
+.skeleton-rest-card {
   background: var(--card);
-  border: 1px solid rgba(var(--border-rgb), 0.4);
-  border-radius: var(--radius2);
-  padding: 1.25rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.85rem;
-  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
 }
-.skeleton-img {
+.skeleton-rest-card .sk-img {
   width: 100%;
   height: 180px;
-  border-radius: var(--radius);
+  background: linear-gradient(90deg, var(--bg2) 25%, var(--bg3) 37%, var(--bg2) 63%);
+  background-size: 400% 100%;
+  animation: skeletonShimmer 1.4s ease infinite;
 }
-.skeleton-title {
-  width: 75%;
-  height: 22px;
+.skeleton-rest-card .sk-body {
+  padding: 0.9rem 1rem 1rem;
 }
-.skeleton-text {
-  width: 100%;
-  height: 14px;
+.skeleton-rest-card .sk-line {
+  height: 12px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, var(--bg2) 25%, var(--bg3) 37%, var(--bg2) 63%);
+  background-size: 400% 100%;
+  animation: skeletonShimmer 1.4s ease infinite;
+  margin-bottom: 0.5rem;
 }
-.skeleton-price {
-  width: 45%;
-  height: 26px;
+.skeleton-rest-card .sk-line.sk-title { width: 70%; height: 16px; margin-bottom: 0.4rem; }
+.skeleton-rest-card .sk-line.sk-sub { width: 50%; height: 11px; margin-bottom: 0.7rem; }
+.skeleton-rest-card .sk-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0.7rem;
+  border-top: 1px solid var(--border);
+}
+.skeleton-rest-card .sk-pill {
+  width: 40px;
+  height: 20px;
+  border-radius: 5px;
+  background: linear-gradient(90deg, var(--bg2) 25%, var(--bg3) 37%, var(--bg2) 63%);
+  background-size: 400% 100%;
+  animation: skeletonShimmer 1.4s ease infinite;
+}
+.skeleton-rest-card .sk-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(90deg, var(--bg2) 25%, var(--bg3) 37%, var(--bg2) 63%);
+  background-size: 400% 100%;
+  animation: skeletonShimmer 1.4s ease infinite;
+}
+/* Popular skeleton */
+.skeleton-pop-card {
+  flex-shrink: 0;
+  width: 280px;
+  height: 220px;
+  border-radius: 18px;
+  background: linear-gradient(90deg, var(--bg2) 25%, var(--bg3) 37%, var(--bg2) 63%);
+  background-size: 400% 100%;
+  animation: skeletonShimmer 1.4s ease infinite;
+}
+/* Category chip skeleton */
+.skeleton-chip {
+  width: 72px;
+  height: 68px;
+  border-radius: 8px;
+  flex-shrink: 0;
+  background: linear-gradient(90deg, var(--bg2) 25%, var(--bg3) 37%, var(--bg2) 63%);
+  background-size: 400% 100%;
+  animation: skeletonShimmer 1.4s ease infinite;
+}
+/* Offer card skeleton */
+.skeleton-offer {
+  min-width: 300px;
+  height: 140px;
+  flex-shrink: 0;
+  border-radius: 16px;
+  background: linear-gradient(90deg, var(--bg2) 25%, var(--bg3) 37%, var(--bg2) 63%);
+  background-size: 400% 100%;
+  animation: skeletonShimmer 1.4s ease infinite;
+}
+/* Stagger animation delay for visual polish */
+.skeleton-rest-card:nth-child(2), .skeleton-pop-card:nth-child(2), .skeleton-chip:nth-child(2) { animation-delay: 0.1s; }
+.skeleton-rest-card:nth-child(3), .skeleton-pop-card:nth-child(3), .skeleton-chip:nth-child(3) { animation-delay: 0.2s; }
+.skeleton-rest-card:nth-child(4), .skeleton-pop-card:nth-child(4), .skeleton-chip:nth-child(4) { animation-delay: 0.3s; }
+.skeleton-rest-card:nth-child(5), .skeleton-chip:nth-child(5) { animation-delay: 0.4s; }
+.skeleton-rest-card:nth-child(6), .skeleton-chip:nth-child(6) { animation-delay: 0.5s; }
+/* Fade out when content loads */
+.skeleton-fade-out {
+  animation: skeletonFadeOut 0.3s ease forwards;
+}
+@keyframes skeletonFadeOut {
+  to { opacity: 0; transform: translateY(-4px); }
 }
 
 /* ===== AUTH ===== */

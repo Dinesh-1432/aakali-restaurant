@@ -967,32 +967,25 @@ async function searchDishClick(dishId, restaurantId) {
 
 function showRestaurantsSkeleton() {
   const grid = document.getElementById('swadRestGrid');
-  if (!grid) return;
-  grid.innerHTML = Array(4).fill(0).map(() => `
-    <div class="skeleton-card">
-      <div class="skeleton-shimmer skeleton-img"></div>
-      <div class="skeleton-shimmer skeleton-title" style="margin-top: 0.5rem; height: 18px;"></div>
-      <div class="skeleton-shimmer skeleton-text" style="width: 50%; height: 12px; margin-top: 0.25rem;"></div>
-      <div style="display: flex; justify-content: space-between; margin-top: 1rem; align-items: center;">
-        <div class="skeleton-shimmer skeleton-text" style="width: 30%; height: 16px;"></div>
-        <div class="skeleton-shimmer skeleton-text" style="width: 25%; height: 16px;"></div>
-      </div>
-    </div>
-  `).join('');
+  const popGrid = document.getElementById('aakaliPopularGrid');
+  if (grid) grid.innerHTML = generateRestCardSkeleton(6);
+  if (popGrid) popGrid.innerHTML = generatePopularSkeleton(4);
 }
 
 function showMenuSkeleton() {
   const grid = document.getElementById('menuGrid');
   if (!grid) return;
   grid.innerHTML = Array(6).fill(0).map(() => `
-    <div class="skeleton-card">
-      <div class="skeleton-shimmer skeleton-img"></div>
-      <div class="skeleton-shimmer skeleton-title" style="margin-top: 0.5rem; height: 18px;"></div>
-      <div class="skeleton-shimmer skeleton-text" style="width: 90%; height: 12px; margin-top: 0.25rem;"></div>
-      <div class="skeleton-shimmer skeleton-text" style="width: 70%; height: 12px; margin-top: 0.25rem; margin-bottom: 0.5rem;"></div>
-      <div style="display: flex; justify-content: space-between; align-items: center;">
-        <div class="skeleton-shimmer skeleton-text" style="width: 30%; height: 20px;"></div>
-        <div class="skeleton-shimmer skeleton-text" style="width: 25%; height: 28px; border-radius: 8px;"></div>
+    <div class="skeleton-rest-card">
+      <div class="sk-img"></div>
+      <div class="sk-body">
+        <div class="sk-line sk-title"></div>
+        <div class="sk-line sk-sub"></div>
+        <div class="sk-line" style="width:90%;height:10px"></div>
+        <div class="sk-footer">
+          <div class="sk-pill" style="width:55px"></div>
+          <div class="sk-pill" style="width:65px;height:28px;border-radius:8px"></div>
+        </div>
       </div>
     </div>
   `).join('');
@@ -1268,6 +1261,55 @@ function updateNavCartBadge(count) {
   } else {
     badge.style.display = 'none';
   }
+}
+
+// ═══════════════════════════════════════════════════
+// SKELETON LOADING SYSTEM
+// ═══════════════════════════════════════════════════
+function generateRestCardSkeleton(count) {
+  let html = '';
+  for (let i = 0; i < count; i++) {
+    html += `<div class="skeleton-rest-card">
+      <div class="sk-img"></div>
+      <div class="sk-body">
+        <div class="sk-line sk-title"></div>
+        <div class="sk-line sk-sub"></div>
+        <div class="sk-footer">
+          <div class="sk-pill"></div>
+          <div class="sk-circle"></div>
+        </div>
+      </div>
+    </div>`;
+  }
+  return html;
+}
+
+function generatePopularSkeleton(count) {
+  let html = '';
+  for (let i = 0; i < count; i++) {
+    html += `<div class="skeleton-pop-card"></div>`;
+  }
+  return html;
+}
+
+function generateChipSkeleton(count) {
+  let html = '';
+  for (let i = 0; i < count; i++) {
+    html += `<div class="skeleton-chip"></div>`;
+  }
+  return html;
+}
+
+function generateOfferSkeleton(count) {
+  let html = '';
+  for (let i = 0; i < count; i++) {
+    html += `<div class="skeleton-offer"></div>`;
+  }
+  return html;
+}
+
+function showSkeletons() {
+  showRestaurantsSkeleton();
 }
 
 let swadBannerCurrent = 0;
