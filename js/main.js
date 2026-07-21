@@ -1316,19 +1316,19 @@ function renderPopularNearYou(restaurants) {
   const grid = document.getElementById('aakaliPopularGrid');
   if (!grid || !restaurants || !restaurants.length) return;
   const top4 = [...restaurants].sort((a, b) => b.rating - a.rating).slice(0, 4);
-  grid.innerHTML = top4.map(r => `
-    <div class="swad-rest-card" onclick="openRestaurant('${r.id}')" data-id="${r.id}">
-      <div class="swad-rest-img-wrap">
+  grid.innerHTML = top4.map((r, i) => `
+    <div class="aakali-pop-card" onclick="openRestaurant('${r.id}')">
+      <div class="aakali-pop-img">
         <img src="${r.img}" alt="${r.name}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&q=80'"/>
-        ${r.discount ? '<div class="swad-rest-discount-tag">' + r.discount + '</div>' : ''}
-      </div>
-      <div class="swad-rest-body">
-        <div class="swad-rest-name">${r.name}</div>
-        <div class="swad-rest-cuisine">${r.cuisine}</div>
-        <div class="swad-rest-meta">
-          <div class="swad-rest-rating">${r.rating} ★</div>
-          <div class="swad-rest-dot"></div>
-          <div class="swad-rest-time">${r.deliveryTime}</div>
+        <div class="aakali-pop-overlay"></div>
+        <div class="aakali-pop-rank">#${i + 1}</div>
+        <div class="aakali-pop-info">
+          <div class="aakali-pop-name">${r.name}</div>
+          <div class="aakali-pop-meta">
+            <span class="aakali-pop-rating">★ ${r.rating}</span>
+            <span class="aakali-pop-time">${r.deliveryTime}</span>
+          </div>
+          <div class="aakali-pop-cuisine">${r.cuisine}</div>
         </div>
       </div>
     </div>
