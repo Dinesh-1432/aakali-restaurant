@@ -22,7 +22,7 @@
 <!-- Razorpay Checkout SDK for premium live payment processing "” async so it never blocks -->
 <script src="https://checkout.razorpay.com/v1/checkout.js" async defer></script>
 <!-- Critical app styles -->
-<link rel="stylesheet" href="css/styles.css?v=12">
+<link rel="stylesheet" href="css/styles.css?v=13">
 </head>
 <body>
 
@@ -205,99 +205,23 @@
     </div>
   </nav>
 
-  <!-- Premium Banner Carousel -->
-  <div class="swad-banner-carousel" id="swadBannerCarousel">
-    <div class="swad-banner-track" id="swadBannerTrack">
-
-      <!-- ===== SLIDE 1: Fast Delivery ===== -->
-      <div class="swad-banner-slide" id="bslide-0">
-        <!-- Background food scene -->
-        <div class="swad-bs-photo" style="background-image:url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1400&q=85&fit=crop');">
-        </div>
-        <!-- deep left-to-right gradient so text stays readable -->
-        <div class="swad-bs-overlay" style="background:linear-gradient(100deg,rgba(10,4,0,0.92) 0%,rgba(10,4,0,0.7) 48%,rgba(0,0,0,0.08) 100%);"></div>
-        <div class="swad-bs-inner">
-          <div class="swad-bs-left">
-            <div class="swad-banner-tag">&#9889; Lightning Fast Delivery</div>
-            <div class="swad-banner-title">Order from <span>many restaurants</span><br>in one Aakali app</div>
-            <div class="swad-bs-stats">
-              <div class="swad-bs-stat"><div class="swad-bs-stat-val">500+</div><div class="swad-bs-stat-label">Restaurant pages</div></div>
-              <div class="swad-bs-stat"><div class="swad-bs-stat-val">30 min</div><div class="swad-bs-stat-label">Avg Delivery</div></div>
-              <div class="swad-bs-stat"><div class="swad-bs-stat-val">4.8&#9733;</div><div class="swad-bs-stat-label">Avg Rating</div></div>
-            </div>
-            <button class="swad-banner-cta" onclick="document.getElementById('swadRestGrid').scrollIntoView({behavior:'smooth'})">Browse Restaurants &rarr;</button>
-          </div>
-          <div class="swad-bs-right">
-            <img class="swad-bs-food-img" src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400&q=85&fit=crop" alt="Delicious food" loading="lazy"/>
-          </div>
-        </div>
-      </div>
-
-      <!-- ===== SLIDE 2: Biryani Special ===== -->
-      <div class="swad-banner-slide" id="bslide-1">
-        <div class="swad-bs-photo" style="background-image:url('https://images.unsplash.com/photo-1563379091339-03246963d096?w=1400&q=85&fit=crop');"></div>
-        <div class="swad-bs-overlay" style="background:linear-gradient(100deg,rgba(45,8,0,0.93) 0%,rgba(45,8,0,0.72) 48%,rgba(0,0,0,0.06) 100%);"></div>
-        <div class="swad-bs-inner">
-          <div class="swad-bs-left">
-            <div class="swad-banner-tag">&#127859; Chef's Special</div>
-            <div class="swad-banner-title">Authentic <span>Biryani</span><br>from Royal Kitchens</div>
-            <div class="swad-banner-sub">Slow-cooked Dum Biryani with premium saffron &amp; aromatic spices. A royal feast, delivered hot.</div>
-            <button class="swad-banner-cta" onclick="swadCatFilter('biryani', document.querySelector('[data-cat=biryani]'))">&#127859; Explore Biryani &rarr;</button>
-          </div>
-          <div class="swad-bs-right">
-            <img class="swad-bs-food-img" src="https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=400&q=85&fit=crop" alt="Biryani" loading="lazy"/>
-          </div>
-        </div>
-      </div>
-
-      <!-- ===== SLIDE 3: First Order Offer ===== -->
-      <div class="swad-banner-slide" id="bslide-2">
-        <div class="swad-bs-photo" style="background-image:url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1400&q=85&fit=crop');"></div>
-        <div class="swad-bs-overlay" style="background:linear-gradient(100deg,rgba(4,20,8,0.93) 0%,rgba(4,20,8,0.72) 48%,rgba(0,0,0,0.06) 100%);"></div>
-        <div class="swad-bs-inner">
-          <div class="swad-bs-left">
-            <div class="swad-banner-tag">&#127873; New User Exclusive</div>
-            <div class="swad-banner-title"><span>&#8377;100 OFF</span><br>your first order</div>
-            <div class="swad-banner-sub">Use code <strong style="color:#f5c07a;letter-spacing:0.08em;">AAKALI100</strong> &nbsp;&middot;&nbsp; Min order &#8377;299 &nbsp;&middot;&nbsp; Free delivery included!</div>
-            <button class="swad-banner-cta" onclick="document.getElementById('swadCategories').scrollIntoView({behavior:'smooth'})">&#127881; Claim Offer &rarr;</button>
-          </div>
-          <div class="swad-bs-right">
-            <img class="swad-bs-food-img" src="https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=400&q=85&fit=crop" alt="Offer food" loading="lazy"/>
-          </div>
-        </div>
-      </div>
-
-      <!-- ===== SLIDE 4: Live Tracking ===== -->
-      <div class="swad-banner-slide" id="bslide-3">
-        <div class="swad-bs-photo" style="background-image:url('https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=1400&q=85&fit=crop');"></div>
-        <div class="swad-bs-overlay" style="background:linear-gradient(100deg,rgba(5,0,30,0.93) 0%,rgba(5,0,30,0.72) 48%,rgba(0,0,0,0.06) 100%);"></div>
-        <div class="swad-bs-inner">
-          <div class="swad-bs-left">
-            <div class="swad-banner-tag">&#128205; Live GPS Tracking</div>
-            <div class="swad-banner-title">Track your rider<br><span>in real&#8209;time</span></div>
-            <div class="swad-banner-sub">Watch your order move from kitchen to door with live GPS. Know exactly when it arrives.</div>
-            <button class="swad-banner-cta" onclick="document.getElementById('swadCategories').scrollIntoView({behavior:'smooth'})">&#128640; Start Ordering &rarr;</button>
-          </div>
-          <div class="swad-bs-right">
-            <img class="swad-bs-food-img" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=85&fit=crop" alt="Delivery rider" loading="lazy"/>
-          </div>
-        </div>
-      </div>
-
+  <!-- Immersive Fullscreen Hero -->
+  <section class="aakali-hero" id="aakaliHero">
+    <div class="aakali-hero-bg"></div>
+    <div class="aakali-hero-overlay"></div>
+    <div class="aakali-hero-content">
+      <span class="aakali-hero-badge">Premium Food Delivery</span>
+      <h1 class="aakali-hero-title">Taste the<br><span>Extraordinary</span></h1>
+      <p class="aakali-hero-sub">500+ restaurants. 30 min delivery. One app.</p>
+      <button class="aakali-hero-cta" onclick="document.getElementById('swadCategories').scrollIntoView({behavior:'smooth'})">Explore Restaurants</button>
     </div>
-
-    <!-- Left / Right Arrows -->
-    <button class="swad-banner-arrow left" onclick="swadBannerGoTo(swadBannerCurrent - 1)" aria-label="Previous slide">&#8592;</button>
-    <button class="swad-banner-arrow right" onclick="swadBannerGoTo(swadBannerCurrent + 1)" aria-label="Next slide">&#8594;</button>
-
-    <!-- Dot Indicators -->
-    <div class="swad-banner-dots" id="swadBannerDots">
-      <div class="swad-banner-dot active" onclick="swadBannerGoTo(0)"></div>
-      <div class="swad-banner-dot" onclick="swadBannerGoTo(1)"></div>
-      <div class="swad-banner-dot" onclick="swadBannerGoTo(2)"></div>
-      <div class="swad-banner-dot" onclick="swadBannerGoTo(3)"></div>
+    <div class="aakali-hero-scroll" onclick="document.getElementById('swadCategories').scrollIntoView({behavior:'smooth'})">
+      <span>Scroll to explore</span>
+      <div class="aakali-hero-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+      </div>
     </div>
-  </div>
+  </section>
 
   <section class="aakali-partner-strip" aria-label="Restaurant marketplace highlights">
     <div>

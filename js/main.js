@@ -1201,6 +1201,15 @@ function handleSystemThemeChange() {}
             nav.classList.remove('scrolled');
           }
         }
+        // Parallax hero background
+        const heroBg = document.querySelector('.aakali-hero-bg');
+        if (heroBg) {
+          const scrolled = window.scrollY;
+          const heroHeight = document.querySelector('.aakali-hero').offsetHeight;
+          if (scrolled < heroHeight) {
+            heroBg.style.transform = 'scale(' + (1.05 + scrolled * 0.0002) + ') translateY(' + (scrolled * 0.3) + 'px)';
+          }
+        }
         ticking = false;
       });
       ticking = true;
