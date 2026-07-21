@@ -1,4 +1,4 @@
-﻿﻿﻿﻿<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
@@ -8,19 +8,13 @@
 <!-- DNS prefetch and preconnect for faster external resource loading -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preconnect" href="https://accounts.google.com">
-<link rel="preconnect" href="https://oauth2.googleapis.com">
-<link rel="dns-prefetch" href="https://unpkg.com">
 <link rel="dns-prefetch" href="https://images.unsplash.com">
 <!-- Google Fonts with display=swap and preload for non-render-blocking load -->
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-<noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"></noscript>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"></noscript>
 <!-- Lucide Icons "” defer to not block initial render -->
-<script src="https://unpkg.com/lucide@latest" defer></script>
-<!-- Google OAuth SDK "”async and defer so it never blocks -->
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
-<!-- Razorpay Checkout SDK for premium live payment processing "” async so it never blocks -->
-<script src="https://checkout.razorpay.com/v1/checkout.js" async defer></script>
 <!-- Critical app styles -->
 <link rel="stylesheet" href="css/styles.css?v=21">
 </head>
@@ -2422,37 +2416,43 @@
 <div class="mobile-taskbar" id="mobileTaskbar">
   <button class="tb-item tb-active" id="tb-menu" onclick="handleTaskbarNav('menu')">
     <div class="tb-icon">
-      <svg viewBox="0 0 24 24" fill="none" style="width:20px;height:20px"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" stroke="currentColor" stroke-width="1.8"/><polyline points="9 22 9 12 15 12 15 22" stroke="currentColor" stroke-width="1.8"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" style="width:22px;height:22px"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" stroke="currentColor" stroke-width="1.8"/><polyline points="9 22 9 12 15 12 15 22" stroke="currentColor" stroke-width="1.8"/></svg>
     </div>
-    <span class="tb-label">AAKALI</span>
+    <span class="tb-label">Home</span>
+    <div class="tb-active-dot"></div>
   </button>
 
   <button class="tb-item" id="tb-search" onclick="handleTaskbarNav('search')">
     <div class="tb-icon">
-      <svg viewBox="0 0 24 24" fill="none" style="width:20px;height:20px"><circle cx="10.5" cy="10.5" r="7" stroke="currentColor" stroke-width="1.8"/><path d="M15.5 15.5L21 21" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" style="width:22px;height:22px"><circle cx="10.5" cy="10.5" r="7" stroke="currentColor" stroke-width="1.8"/><path d="M15.5 15.5L21 21" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
     </div>
-    <span class="tb-label">FIND</span>
+    <span class="tb-label">Search</span>
+    <div class="tb-active-dot"></div>
   </button>
 
-  <button class="tb-item" id="tb-deals" onclick="handleTaskbarNav('deals')">
-    <div class="tb-icon">
-      <svg viewBox="0 0 24 24" fill="none" style="width:20px;height:20px"><path d="M21 5H3v14h18V5z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M3 10h18" stroke="currentColor" stroke-width="1.5"/><circle cx="8" cy="15" r="1.5" fill="currentColor" opacity="0.6"/><path d="M14 14l4 3M14 17l4-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+  <!-- CENTER FAB: Cart -->
+  <button class="tb-fab" id="tb-cart" onclick="handleTaskbarNav('cart')">
+    <div class="tb-fab-circle">
+      <svg viewBox="0 0 24 24" fill="none" style="width:22px;height:22px"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M3 6h18" stroke="currentColor" stroke-width="1.8"/><path d="M16 10a4 4 0 01-8 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      <span class="tb-cart-badge" id="mobCartBadge">0</span>
     </div>
-    <span class="tb-label">DEALS</span>
+    <span class="tb-fab-label">Cart</span>
   </button>
 
   <button class="tb-item" id="tb-orders" onclick="handleTaskbarNav('orders')">
     <div class="tb-icon">
-      <svg viewBox="0 0 24 24" fill="none" style="width:20px;height:20px"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2" stroke="currentColor" stroke-width="1.8"/><rect x="9" y="3" width="6" height="4" rx="1" stroke="currentColor" stroke-width="1.8"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" style="width:22px;height:22px"><path d="M5 18h2l1-3h8l1 3h2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 18h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="7" cy="20.5" r="1.5" stroke="currentColor" stroke-width="1.5"/><circle cx="17" cy="20.5" r="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M5 15V9a2 2 0 012-2h6l4 4v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M13 7v4h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </div>
-    <span class="tb-label">ORDERS</span>
+    <span class="tb-label">Orders</span>
+    <div class="tb-active-dot"></div>
   </button>
 
   <button class="tb-item" id="tb-profile" onclick="handleTaskbarNav('profile')">
     <div class="tb-icon">
-      <svg viewBox="0 0 24 24" fill="none" style="width:20px;height:20px"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.8"/><path d="M4 21a8 8 0 0116 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" style="width:22px;height:22px"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="1.8"/></svg>
     </div>
-    <span class="tb-label">ACCOUNT</span>
+    <span class="tb-label">Account</span>
+    <div class="tb-active-dot"></div>
   </button>
 </div>
 
@@ -6058,11 +6058,16 @@ async function placeOrder(bypassGateway = false) {
     }
 
     // ─── Razorpay Checkout SDK (production payment gateway) ───
-    // Opens Razorpay's native Checkout modal (UPI, Cards, Netbanking, Wallets,
-    // EMI). On successful payment Razorpay calls our verify handler with the
-    // payment signature, which the backend HMAC-verifies against the merchant
-    // secret before marking the order paid. A server-to-server webhook is
-    // also registered as a fallback in case the browser callback fails.
+    // Lazy-load Razorpay SDK if not already loaded
+    if (typeof window.Razorpay === 'undefined') {
+      await new Promise((resolve, reject) => {
+        const s = document.createElement('script');
+        s.src = 'https://checkout.razorpay.com/v1/checkout.js';
+        s.onload = resolve;
+        s.onerror = () => reject(new Error('Unable to load payment module. Please check your internet connection.'));
+        document.head.appendChild(s);
+      });
+    }
     if (typeof window.Razorpay === 'undefined') {
       throw new Error('Unable to load payment module. Please check your internet connection and try again.');
     }
