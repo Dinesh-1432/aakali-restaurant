@@ -22,7 +22,7 @@
 <!-- Razorpay Checkout SDK for premium live payment processing "” async so it never blocks -->
 <script src="https://checkout.razorpay.com/v1/checkout.js" async defer></script>
 <!-- Critical app styles -->
-<link rel="stylesheet" href="css/styles.css?v=19">
+<link rel="stylesheet" href="css/styles.css?v=20">
 </head>
 <body>
 
@@ -2421,32 +2421,44 @@
 <!-- ===== PREMIUM FLOATING TASKBAR ===== -->
 <div class="mobile-taskbar" id="mobileTaskbar">
   <button class="tb-item tb-active" id="tb-menu" onclick="handleTaskbarNav('menu')">
-    <div class="tb-icon"><i data-lucide="home" style="width:21px;height:21px"></i></div>
+    <div class="tb-icon">
+      <svg viewBox="0 0 24 24" fill="none" style="width:22px;height:22px"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" stroke="currentColor" stroke-width="1.8"/><polyline points="9 22 9 12 15 12 15 22" stroke="currentColor" stroke-width="1.8"/></svg>
+    </div>
     <span class="tb-label">Home</span>
+    <div class="tb-active-dot"></div>
   </button>
 
   <button class="tb-item" id="tb-search" onclick="handleTaskbarNav('search')">
-    <div class="tb-icon"><i data-lucide="search" style="width:21px;height:21px"></i></div>
+    <div class="tb-icon">
+      <svg viewBox="0 0 24 24" fill="none" style="width:22px;height:22px"><circle cx="10.5" cy="10.5" r="7" stroke="currentColor" stroke-width="1.8"/><path d="M15.5 15.5L21 21" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+    </div>
     <span class="tb-label">Search</span>
+    <div class="tb-active-dot"></div>
   </button>
 
   <!-- CENTER FAB: Cart -->
   <button class="tb-fab" id="tb-cart" onclick="handleTaskbarNav('cart')">
     <div class="tb-fab-circle">
-      <i data-lucide="shopping-bag" style="width:24px;height:24px"></i>
+      <svg viewBox="0 0 24 24" fill="none" style="width:22px;height:22px"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M3 6h18" stroke="currentColor" stroke-width="1.8"/><path d="M16 10a4 4 0 01-8 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
       <span class="tb-cart-badge" id="mobCartBadge">0</span>
     </div>
     <span class="tb-fab-label">Cart</span>
   </button>
 
   <button class="tb-item" id="tb-orders" onclick="handleTaskbarNav('orders')">
-    <div class="tb-icon"><i data-lucide="receipt" style="width:21px;height:21px"></i></div>
+    <div class="tb-icon">
+      <svg viewBox="0 0 24 24" fill="none" style="width:22px;height:22px"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke="currentColor" stroke-width="1.8"/><polyline points="14 2 14 8 20 8" stroke="currentColor" stroke-width="1.8"/><line x1="8" y1="13" x2="16" y2="13" stroke="currentColor" stroke-width="1.8"/><line x1="8" y1="17" x2="13" y2="17" stroke="currentColor" stroke-width="1.8"/></svg>
+    </div>
     <span class="tb-label">Orders</span>
+    <div class="tb-active-dot"></div>
   </button>
 
   <button class="tb-item" id="tb-profile" onclick="handleTaskbarNav('profile')">
-    <div class="tb-icon"><i data-lucide="circle-user" style="width:21px;height:21px"></i></div>
+    <div class="tb-icon">
+      <svg viewBox="0 0 24 24" fill="none" style="width:22px;height:22px"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="1.8"/></svg>
+    </div>
     <span class="tb-label">Account</span>
+    <div class="tb-active-dot"></div>
   </button>
 </div>
 
