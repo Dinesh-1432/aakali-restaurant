@@ -22,7 +22,7 @@
 <!-- Razorpay Checkout SDK for premium live payment processing "” async so it never blocks -->
 <script src="https://checkout.razorpay.com/v1/checkout.js" async defer></script>
 <!-- Critical app styles -->
-<link rel="stylesheet" href="css/styles.css?v=10">
+<link rel="stylesheet" href="css/styles.css?v=11">
 </head>
 <body>
 
@@ -176,6 +176,9 @@
       <input type="text" id="swadHomeSearch" placeholder="Search restaurants or dishes..." oninput="swadHomeFilter(this.value)" autocomplete="off"/>
     </div>
     <div class="swad-nav-right">
+      <button class="swad-theme-toggle" id="themeToggleBtn" onclick="toggleTheme()" aria-label="Switch theme" title="Switch theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      </button>
       <button class="swad-nav-user-btn" id="swadNavUserBtn" onclick="swadUserMenu()"></button>
     </div>
   </nav>

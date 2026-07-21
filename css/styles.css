@@ -583,20 +583,40 @@
     font-size:.6rem;
   }
 }
-body.theme-sunset{
-  --bg:#ffffff;--bg2:#f8f8f8;--bg3:#f1f1f1;--bg4:#e8e8e8;
-  --bg-rgb: 255, 255, 255;
-  --card:#ffffff;--card2:#fafafa;
+/* Warm Earth Theme (default) */
+body.theme-earth{
+  --bg:#FAF7F2;--bg2:#F3EDE4;--bg3:#EBE3D8;--bg4:#DDD4C6;
+  --bg-rgb: 250, 247, 242;
+  --card:#FFFFFF;--card2:#FFFCF8;
   --card-rgb: 255, 255, 255;
-  --accent:#E23744;--accent2:#ff5a5f;--accent-light:#fef2f2;--accent-xlight:#fff5f5;
-  --accent-rgb: 226, 55, 68;
-  --text:#1C1C1C;--text2:#3d4152;--muted:#686B78;--muted2:#93959f;
-  --border:#e8e8e8;--border2:#d4d5d9;
-  --border-rgb: 232, 232, 232;
-  --shadow:0 2px 8px rgba(0,0,0,0.04);
-  --shadow2:0 4px 16px rgba(0,0,0,0.08);
+  --accent:#C75B3A;--accent2:#A8432B;--accent-light:#FDF0EC;--accent-xlight:#FFF8F5;
+  --accent-rgb: 199, 91, 58;
+  --text:#2C1810;--text2:#5C3D2E;--muted:#8B6F5E;--muted2:#A89080;
+  --border:#E8DDD0;--border2:#D4C5B3;
+  --border-rgb: 232, 221, 208;
+  --shadow:0 2px 8px rgba(92,61,46,0.06);
+  --shadow2:0 8px 24px rgba(92,61,46,0.1);
   --radius:8px;--radius2:12px;
-  --user-nav-bg:#ffffff;
+  --user-nav-bg:#FAF7F2;
+  --green:#2E7D32;--green-bg:#E8F5E9;
+}
+
+/* Dark Premium Theme */
+body.theme-dark{
+  --bg:#121212;--bg2:#1A1A1A;--bg3:#222222;--bg4:#2C2C2C;
+  --bg-rgb: 18, 18, 18;
+  --card:#1E1E1E;--card2:#252525;
+  --card-rgb: 30, 30, 30;
+  --accent:#D4A853;--accent2:#C49A45;--accent-light:rgba(212,168,83,0.12);--accent-xlight:rgba(212,168,83,0.06);
+  --accent-rgb: 212, 168, 83;
+  --text:#F5F0E8;--text2:#D4C9B8;--muted:#9E9484;--muted2:#6B6358;
+  --border:#2E2E2E;--border2:#3A3A3A;
+  --border-rgb: 46, 46, 46;
+  --shadow:0 2px 8px rgba(0,0,0,0.3);
+  --shadow2:0 8px 24px rgba(0,0,0,0.4);
+  --radius:8px;--radius2:12px;
+  --user-nav-bg:#121212;
+  --green:#81C784;--green-bg:rgba(129,199,132,0.12);
 }
 
 
@@ -608,6 +628,7 @@ body{
   overflow-x:hidden;
   -webkit-font-smoothing:antialiased;
   -moz-osx-font-smoothing:grayscale;
+  transition: background 0.35s ease, color 0.35s ease;
 }
 
 
@@ -4291,11 +4312,12 @@ body.dark-theme .promo-coupon-btn {
 /* SWAD Home Navbar */
 .swad-nav{
   position:fixed;top:0;left:0;right:0;height:60px;
-  background:#ffffff;
-  border-bottom:1px solid #ebebeb;
+  background:var(--card);
+  border-bottom:1px solid var(--border);
   display:flex;align-items:center;justify-content:space-between;
   padding:0 clamp(1rem, 3vw, 2.5rem);z-index:900;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  box-shadow: var(--shadow);
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .swad-nav-brand{display:flex;align-items:center;gap:.5rem;cursor:pointer}
@@ -4304,8 +4326,9 @@ body.dark-theme .promo-coupon-btn {
   background:var(--accent);
   border-radius:10px;
   display:flex;align-items:center;justify-content:center;
+  transition: background 0.3s ease;
 }
-.swad-nav-brand-text{font-size:1.25rem;font-weight:800;color:var(--text);letter-spacing:-.03em}
+.swad-nav-brand-text{font-size:1.25rem;font-weight:800;color:var(--text);letter-spacing:-.03em;transition:color 0.3s ease}
 .swad-nav-brand-text span{color:var(--accent)}
 .swad-nav-loc{
   display:flex;align-items:center;gap:5px;
@@ -4320,8 +4343,8 @@ body.dark-theme .promo-coupon-btn {
 .swad-search-wrap{position:relative;width:100%;max-width:420px}
 .swad-search-wrap input{
   width:100%;
-  background: #f5f5f5;
-  border: none;
+  background: var(--bg2);
+  border: 1px solid var(--border);
   border-radius:10px;
   padding:.58rem 1rem .58rem 2.4rem;
   color:var(--text);
@@ -4330,14 +4353,33 @@ body.dark-theme .promo-coupon-btn {
   outline:none;
   transition:all .2s ease;
 }
-.swad-search-wrap input::placeholder{color:#9e9e9e;font-weight:400}
+.swad-search-wrap input::placeholder{color:var(--muted2);font-weight:400}
 .swad-search-wrap input:focus{
-  background:#fff;
-  box-shadow: 0 0 0 2px var(--accent), 0 4px 12px rgba(0,0,0,0.06);
+  background:var(--card);
+  border-color:var(--accent);
+  box-shadow: 0 0 0 3px rgba(var(--accent-rgb),0.15);
 }
-.swad-search-icon{position:absolute;left:.85rem;top:50%;transform:translateY(-50%);color:#9e9e9e;pointer-events:none}
+.swad-search-icon{position:absolute;left:.85rem;top:50%;transform:translateY(-50%);color:var(--muted2);pointer-events:none}
 .swad-search-wrap input:focus ~ .swad-search-icon{color:var(--accent)}
 .swad-nav-right{display:flex;align-items:center;gap:.7rem}
+
+/* Theme Toggle Button */
+.swad-theme-toggle{
+  width:36px;height:36px;
+  border-radius:50%;
+  background:var(--bg2);
+  border:1px solid var(--border);
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--text2);
+  transition:all 0.2s ease;
+}
+.swad-theme-toggle:hover{
+  background:var(--accent-light);
+  border-color:var(--accent);
+  color:var(--accent);
+}
+.swad-theme-toggle svg{width:18px;height:18px}
 
 .swad-nav-user-btn{
   width:34px;height:34px;
@@ -4365,24 +4407,26 @@ body.dark-theme .promo-coupon-btn {
 .swad-cats-scroll::-webkit-scrollbar{display:none}
 .swad-cat-chip{
   flex-shrink:0;
-  background: #fff;
-  border:none;
+  background: var(--card);
+  border:1px solid var(--border);
   border-radius:8px;
   padding:.6rem .8rem;
   display:flex;flex-direction:column;align-items:center;gap:.3rem;
   cursor:pointer;
   min-width:72px;
   transition:all 0.15s ease;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  box-shadow: var(--shadow);
 }
 .swad-cat-chip:hover{
-  background:#fef2f2;
+  background:var(--accent-light);
+  border-color:var(--accent);
   transform:translateY(-1px);
 }
 .swad-cat-chip.active{
   background:var(--accent);
+  border-color:var(--accent);
   color:#fff;
-  box-shadow:0 4px 12px rgba(226,55,68,0.25);
+  box-shadow:0 4px 12px rgba(var(--accent-rgb),0.3);
 }
 .swad-cat-chip-icon{font-size:1.4rem}
 .swad-cat-chip-name{font-size:.68rem;font-weight:600;color:inherit;text-align:center}
@@ -4415,17 +4459,17 @@ body.dark-theme .promo-coupon-btn {
 
 /* Restaurant Card */
 .swad-rest-card{
-  background: #fff;
-  border: none;
+  background: var(--card);
+  border: 1px solid var(--border);
   border-radius:20px;
   overflow:hidden;
   cursor:pointer;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  box-shadow: var(--shadow);
   transition:all 0.2s ease;
 }
 .swad-rest-card:hover{
   transform:translateY(-2px);
-  box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+  box-shadow: var(--shadow2);
 }
 .swad-rest-card-img{height:180px;overflow:hidden;position:relative}
 .swad-rest-card-img img{width:100%;height:100%;object-fit:cover;transition: transform 0.4s ease;}
@@ -4438,12 +4482,12 @@ body.dark-theme .promo-coupon-btn {
   letter-spacing:.02em;
 }
 .swad-rest-card-body{padding:.9rem 1rem 1rem}
-.swad-rest-card-name{font-size:.95rem;font-weight:700;color:#1C1C1C;margin-bottom:.2rem;line-height:1.3}
-.swad-rest-card-cuisines{font-size:.75rem;color:#686B78;margin-bottom:.6rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.swad-rest-card-name{font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:.2rem;line-height:1.3}
+.swad-rest-card-cuisines{font-size:.75rem;color:var(--muted);margin-bottom:.6rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .swad-rest-card-meta{display:flex;align-items:center;gap:.6rem;font-size:.72rem;font-weight:600}
 .swad-rest-card-rating{
   display:flex;align-items:center;gap:3px;
-  background:#1C8A2E;
+  background:var(--green);
   color:#fff;
   padding:2px 6px;border-radius:4px;
   font-size:.7rem;font-weight:700;
@@ -4762,7 +4806,8 @@ body.dark-theme .promo-coupon-btn {
 #swadHome {
   min-height: 100vh;
   padding-top: 76px;
-  background: #f8f8f8;
+  background: var(--bg);
+  transition: background 0.3s ease;
 }
 .aakali-market-intro {
   max-width: 1180px;
@@ -5047,9 +5092,9 @@ body.dark-theme .promo-coupon-btn {
 }
 .swad-filter-tab {
   flex: 0 0 auto;
-  border: 1px solid #e2e2e2;
-  background: #fff;
-  color: #3d4152;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text2);
   border-radius: 999px;
   padding: 0.45rem 0.9rem;
   font-size: 0.78rem;
@@ -5060,7 +5105,7 @@ body.dark-theme .promo-coupon-btn {
 .swad-filter-tab:hover,
 .swad-filter-tab.active {
   border-color: var(--accent);
-  background: #fef2f2;
+  background: var(--accent-light);
   color: var(--accent);
 }
 .swad-restaurant-section {
@@ -5077,7 +5122,7 @@ body.dark-theme .promo-coupon-btn {
 .swad-section-label {
   font-size: clamp(1.3rem, 2.5vw, 1.7rem);
   font-weight: 800;
-  color: #1C1C1C;
+  color: var(--text);
   letter-spacing: -0.02em;
 }
 .swad-section-head p {
