@@ -22,7 +22,7 @@
 <!-- Razorpay Checkout SDK for premium live payment processing "” async so it never blocks -->
 <script src="https://checkout.razorpay.com/v1/checkout.js" async defer></script>
 <!-- Critical app styles -->
-<link rel="stylesheet" href="css/styles.css?v=5">
+<link rel="stylesheet" href="css/styles.css?v=9">
 </head>
 <body>
 
@@ -176,38 +176,9 @@
       <input type="text" id="swadHomeSearch" placeholder="Search restaurants or dishes..." oninput="swadHomeFilter(this.value)" autocomplete="off"/>
     </div>
     <div class="swad-nav-right">
-      <button type="button" class="nav-mode-toggle swad-nav-theme-btn" onclick="toggleTheme()" aria-label="Switch color mode" title="Switch color mode">
-        <span class="nav-mode-toggle-glow"></span>
-        <i data-lucide="sun" class="nav-mode-icon"></i>
-      </button>
       <button class="swad-nav-user-btn" id="swadNavUserBtn" onclick="swadUserMenu()"></button>
     </div>
   </nav>
-
-  <section class="aakali-market-intro" aria-label="Aakali marketplace">
-    <div class="aakali-market-copy">
-      <span class="aakali-kicker">Multi-restaurant ordering platform</span>
-      <h1>Choose a restaurant. Enter its page. Order your food.</h1>
-      <p>Aakali brings nearby restaurants into one premium ordering experience. Customers can browse trusted kitchens, open each restaurant's own menu page, add dishes to cart, pay, and track delivery.</p>
-    </div>
-    <div class="aakali-flow-panel" aria-label="Ordering steps">
-      <div class="aakali-flow-step">
-        <span>1</span>
-        <strong>Find restaurants</strong>
-        <small>Search by restaurant, dish, cuisine, offer, or delivery time.</small>
-      </div>
-      <div class="aakali-flow-step">
-        <span>2</span>
-        <strong>Enter restaurant page</strong>
-        <small>Open a dedicated menu page for Swad Kitchen or any partner.</small>
-      </div>
-      <div class="aakali-flow-step">
-        <span>3</span>
-        <strong>Order and track</strong>
-        <small>Add items, checkout, and follow the delivery status.</small>
-      </div>
-    </div>
-  </section>
 
   <!-- Premium Banner Carousel -->
   <div class="swad-banner-carousel" id="swadBannerCarousel">
