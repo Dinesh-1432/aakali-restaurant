@@ -364,15 +364,15 @@
   bottom:16px;
   transform:translateX(-50%);
   z-index:900;
-  border-radius:24px;
-  background:var(--card);
-  border:1px solid var(--border);
-  box-shadow:0 8px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06);
-  padding:6px 8px;
-  gap:2px;
+  border-radius:20px;
+  background:#1a1a1a;
+  border:1px solid rgba(255,255,255,0.08);
+  box-shadow:0 8px 32px rgba(0,0,0,0.4);
+  padding:6px 10px;
+  gap:0;
   align-items:center;
   justify-content:center;
-  transition:transform .35s cubic-bezier(.16,1,.3,1), opacity .25s ease, background .3s ease, border-color .3s ease;
+  transition:transform .35s cubic-bezier(.16,1,.3,1), opacity .25s ease;
 }
 .taskbar {
   display:none;
@@ -383,12 +383,12 @@
   display:flex;
   align-items:center;
   justify-content:center;
-  gap:2px;
+  gap:0;
   width:100%;
 }
 .mobile-taskbar {
   display:none;
-  width:min(380px, calc(100vw - 24px));
+  width:min(400px, calc(100vw - 24px));
 }
 .mobile-taskbar.tb-hidden,
 .taskbar.tb-hidden {
@@ -401,22 +401,22 @@
   appearance:none;
   -webkit-appearance:none;
 }
-/* Taskbar items */
+/* Taskbar items — dark bar with gold accent */
 .tb-item,
 .taskbar-item {
   flex:1 1 0;
-  min-width:56px;
-  min-height:48px;
+  min-width:60px;
+  min-height:52px;
   display:flex;
   flex-direction:column;
   align-items:center;
   justify-content:center;
-  gap:3px;
-  padding:6px 8px;
-  border-radius:16px;
+  gap:4px;
+  padding:8px 6px;
+  border-radius:14px;
   background:transparent;
   border:none;
-  color:var(--muted2);
+  color:rgba(255,255,255,0.45);
   cursor:pointer;
   font-family:'Plus Jakarta Sans',sans-serif;
   position:relative;
@@ -424,114 +424,39 @@
 }
 .tb-item .tb-icon,
 .taskbar-item .tb-icon {
-  width:24px;
-  height:24px;
+  width:22px;
+  height:22px;
   display:flex;
   align-items:center;
   justify-content:center;
-  transition:transform .2s ease;
+  transition:transform .2s ease, color .2s ease;
 }
 .tb-label,
 .taskbar-item span {
-  font-size:.6rem;
+  font-size:.55rem;
   line-height:1;
   font-weight:600;
-  letter-spacing:0.02em;
+  letter-spacing:0.06em;
+  text-transform:uppercase;
   white-space:nowrap;
-}
-.tb-active-dot {
-  width:4px;
-  height:4px;
-  border-radius:50%;
-  background:var(--accent);
-  position:absolute;
-  bottom:4px;
-  left:50%;
-  transform:translateX(-50%) scale(0);
-  transition:transform .25s cubic-bezier(.34,1.56,.64,1);
 }
 .tb-item:hover {
-  color:var(--text2);
-  background:var(--bg2);
+  color:rgba(255,255,255,0.7);
 }
-.tb-item:hover .tb-icon { transform:translateY(-1px); }
 .tb-item.tb-active {
-  color:var(--accent);
+  color:#D4A853;
+  background:rgba(212,168,83,0.1);
+  border:1px solid rgba(212,168,83,0.2);
 }
-.tb-item.tb-active .tb-icon {
-  transform:translateY(-1px);
+.tb-item.tb-active .tb-label {
+  color:#D4A853;
 }
-.tb-item.tb-active .tb-active-dot {
-  transform:translateX(-50%) scale(1);
-}
-/* Center FAB */
-.tb-fab {
-  flex:1 1 0;
-  min-width:64px;
-  min-height:52px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:3px;
-  margin:-20px 2px 0;
-  padding:0;
-  border:0;
-  background:transparent;
-  cursor:pointer;
-  font-family:'Plus Jakarta Sans',sans-serif;
-  color:var(--accent);
-}
-.tb-fab-circle {
-  width:50px;
-  height:50px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  position:relative;
-  color:#fff;
-  background:var(--accent);
-  box-shadow:0 6px 20px rgba(var(--accent-rgb),.35);
-  transition:transform .2s ease, box-shadow .2s ease;
-}
-.tb-fab:hover .tb-fab-circle {
-  transform:translateY(-3px) scale(1.06);
-  box-shadow:0 10px 28px rgba(var(--accent-rgb),.45);
-}
-.tb-fab-label {
-  color:var(--accent);
-  font-size:.58rem;
-  line-height:1;
-  font-weight:700;
-  white-space:nowrap;
-}
-.tb-cart-badge {
-  position:absolute;
-  top:-4px;
-  right:-4px;
-  min-width:18px;
-  height:18px;
-  padding:0 4px;
-  border-radius:9px;
-  background:#fff;
-  color:var(--accent);
-  border:2px solid var(--accent);
-  font-size:.58rem;
-  font-weight:800;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  box-shadow:0 2px 8px rgba(var(--accent-rgb),.3);
-  transition:transform .2s ease;
-}
-.tb-cart-badge.pulse {
-  animation:fabBadgePulse 1s ease-in-out infinite;
-}
-@keyframes fabBadgePulse {
-  0%,100% { transform:scale(1); }
-  50% { transform:scale(1.15); }
-}
+/* No FAB — equal items */
+.tb-fab { display:none; }
+.tb-fab-circle { display:none; }
+.tb-fab-label { display:none; }
+.tb-active-dot { display:none; }
+
 @media(min-width:769px) {
   .taskbar { display:flex; }
   .mobile-taskbar { display:none !important; }
