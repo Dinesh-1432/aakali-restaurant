@@ -22,7 +22,7 @@
 <!-- Razorpay Checkout SDK for premium live payment processing "” async so it never blocks -->
 <script src="https://checkout.razorpay.com/v1/checkout.js" async defer></script>
 <!-- Critical app styles -->
-<link rel="stylesheet" href="css/styles.css?v=13">
+<link rel="stylesheet" href="css/styles.css?v=14">
 </head>
 <body>
 
@@ -223,73 +223,61 @@
     </div>
   </section>
 
-  <section class="aakali-partner-strip" aria-label="Restaurant marketplace highlights">
-    <div>
-      <strong>Restaurant storefronts</strong>
-      <span>Each card opens a dedicated restaurant menu page.</span>
-    </div>
-    <div>
-      <strong>Smart discovery</strong>
-      <span>Filter by cuisine, rating, fastest delivery, veg, and offers.</span>
-    </div>
-    <div>
-      <strong>Unified checkout</strong>
-      <span>Cart, payment, order status, and delivery tracking stay inside Aakali.</span>
+  <!-- What's on your mind? Category Section -->
+  <section class="aakali-categories-section" id="swadCategories">
+    <h2 class="aakali-section-title">What's on your mind?</h2>
+    <div class="aakali-cat-grid">
+      <div class="aakali-cat-item active" data-cat="all" onclick="swadCatFilter('all', this)">
+        <div class="aakali-cat-circle"><span>🍽</span></div>
+        <span class="aakali-cat-name">All</span>
+      </div>
+      <div class="aakali-cat-item" data-cat="biryani" onclick="swadCatFilter('biryani', this)">
+        <div class="aakali-cat-circle"><span>🍚</span></div>
+        <span class="aakali-cat-name">Biryani</span>
+      </div>
+      <div class="aakali-cat-item" data-cat="pizza" onclick="swadCatFilter('pizza', this)">
+        <div class="aakali-cat-circle"><span>🍕</span></div>
+        <span class="aakali-cat-name">Pizza</span>
+      </div>
+      <div class="aakali-cat-item" data-cat="burger" onclick="swadCatFilter('burger', this)">
+        <div class="aakali-cat-circle"><span>🍔</span></div>
+        <span class="aakali-cat-name">Burger</span>
+      </div>
+      <div class="aakali-cat-item" data-cat="south" onclick="swadCatFilter('south', this)">
+        <div class="aakali-cat-circle"><span>🥘</span></div>
+        <span class="aakali-cat-name">South Indian</span>
+      </div>
+      <div class="aakali-cat-item" data-cat="chinese" onclick="swadCatFilter('chinese', this)">
+        <div class="aakali-cat-circle"><span>🥢</span></div>
+        <span class="aakali-cat-name">Chinese</span>
+      </div>
+      <div class="aakali-cat-item" data-cat="dessert" onclick="swadCatFilter('dessert', this)">
+        <div class="aakali-cat-circle"><span>🍨</span></div>
+        <span class="aakali-cat-name">Desserts</span>
+      </div>
+      <div class="aakali-cat-item" data-cat="tandoor" onclick="swadCatFilter('tandoor', this)">
+        <div class="aakali-cat-circle"><span>🔥</span></div>
+        <span class="aakali-cat-name">Tandoor</span>
+      </div>
+      <div class="aakali-cat-item" data-cat="drinks" onclick="swadCatFilter('drinks', this)">
+        <div class="aakali-cat-circle"><span>🥤</span></div>
+        <span class="aakali-cat-name">Drinks</span>
+      </div>
+      <div class="aakali-cat-item" data-cat="north" onclick="swadCatFilter('north', this)">
+        <div class="aakali-cat-circle"><span>🍛</span></div>
+        <span class="aakali-cat-name">North Indian</span>
+      </div>
     </div>
   </section>
 
-  <!-- Category Chips -->
-  <div class="swad-categories" id="swadCategories">
-    <div class="swad-cat-chip active" data-cat="all" onclick="swadCatFilter('all', this)">
-      <span class="swad-cat-emoji">🍽</span>
-      <span class="swad-cat-label">All</span>
-    </div>
-    <div class="swad-cat-chip" data-cat="biryani" onclick="swadCatFilter('biryani', this)">
-      <span class="swad-cat-emoji">🍚</span>
-      <span class="swad-cat-label">Biryani</span>
-    </div>
-    <div class="swad-cat-chip" data-cat="pizza" onclick="swadCatFilter('pizza', this)">
-      <span class="swad-cat-emoji">🍕</span>
-      <span class="swad-cat-label">Pizza</span>
-    </div>
-    <div class="swad-cat-chip" data-cat="burger" onclick="swadCatFilter('burger', this)">
-      <span class="swad-cat-emoji">🍔</span>
-      <span class="swad-cat-label">Burger</span>
-    </div>
-    <div class="swad-cat-chip" data-cat="south" onclick="swadCatFilter('south', this)">
-      <span class="swad-cat-emoji">🥘</span>
-      <span class="swad-cat-label">South Indian</span>
-    </div>
-    <div class="swad-cat-chip" data-cat="chinese" onclick="swadCatFilter('chinese', this)">
-      <span class="swad-cat-emoji">🥢</span>
-      <span class="swad-cat-label">Chinese</span>
-    </div>
-    <div class="swad-cat-chip" data-cat="dessert" onclick="swadCatFilter('dessert', this)">
-      <span class="swad-cat-emoji">🍨</span>
-      <span class="swad-cat-label">Desserts</span>
-    </div>
-    <div class="swad-cat-chip" data-cat="tandoor" onclick="swadCatFilter('tandoor', this)">
-      <span class="swad-cat-emoji">🔥</span>
-      <span class="swad-cat-label">Tandoor</span>
-    </div>
-    <div class="swad-cat-chip" data-cat="drinks" onclick="swadCatFilter('drinks', this)">
-      <span class="swad-cat-emoji">🥤</span>
-      <span class="swad-cat-label">Drinks</span>
-    </div>
-    <div class="swad-cat-chip" data-cat="north" onclick="swadCatFilter('north', this)">
-      <span class="swad-cat-emoji">🍛</span>
-      <span class="swad-cat-label">North Indian</span>
-    </div>
-  </div>
-
-  <!-- Sort / Filter Tabs -->
-  <div class="swad-filter-tabs">
-    <button class="swad-filter-tab active" id="swadTabAll" onclick="swadSortFilter('all', this)">All</button>
-    <button class="swad-filter-tab" id="swadTabRating" onclick="swadSortFilter('rating', this)">⭐ Top Rated</button>
-    <button class="swad-filter-tab" id="swadTabFast" onclick="swadSortFilter('fast', this)">⚡ Fastest</button>
-    <button class="swad-filter-tab" id="swadTabOffer" onclick="swadSortFilter('offer', this)">🞁 Offers</button>
-    <button class="swad-filter-tab" id="swadTabVeg" onclick="swadSortFilter('veg', this)">🥦 Pure Veg</button>
-    <button class="swad-filter-tab" id="swadTabNew" onclick="swadSortFilter('new', this)">✨ New</button>
+  <!-- Filter Tabs -->
+  <div class="aakali-filters" id="aakaliFilters">
+    <button class="aakali-filter-btn active" id="swadTabAll" onclick="swadSortFilter('all', this)">All</button>
+    <button class="aakali-filter-btn" id="swadTabRating" onclick="swadSortFilter('rating', this)">Top Rated</button>
+    <button class="aakali-filter-btn" id="swadTabFast" onclick="swadSortFilter('fast', this)">Fastest</button>
+    <button class="aakali-filter-btn" id="swadTabOffer" onclick="swadSortFilter('offer', this)">Offers</button>
+    <button class="aakali-filter-btn" id="swadTabVeg" onclick="swadSortFilter('veg', this)">Pure Veg</button>
+    <button class="aakali-filter-btn" id="swadTabNew" onclick="swadSortFilter('new', this)">New</button>
   </div>
 
   <!-- Dish Search Results -->

@@ -873,14 +873,14 @@ function renderSwadRestaurants() {
 
 function swadCatFilter(cat, el) {
   swadActiveCat = cat;
-  document.querySelectorAll('.swad-cat-chip').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('.aakali-cat-item').forEach(c => c.classList.remove('active'));
   if (el) el.classList.add('active');
   renderSwadRestaurants();
 }
 
 function swadSortFilter(sort, el) {
   swadActiveSort = sort;
-  document.querySelectorAll('.swad-filter-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.aakali-filter-btn').forEach(t => t.classList.remove('active'));
   if (el) el.classList.add('active');
   renderSwadRestaurants();
 }
