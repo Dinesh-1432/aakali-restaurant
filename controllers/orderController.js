@@ -1080,6 +1080,9 @@ exports.assignRider = async (req, res) => {
     rider.activeOrderId = order._id;
     await rider.save();
 
+    // Generate a 4-digit delivery handover OTP (customer shares it with rider)
+    const deliveryOtp = String(Math.floor(1000 + Math.random() * 9000));
+
     // Create or update Delivery record
     let delivery = await Delivery.findOne({ orderId: order._id });
     if (!delivery) {
@@ -1091,23 +1094,29 @@ exports.assignRider = async (req, res) => {
         dropAddress: `${order.deliveryAddress.street}, ${order.deliveryAddress.city}`,
         dropLat: order.deliveryAddress.lat,
         dropLng: order.deliveryAddress.lng,
-        status: 'assigned'
+        status: 'assigned',
+        deliveryOtp,
+        isOtpVerified: false
       });
     } else {
       delivery.riderId = riderId;
       delivery.status = 'assigned';
+      delivery.deliveryOtp = deliveryOtp;
+      delivery.isOtpVerified = false;
       await delivery.save();
     }
 
     // Emit real-time events
     const io = req.app.get('io');
     if (io) {
+      // Customer room is private — safe to send the OTP here so they can show it to the rider
       io.to(`user_${order.userId._id}`).emit('order_status_update', {
         orderId: order._id,
         orderNumber: order.orderNumber,
         status: 'out_for_delivery',
         riderName: rider.userId?.name,
-        riderPhone: rider.userId?.phone
+        riderPhone: rider.userId?.phone,
+        deliveryOtp
       });
       io.to('admin_room').emit('rider_assigned', {
         orderId: order._id,

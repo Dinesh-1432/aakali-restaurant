@@ -1,4 +1,80 @@
 const Order = require('../models/Order');
+const Delivery = require('../models/Delivery');
+const Rider = require('../models/Rider');
+
+// @desc    Verify delivery OTP and complete the delivery
+// @route   POST /api/delivery/orders/:id/verify-otp
+// @access  Private/Rider/Admin
+exports.verifyDeliveryOtp = async (req, res) => {
+  try {
+    const { otp } = req.body;
+    if (!otp) {
+      return res.status(400).json({ success: false, message: 'OTP is required' });
+    }
+
+    const order = await Order.findById(req.params.id).populate('userId', 'name email');
+    if (!order) {
+      return res.status(404).json({ success: false, message: 'Order not found' });
+    }
+
+    const delivery = await Delivery.findOne({ orderId: order._id });
+    if (!delivery) {
+      return res.status(404).json({ success: false, message: 'No delivery record for this order' });
+    }
+
+    if (!delivery.deliveryOtp) {
+      return res.status(400).json({ success: false, message: 'No delivery OTP was generated for this order' });
+    }
+
+    if (String(otp).trim() !== String(delivery.deliveryOtp).trim()) {
+      return res.status(400).json({ success: false, message: 'Incorrect delivery OTP' });
+    }
+
+    // OTP matches — complete the delivery
+    delivery.isOtpVerified = true;
+    delivery.status = 'delivered';
+    delivery.timeline = delivery.timeline || {};
+    delivery.timeline.deliveredAt = new Date();
+    await delivery.save();
+
+    order.updateStatus('delivered', req.user?.id || null, req.user?.role || 'rider', 'Delivered — OTP verified');
+    order.actualDeliveryTime = new Date();
+    await order.save();
+
+    // Credit rider earnings and free them up for the next order
+    if (delivery.riderId) {
+      const rider = await Rider.findById(delivery.riderId);
+      if (rider) {
+        const earn = (delivery.earningsPaise || 3000) + (delivery.bonusPaise || 0);
+        rider.totalEarningsPaise = (rider.totalEarningsPaise || 0) + earn;
+        rider.todayEarningsPaise = (rider.todayEarningsPaise || 0) + earn;
+        rider.completedDeliveries = (rider.completedDeliveries || 0) + 1;
+        if (String(rider.activeOrderId) === String(order._id)) {
+          rider.activeOrderId = null;
+        }
+        await rider.save();
+      }
+    }
+
+    const io = req.app.get('io');
+    if (io && order.userId) {
+      io.to(`user_${order.userId._id}`).emit('order_status_update', {
+        orderId: order._id,
+        orderNumber: order.orderNumber,
+        status: 'delivered'
+      });
+    }
+
+    res.json({
+      success: true,
+      message: 'Delivery confirmed — OTP verified',
+      data: { orderId: order._id, status: order.status }
+    });
+  } catch (error) {
+    console.error('Verify delivery OTP error:', error);
+    res.status(500).json({ success: false, message: 'Server error verifying delivery OTP' });
+  }
+};
 
 // @desc    Get all orders for delivery
 // @route   GET /api/delivery/orders

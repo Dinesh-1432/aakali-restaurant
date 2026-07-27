@@ -2151,11 +2151,21 @@ function handleRealtimeStatusUpdate(payload) {
     if (typeof liveTrackingInterval !== 'undefined' && liveTrackingInterval) {
       clearInterval(liveTrackingInterval);
     }
+    // Delivery handover OTP — show it so the customer can give it to the rider
+    if (payload.deliveryOtp) {
+      window.aakaliDeliveryOtp = payload.deliveryOtp;
+      showDeliveryOtpBanner(payload.deliveryOtp);
+    }
     const statusTextEl = document.getElementById('liveMapStatusText');
     const statusDescEl = document.querySelector('.ms-left div div:last-child');
     const timeTextEl = document.getElementById('liveMapTimeText');
     if (statusTextEl) statusTextEl.textContent = map.title;
     if (statusDescEl) statusDescEl.textContent = map.desc;
+    // Hide the OTP banner once delivered/cancelled
+    if (payload.status === 'delivered' || payload.status === 'cancelled') {
+      const b = document.getElementById('deliveryOtpBanner');
+      if (b) b.remove();
+    }
     if (timeTextEl) {
       const remaining = Math.max(0, Math.ceil(35 * (1 - map.p / 100)));
       timeTextEl.textContent = payload.status === 'delivered' ? 'Delivered'
@@ -2217,6 +2227,28 @@ function handleRealtimeRiderLocation(payload) {
   }
 }
 
+// Show a prominent delivery-OTP banner on the tracking screen
+function showDeliveryOtpBanner(otp) {
+  const page = document.getElementById('orderSuccessPage');
+  if (!page) return;
+  let banner = document.getElementById('deliveryOtpBanner');
+  if (!banner) {
+    banner = document.createElement('div');
+    banner.id = 'deliveryOtpBanner';
+    banner.style.cssText = 'margin:0 0 1rem;padding:1rem 1.25rem;border-radius:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;display:flex;align-items:center;justify-content:space-between;gap:1rem;box-shadow:0 8px 24px rgba(var(--accent-rgb),0.3)';
+    const map = document.getElementById('orderSuccessRealMap');
+    if (map && map.parentNode) {
+      map.parentNode.insertBefore(banner, map);
+    } else {
+      page.prepend(banner);
+    }
+  }
+  banner.innerHTML =
+    '<div><div style="font-size:.72rem;opacity:.85;font-weight:600;letter-spacing:.05em;text-transform:uppercase">Delivery OTP</div>' +
+    '<div style="font-size:.8rem;opacity:.9;margin-top:2px">Share this code with your rider</div></div>' +
+    '<div style="font-size:2rem;font-weight:800;letter-spacing:.25em;font-variant-numeric:tabular-nums">' + otp + '</div>';
+}
+
 // Boot the realtime bridge once the DOM is ready
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', initRealtimeSocket);
@@ -2236,11 +2268,40 @@ let _riderGeoWatchId = null;
 let _riderSimTimer = null;
 let _riderSharing = false;
 
-function initRider() {
+async function initRider() {
   const nameEl = document.getElementById('riderNameHeader');
   if (nameEl && currentUser) nameEl.textContent = currentUser.name || 'Delivery Partner';
+  await ensureRiderProfile();
   switchRiderTab('available');
   loadRiderOrders();
+}
+
+// Make sure the logged-in rider has a Rider profile and is marked online,
+// so the admin can assign them and GPS streaming has an active order to target.
+async function ensureRiderProfile() {
+  const token = localStorage.getItem('authToken');
+  if (!token) return;
+  try {
+    let res = await fetch(API_BASE_URL + '/api/riders/profile', {
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+    if (res.status === 404) {
+      // Auto-register a rider profile for demo/first-time riders
+      await fetch(API_BASE_URL + '/api/riders/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+        body: JSON.stringify({ vehicleType: 'bike', vehicleNumber: 'TS09AB1234', licenseNumber: 'DL-AAKALI-001' })
+      });
+    }
+    // Go online so the rider is assignable
+    await fetch(API_BASE_URL + '/api/riders/online', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify({ isOnline: true })
+    });
+  } catch (e) {
+    console.warn('ensureRiderProfile failed:', e.message);
+  }
 }
 
 function switchRiderTab(tab) {
@@ -2251,6 +2312,37 @@ function switchRiderTab(tab) {
     if (btn) btn.classList.toggle('active', t === tab);
   });
   if (tab === 'available' || tab === 'active') loadRiderOrders();
+  if (tab === 'earnings') loadRiderEarnings();
+}
+
+async function loadRiderEarnings() {
+  const token = localStorage.getItem('authToken');
+  if (!token) return;
+  try {
+    const res = await fetch(API_BASE_URL + '/api/riders/profile', {
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.message || 'Failed to load earnings');
+    const r = data.data || {};
+    const todayEl = document.getElementById('riderTotalEarnings');
+    const countEl = document.getElementById('riderCompletedCount');
+    if (todayEl) todayEl.textContent = '₹' + ((r.todayEarningsPaise || 0) / 100).toFixed(2);
+    if (countEl) countEl.textContent = (r.completedDeliveries || 0) + ' orders completed';
+
+    const listEl = document.getElementById('riderEarningsList');
+    if (listEl) {
+      const total = (r.totalEarningsPaise || 0) / 100;
+      const rating = r.rating ? r.rating.toFixed(1) : 'New';
+      listEl.innerHTML =
+        '<div class="detail-item-row" style="display:flex;justify-content:space-between;padding:.5rem 0"><span>Lifetime earnings</span><strong>₹' + total.toFixed(2) + '</strong></div>' +
+        '<div class="detail-item-row" style="display:flex;justify-content:space-between;padding:.5rem 0"><span>Completed deliveries</span><strong>' + (r.completedDeliveries || 0) + '</strong></div>' +
+        '<div class="detail-item-row" style="display:flex;justify-content:space-between;padding:.5rem 0"><span>Rating</span><strong>⭐ ' + rating + '</strong></div>' +
+        '<div class="detail-item-row" style="display:flex;justify-content:space-between;padding:.5rem 0"><span>Vehicle</span><strong>' + (r.vehicleType || '—') + '</strong></div>';
+    }
+  } catch (e) {
+    console.warn('loadRiderEarnings failed:', e.message);
+  }
 }
 
 async function loadRiderOrders() {
@@ -2326,8 +2418,37 @@ function riderActiveCard(o) {
       <button id="riderShareLocBtn" onclick="toggleRiderLocationShare()" style="width:100%;background:${_riderSharing ? '#dc2626' : '#4f46e5'};color:#fff;border:none;padding:.7rem;border-radius:8px;font-weight:700;cursor:pointer;margin-bottom:.5rem">
         ${_riderSharing ? '⏹ Stop Sharing Location' : '📡 Share Live Location'}
       </button>
-      <button onclick="riderAdvanceStatus('${o._id}','delivered')" style="width:100%;background:#16a34a;color:#fff;border:none;padding:.7rem;border-radius:8px;font-weight:700;cursor:pointer">✓ Mark as Delivered</button>
+      <div style="display:flex;gap:.5rem;margin-bottom:.5rem">
+        <input id="riderOtpInput" inputmode="numeric" maxlength="4" placeholder="Enter 4-digit OTP" style="flex:1;padding:.7rem;border:1px solid var(--border);border-radius:8px;font-size:1rem;letter-spacing:.2em;text-align:center;font-weight:700"/>
+      </div>
+      <button onclick="riderCompleteDelivery('${o._id}')" style="width:100%;background:#16a34a;color:#fff;border:none;padding:.7rem;border-radius:8px;font-weight:700;cursor:pointer">✓ Verify OTP & Deliver</button>
     </div>`;
+}
+
+async function riderCompleteDelivery(orderId) {
+  const input = document.getElementById('riderOtpInput');
+  const otp = input ? input.value.trim() : '';
+  if (!otp || otp.length !== 4) {
+    if (typeof toast === 'function') toast('Ask the customer for their 4-digit delivery OTP', 'error');
+    return;
+  }
+  const token = localStorage.getItem('authToken');
+  if (!token) return;
+  try {
+    const res = await fetch(API_BASE_URL + '/api/delivery/orders/' + orderId + '/verify-otp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify({ otp })
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.message || 'OTP verification failed');
+    if (typeof toast === 'function') toast('✓ Delivery confirmed!', 'success');
+    stopRiderLocationShare();
+    switchRiderTab('earnings');
+    loadRiderEarnings();
+  } catch (e) {
+    if (typeof toast === 'function') toast(e.message, 'error');
+  }
 }
 
 async function riderAdvanceStatus(orderId, status) {
