@@ -1852,8 +1852,15 @@ function initRealSuccessMap() {
   });
   successDriverMarker = L.marker(routePoints[1], { icon: bikeIcon }).addTo(successMap);
 
+  // Expose to the realtime bridge so live rider GPS can drive this marker
+  window.aakaliRiderMarker = successDriverMarker;
+  window.aakaliTrackMap = successMap;
+  window.aakaliRiderHasRealGps = false;
+
   if (successInterval) clearInterval(successInterval);
   successInterval = setInterval(() => {
+    // Once real GPS from the rider starts arriving, hand control to it
+    if (window.aakaliRiderHasRealGps) { clearInterval(successInterval); successInterval = null; return; }
     step = (step + 1) % routePoints.length;
     const pos = routePoints[step];
     successDriverMarker.setLatLng(pos);
@@ -2188,15 +2195,25 @@ function _moveRiderToProgress(progress) {
   rider.style.top = y + 'px';
 }
 
-// Live rider GPS — updates a real Leaflet marker if one is present
+// Live rider GPS — updates the real Leaflet marker on the tracking map
 function handleRealtimeRiderLocation(payload) {
   if (!payload) return;
   const tid = _trackingOrderId();
-  if (!tid || String(payload.orderId) !== String(tid)) return;
-  if (window.aakaliRiderMarker &&
-      typeof payload.lat === 'number' && typeof payload.lng === 'number') {
+  // If we know the tracked order, only accept its updates; otherwise accept anyway
+  if (tid && payload.orderId && String(payload.orderId) !== String(tid)) return;
+  if (typeof payload.lat !== 'number' || typeof payload.lng !== 'number') return;
+
+  // Hand marker control from the simulation to real GPS
+  window.aakaliRiderHasRealGps = true;
+
+  if (window.aakaliRiderMarker) {
     window.aakaliRiderMarker.setLatLng([payload.lat, payload.lng]);
     if (window.aakaliTrackMap) window.aakaliTrackMap.panTo([payload.lat, payload.lng]);
+  }
+  // Also nudge the SVG fallback node if the Leaflet map isn't the active view
+  const statusTextEl = document.getElementById('liveMapStatusText');
+  if (statusTextEl && !window.aakaliRiderMarker) {
+    statusTextEl.textContent = 'Rider is on the way';
   }
 }
 
@@ -2205,4 +2222,191 @@ if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', initRealtimeSocket);
 } else {
   initRealtimeSocket();
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// RIDER DELIVERY FLOW + LIVE GPS STREAMING
+// Makes the customer's live map marker actually move: the rider shares
+// real device GPS (or a simulated route) which streams to the server and
+// out to the customer over sockets.
+// ═══════════════════════════════════════════════════════════════════
+let _riderOrders = [];
+let _riderActiveOrder = null;
+let _riderGeoWatchId = null;
+let _riderSimTimer = null;
+let _riderSharing = false;
+
+function initRider() {
+  const nameEl = document.getElementById('riderNameHeader');
+  if (nameEl && currentUser) nameEl.textContent = currentUser.name || 'Delivery Partner';
+  switchRiderTab('available');
+  loadRiderOrders();
+}
+
+function switchRiderTab(tab) {
+  ['available', 'active', 'earnings'].forEach(t => {
+    const sec = document.getElementById('rider-sec-' + t);
+    const btn = document.getElementById('tab-rider-' + t);
+    if (sec) sec.style.display = t === tab ? 'block' : 'none';
+    if (btn) btn.classList.toggle('active', t === tab);
+  });
+  if (tab === 'available' || tab === 'active') loadRiderOrders();
+}
+
+async function loadRiderOrders() {
+  const token = localStorage.getItem('authToken');
+  if (!token) return;
+  try {
+    const res = await fetch(API_BASE_URL + '/api/delivery/orders', {
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.message || 'Failed to load orders');
+    _riderOrders = data.data || [];
+    renderRiderOrders();
+  } catch (e) {
+    console.warn('loadRiderOrders failed:', e.message);
+    const list = document.getElementById('riderAvailableList');
+    if (list) list.innerHTML = '<div class="rider-card" style="text-align:center;color:var(--muted)">Could not load orders. Pull to refresh.</div>';
+  }
+}
+
+function renderRiderOrders() {
+  // Active = the order assigned to this rider (out_for_delivery). Available = ready/preparing/confirmed.
+  const active = _riderOrders.filter(o => o.status === 'out_for_delivery');
+  const available = _riderOrders.filter(o => ['confirmed', 'preparing', 'ready'].includes(o.status));
+
+  const availBtn = document.getElementById('tab-rider-available');
+  if (availBtn) availBtn.textContent = `Available (${available.length})`;
+
+  const availList = document.getElementById('riderAvailableList');
+  if (availList) {
+    availList.innerHTML = available.length ? available.map(riderOrderCard).join('')
+      : '<div class="rider-card" style="text-align:center;color:var(--muted)">No orders waiting for pickup right now.</div>';
+  }
+
+  const activeWrap = document.getElementById('riderActiveTaskContainer');
+  if (activeWrap) {
+    _riderActiveOrder = active[0] || null;
+    activeWrap.innerHTML = active.length ? active.map(o => riderActiveCard(o)).join('')
+      : '<div class="rider-card" style="text-align:center;color:var(--muted)">No active delivery. Accept an order from the Available tab.</div>';
+  }
+}
+
+function riderOrderCard(o) {
+  const addr = o.deliveryAddress ? o.deliveryAddress.fullAddress : '';
+  const total = o.orderDetails ? o.orderDetails.totalRupees : 0;
+  return `
+    <div class="rider-card">
+      <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:.5rem">
+        <div>
+          <strong>#${o.orderNumber || ''}</strong>
+          <div style="font-size:.78rem;color:var(--muted)">${o.customer ? o.customer.name : ''}</div>
+        </div>
+        <span style="background:var(--accent-light);color:var(--accent);padding:2px 8px;border-radius:6px;font-size:.7rem;font-weight:700;text-transform:uppercase">${o.status}</span>
+      </div>
+      <div style="font-size:.8rem;color:var(--text2);margin-bottom:.5rem">📍 ${addr}</div>
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <strong>₹${Number(total).toFixed(2)}</strong>
+        <button onclick="riderAdvanceStatus('${o._id}','out_for_delivery')" style="background:var(--accent);color:#fff;border:none;padding:.5rem 1rem;border-radius:8px;font-weight:700;cursor:pointer">Accept & Pick Up</button>
+      </div>
+    </div>`;
+}
+
+function riderActiveCard(o) {
+  const addr = o.deliveryAddress ? o.deliveryAddress.fullAddress : '';
+  return `
+    <div class="rider-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.6rem">
+        <strong>#${o.orderNumber || ''}</strong>
+        <span style="background:#16a34a;color:#fff;padding:2px 8px;border-radius:6px;font-size:.7rem;font-weight:700">OUT FOR DELIVERY</span>
+      </div>
+      <div style="font-size:.82rem;color:var(--text2);margin-bottom:.4rem">👤 ${o.customer ? o.customer.name : ''} · ${o.customer ? (o.customer.phone||'') : ''}</div>
+      <div style="font-size:.82rem;color:var(--text2);margin-bottom:.8rem">📍 ${addr}</div>
+      <button id="riderShareLocBtn" onclick="toggleRiderLocationShare()" style="width:100%;background:${_riderSharing ? '#dc2626' : '#4f46e5'};color:#fff;border:none;padding:.7rem;border-radius:8px;font-weight:700;cursor:pointer;margin-bottom:.5rem">
+        ${_riderSharing ? '⏹ Stop Sharing Location' : '📡 Share Live Location'}
+      </button>
+      <button onclick="riderAdvanceStatus('${o._id}','delivered')" style="width:100%;background:#16a34a;color:#fff;border:none;padding:.7rem;border-radius:8px;font-weight:700;cursor:pointer">✓ Mark as Delivered</button>
+    </div>`;
+}
+
+async function riderAdvanceStatus(orderId, status) {
+  const token = localStorage.getItem('authToken');
+  if (!token) return;
+  try {
+    const res = await fetch(API_BASE_URL + '/api/delivery/orders/' + orderId + '/status', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify({ status, note: 'Updated by rider' })
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.message || 'Status update failed');
+    if (typeof toast === 'function') toast('Order marked ' + status.replace(/_/g, ' '), 'success');
+    if (status === 'out_for_delivery') switchRiderTab('active');
+    if (status === 'delivered') { stopRiderLocationShare(); switchRiderTab('available'); }
+    loadRiderOrders();
+  } catch (e) {
+    if (typeof toast === 'function') toast(e.message, 'error');
+  }
+}
+
+function toggleRiderLocationShare() {
+  if (_riderSharing) { stopRiderLocationShare(); }
+  else { startRiderLocationShare(); }
+  renderRiderOrders();
+}
+
+function startRiderLocationShare() {
+  _riderSharing = true;
+  if (typeof toast === 'function') toast('📡 Sharing live location with customer', 'info');
+
+  if (navigator.geolocation) {
+    _riderGeoWatchId = navigator.geolocation.watchPosition(
+      pos => pushRiderLocation(pos.coords.latitude, pos.coords.longitude),
+      err => {
+        console.warn('Geolocation denied/failed, using simulated route:', err.message);
+        startSimulatedRoute();
+      },
+      { enableHighAccuracy: true, maximumAge: 2000, timeout: 8000 }
+    );
+  } else {
+    startSimulatedRoute();
+  }
+}
+
+// Fallback: walk a realistic Hyderabad route, streaming REAL coords to the API
+function startSimulatedRoute() {
+  const route = [
+    [17.4486, 78.3908], [17.4470, 78.3955], [17.4448, 78.4010],
+    [17.4425, 78.4075], [17.4408, 78.4160], [17.4396, 78.4260],
+    [17.4388, 78.4370], [17.4375, 78.4482]
+  ];
+  let i = 0;
+  if (_riderSimTimer) clearInterval(_riderSimTimer);
+  _riderSimTimer = setInterval(() => {
+    if (i >= route.length) { clearInterval(_riderSimTimer); _riderSimTimer = null; return; }
+    pushRiderLocation(route[i][0], route[i][1]);
+    i++;
+  }, 4000);
+}
+
+async function pushRiderLocation(lat, lng) {
+  const token = localStorage.getItem('authToken');
+  if (!token) return;
+  try {
+    await fetch(API_BASE_URL + '/api/riders/location', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify({ lat, lng })
+    });
+  } catch (e) { /* best-effort */ }
+}
+
+function stopRiderLocationShare() {
+  _riderSharing = false;
+  if (_riderGeoWatchId !== null && navigator.geolocation) {
+    navigator.geolocation.clearWatch(_riderGeoWatchId);
+    _riderGeoWatchId = null;
+  }
+  if (_riderSimTimer) { clearInterval(_riderSimTimer); _riderSimTimer = null; }
 }

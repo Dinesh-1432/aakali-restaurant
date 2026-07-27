@@ -3065,6 +3065,7 @@ function routeByRole(user) {
     const kp = document.getElementById('kdsPanel'); if (kp) kp.style.display = 'flex';
   } else if (user.role === 'rider') {
     const rp = document.getElementById('riderPanel'); if (rp) rp.style.display = 'flex';
+    if (typeof initRider === 'function') initRider();
   } else {
     if (typeof initUser === 'function') initUser();
   }
@@ -7876,7 +7877,7 @@ function contactSupportOption(type) {
   </div>
 </div>
 
-<script src="js/main.js?v=36" defer></script>
+<script src="js/main.js?v=37" defer></script>
 </body>
 </html>
  
