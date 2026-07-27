@@ -1771,11 +1771,6 @@ const _taskbarShowSection = showSection;
 showSection = function(section) {
   _taskbarShowSection(section);
   if (section === 'orders' || section === 'profile') _activeTab = section;
-  if (section === 'orders') {
-    setTimeout(() => {
-      initSwiggyDriverTelemetry();
-    }, 150);
-  }
   renderAppTaskbar();
 };
 
@@ -1881,108 +1876,6 @@ window.addEventListener('load', () => {
     successObserver.observe(page, { attributes: true, attributeFilter: ['style'] });
   }
 });
-
-// ============================================================
-// SWIGGY LIVE GPS DRIVER TELEMETRY ENGINE (LEAFLET.JS)
-// ============================================================
-let telemetryMap = null;
-let telemetryDriverMarker = null;
-let telemetryPolyline = null;
-let telemetryInterval = null;
-
-function initSwiggyDriverTelemetry() {
-  const mapEl = document.getElementById('liveDriverMap');
-  if (!mapEl || typeof L === 'undefined') return;
-
-  // Cleanup existing map instance
-  if (telemetryMap) {
-    try { telemetryMap.remove(); } catch(e){}
-    telemetryMap = null;
-  }
-
-  // Coordinates: Madhapur, Hyderabad
-  const restCoords = [17.4486, 78.3908];   // Udipi Vihar Madhapur
-  const userCoords = [17.4375, 78.4482];   // Customer Delivery Address
-  
-  // Route trajectory steps
-  const routePoints = [
-    [17.4486, 78.3908],
-    [17.4460, 78.3960],
-    [17.4430, 78.4030],
-    [17.4410, 78.4120],
-    [17.4395, 78.4250],
-    [17.4385, 78.4360],
-    [17.4375, 78.4482]
-  ];
-
-  let currentStep = 1;
-
-  // Initialize Leaflet Map
-  telemetryMap = L.map('liveDriverMap', {
-    zoomControl: false
-  }).setView([17.4430, 78.4150], 13);
-
-  // Tile layer (CartoDB Positron clean map tiles)
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-    subdomains: 'abcd',
-    maxZoom: 19
-  }).addTo(telemetryMap);
-
-  // Restaurant Marker
-  const restIcon = L.divIcon({
-    html: '<div style="font-size:20px;background:#fff;border:2px solid #fc8019;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 10px rgba(0,0,0,0.3)">🏬</div>',
-    className: '',
-    iconSize: [36, 36],
-    iconAnchor: [18, 18]
-  });
-  L.marker(restCoords, { icon: restIcon }).addTo(telemetryMap).bindPopup('<b>Udipi Vihar</b><br/>Restaurant');
-
-  // User Home Marker
-  const homeIcon = L.divIcon({
-    html: '<div style="font-size:20px;background:#fff;border:2px solid #16a34a;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 10px rgba(0,0,0,0.3)">🏠</div>',
-    className: '',
-    iconSize: [36, 36],
-    iconAnchor: [18, 18]
-  });
-  L.marker(userCoords, { icon: homeIcon }).addTo(telemetryMap).bindPopup('<b>Delivery Address</b><br/>Madhapur, Hyderabad');
-
-  // Polyline Route
-  telemetryPolyline = L.polyline(routePoints, {
-    color: '#fc8019',
-    weight: 4,
-    opacity: 0.8,
-    dashArray: '8, 8'
-  }).addTo(telemetryMap);
-
-  // Live Driver Bike Marker
-  const bikeIcon = L.divIcon({
-    html: '<div style="font-size:22px;background:#16a34a;color:#fff;border-radius:50%;width:42px;height:42px;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(22,163,74,0.5);border:2px solid #fff">🛵</div>',
-    className: '',
-    iconSize: [42, 42],
-    iconAnchor: [21, 21]
-  });
-  telemetryDriverMarker = L.marker(routePoints[1], { icon: bikeIcon }).addTo(telemetryMap);
-
-  // Start Real-Time Driver Telemetry Loop
-  if (telemetryInterval) clearInterval(telemetryInterval);
-  telemetryInterval = setInterval(() => {
-    currentStep = (currentStep + 1) % routePoints.length;
-    const pos = routePoints[currentStep];
-    telemetryDriverMarker.setLatLng(pos);
-    telemetryMap.panTo(pos);
-
-    // Update telemetry live stats
-    const remainingKm = ((routePoints.length - 1 - currentStep) * 0.45).toFixed(1);
-    const etaMins = Math.max(2, Math.round(remainingKm * 4.5));
-    const speed = Math.floor(22 + Math.random() * 8);
-
-    const etaEl = document.getElementById('telemetryEtaVal');
-    const statsEl = document.getElementById('tdbStatsText');
-
-    if (etaEl) etaEl.textContent = `${etaMins} mins`;
-    if (statsEl) statsEl.textContent = `📍 ${remainingKm} km away • 🕐 Speed ${speed} km/h`;
-  }, 3500);
-}
 
 const _taskbarBackToMenu = backToMenu;
 backToMenu = function() {
