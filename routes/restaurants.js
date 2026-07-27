@@ -7,6 +7,7 @@ const { protect, authorize } = require('../middleware/auth');
 router.get('/', restaurantController.getAllRestaurants);
 router.get('/:id', restaurantController.getRestaurantById);
 router.get('/:id/menu', restaurantController.getRestaurantMenu);
+router.get('/:id/reviews', restaurantController.getRestaurantReviews);
 
 // Protected routes (Admin / Restaurant Admin)
 router.post('/', protect, authorize('admin', 'super_admin'), restaurantController.createRestaurant);

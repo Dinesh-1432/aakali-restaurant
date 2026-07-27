@@ -657,6 +657,39 @@ exports.rateOrder = async (req, res) => {
     order.review = review;
     await order.save();
 
+    // ─── Aggregate the rating onto the restaurant ───
+    // Recompute the average from ALL rated orders for this restaurant so the
+    // figure never drifts and re-rating the same order can't double-count.
+    try {
+      const agg = await Order.aggregate([
+        { $match: { restaurantId: order.restaurantId, rating: { $gte: 1 } } },
+        { $group: { _id: '$restaurantId', avg: { $avg: '$rating' }, count: { $sum: 1 } } }
+      ]);
+      if (agg.length) {
+        await Restaurant.findByIdAndUpdate(order.restaurantId, {
+          rating: Math.round(agg[0].avg * 10) / 10,
+          ratingCount: agg[0].count
+        });
+      }
+
+      // Also aggregate onto each menu item in the order (all get the order rating)
+      for (const item of order.items) {
+        if (!item.menuItemId) continue;
+        const miAgg = await Order.aggregate([
+          { $match: { rating: { $gte: 1 }, 'items.menuItemId': item.menuItemId } },
+          { $group: { _id: null, avg: { $avg: '$rating' }, count: { $sum: 1 } } }
+        ]);
+        if (miAgg.length) {
+          await MenuItem.findByIdAndUpdate(item.menuItemId, {
+            rating: Math.round(miAgg[0].avg * 10) / 10,
+            ratingCount: miAgg[0].count
+          });
+        }
+      }
+    } catch (aggErr) {
+      console.error('Rating aggregation failed (non-fatal):', aggErr);
+    }
+
     res.json({
       success: true,
       message: 'Feedback submitted successfully',

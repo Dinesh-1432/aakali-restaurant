@@ -64,6 +64,47 @@ exports.getRestaurantById = async (req, res) => {
   }
 };
 
+// @desc    Get reviews for a restaurant (from rated, delivered orders)
+// @route   GET /api/restaurants/:id/reviews
+// @access  Public
+exports.getRestaurantReviews = async (req, res) => {
+  try {
+    const Order = require('../models/Order');
+    const orders = await Order.find({
+      restaurantId: req.params.id,
+      rating: { $gte: 1 }
+    })
+      .populate('userId', 'name')
+      .sort({ updatedAt: -1 })
+      .limit(50)
+      .select('rating review userId updatedAt');
+
+    const reviews = orders.map(o => ({
+      rating: o.rating,
+      review: o.review || '',
+      user: o.userId?.name || 'Aakali Customer',
+      date: o.updatedAt
+    }));
+
+    const avg = reviews.length
+      ? Math.round((reviews.reduce((s, r) => s + r.rating, 0) / reviews.length) * 10) / 10
+      : 0;
+
+    res.json({
+      success: true,
+      count: reviews.length,
+      average: avg,
+      data: reviews
+    });
+  } catch (error) {
+    console.error('Error fetching reviews:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error fetching reviews'
+    });
+  }
+};
+
 // @desc    Get restaurant menu items
 // @route   GET /api/restaurants/:id/menu
 // @access  Public

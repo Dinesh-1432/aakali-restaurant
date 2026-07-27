@@ -5135,6 +5135,81 @@ function saveAddressList(list) {
   localStorage.setItem(SAVED_ADDRESS_KEY, JSON.stringify(list));
 }
 
+// ── Address API sync (persist across devices; localStorage stays the cache) ──
+function _isRealToken() {
+  const t = localStorage.getItem('authToken');
+  return t && !t.startsWith('mock') && !t.startsWith('offline');
+}
+
+function _addrToApiPayload(addr) {
+  const t = (addr.type || 'home').toLowerCase();
+  const label = ['home', 'work', 'other'].includes(t) ? t : 'other';
+  return {
+    label,
+    customLabel: label === 'other' ? (addr.type || '') : '',
+    street: addr.line1 || '',
+    area: addr.line2 || '',
+    city: addr.city || '',
+    state: addr.state || '',
+    pincode: addr.pincode || ''
+  };
+}
+
+function _apiToLocalAddr(a) {
+  const label = a.customLabel || (a.label ? a.label.charAt(0).toUpperCase() + a.label.slice(1) : 'Home');
+  return {
+    id: 'api-' + a._id,
+    apiId: a._id,
+    type: label,
+    name: currentUser?.name || '',
+    phone: normalizePhoneNumber(currentUser?.phone) || currentUser?.phone || '',
+    email: currentUser?.email || '',
+    line1: a.street || '',
+    line2: a.area || '',
+    city: a.city || '',
+    pincode: a.pincode || '',
+    state: a.state || '',
+    isDefault: !!a.isDefault
+  };
+}
+
+async function syncAddressesFromApi() {
+  if (!_isRealToken()) return;
+  const token = localStorage.getItem('authToken');
+  try {
+    const res = await fetch(API_BASE_URL + '/api/addresses', {
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok || !Array.isArray(data.data) || !data.data.length) return;
+    const apiAddrs = data.data.map(_apiToLocalAddr);
+    // Keep any purely-local addresses that were never pushed to the API
+    const localOnly = getSavedAddresses().filter(a => !a.apiId && a.line1 !== 'Current location');
+    saveAddressList([...apiAddrs, ...localOnly]);
+    const def = apiAddrs.find(a => a.isDefault) || apiAddrs[0];
+    if (def) {
+      selectedAddressId = def.id;
+      localStorage.setItem('aakali_selected_address', def.id);
+    }
+    if (typeof renderSavedAddresses === 'function') renderSavedAddresses();
+  } catch (e) { /* offline — keep the local cache */ }
+}
+
+async function pushAddressToApi(addr) {
+  if (!_isRealToken()) return null;
+  const token = localStorage.getItem('authToken');
+  try {
+    const res = await fetch(API_BASE_URL + '/api/addresses', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify(_addrToApiPayload(addr))
+    });
+    const data = await res.json().catch(() => ({}));
+    if (res.ok && data.data) return data.data._id;
+  } catch (e) { /* best-effort */ }
+  return null;
+}
+
 function makeDefaultAddress() {
   const cached = localStorage.getItem('swad_detected_location');
   let loc = {};
@@ -5250,6 +5325,13 @@ function saveNewAddress() {
   toggleNewAddressForm(false);
   renderSavedAddresses();
   toast('Address saved for checkout', 'success');
+
+  // Persist to the backend so it syncs across devices (best-effort)
+  pushAddressToApi(addr).then(apiId => {
+    if (!apiId) return;
+    const updated = getSavedAddresses().map(a => a.id === addr.id ? { ...a, apiId } : a);
+    saveAddressList(updated);
+  });
 }
 
 function selectPayMethod(el){
@@ -5261,6 +5343,7 @@ function selectPayMethod(el){
 function goToCheckout(){
   if(!cart.length){toast('Cart is empty!','error');return}
   renderLoveableCheckoutPage();
+  if (typeof syncAddressesFromApi === 'function') syncAddressesFromApi();
   const cd = document.getElementById('cartDrawer');
   if(cd) cd.classList.remove('open');
   const co = document.getElementById('cartOverlay');
