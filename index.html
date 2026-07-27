@@ -15,10 +15,32 @@
 <!-- Lucide Icons "” defer to not block initial render -->
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
+<!-- Leaflet.js Interactive Map for Live GPS Driver Telemetry -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<!-- Socket.IO client for real-time order status + live rider tracking -->
+<script src="/socket.io/socket.io.js" defer></script>
 <!-- Critical app styles -->
-<link rel="stylesheet" href="css/styles.css?v=21">
+<link rel="stylesheet" href="css/styles.css?v=34">
 </head>
 <body>
+
+<!-- SWIGGY-STYLE OPENING SPLASH SCREEN LOGO ANIMATION -->
+<div id="swiggyOpeningSplash" class="swiggy-splash-overlay">
+  <div class="swiggy-splash-content">
+    <div class="swiggy-splash-logo-wrap">
+      <div class="swiggy-splash-glow"></div>
+      <img src="Logo.png" alt="Aakali Logo" class="swiggy-splash-logo-img" onerror="this.onerror=null; this.src='public/Logo.png';"/>
+    </div>
+    <h1 class="swiggy-splash-title">AAK<span>ALI</span></h1>
+    <p class="swiggy-splash-tagline">Vibrant Flavors, Delivered Fast ⚡</p>
+
+    <!-- Swiggy-style animated loading line -->
+    <div class="swiggy-splash-progress">
+      <div class="swiggy-splash-bar"></div>
+    </div>
+  </div>
+</div>
 
 <!-- ===== AUTH SCREEN ===== -->
 <div id="authScreen">
@@ -150,84 +172,58 @@
 
 <!-- ===== SWAD HOME "” MULTI-RESTAURANT LISTING ===== -->
 <div id="swadHome">
-  <!-- Navbar -->
-  <nav class="swad-nav" id="swadNav">
-    <!-- Brand -->
-    <div class="swad-nav-brand" onclick="backToSwadHome()">
-      <div class="swad-nav-brand-logo">
-        <!-- Premium flame icon with inner detail -->
-        <svg viewBox="0 0 24 24" fill="none" style="width:18px;height:18px">
-          <path d="M12 2C8.5 6 6 9.5 6 13a6 6 0 0012 0c0-3.5-2.5-7-6-11z" fill="#fff" opacity="0.9"/>
-          <path d="M12 6c-2 2.5-3 4.5-3 6.5a3 3 0 006 0c0-2-1-4-3-6.5z" fill="currentColor" opacity="0.3"/>
-        </svg>
-      </div>
-      <div class="swad-nav-brand-text">AAK<span>ALI</span></div>
-    </div>
-
-    <!-- Location with filled pin -->
-    <div class="swad-nav-loc" onclick="openSwadLocDropdown()">
-      <svg viewBox="0 0 24 24" style="width:15px;height:15px">
-        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="currentColor" opacity="0.85"/>
-        <circle cx="12" cy="9" r="2.5" fill="#fff"/>
-      </svg>
-      <span id="swadNavLoc">Hyderabad</span>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:10px;height:10px"><polyline points="6 9 12 15 18 9"/></svg>
-    </div>
-
-    <!-- Search with premium magnifier -->
-    <div class="swad-search-wrap">
-      <span class="swad-search-icon">
-        <svg viewBox="0 0 24 24" fill="none" style="width:16px;height:16px">
-          <circle cx="10.5" cy="10.5" r="7" stroke="currentColor" stroke-width="2.2"/>
-          <path d="M15.5 15.5L21 21" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-        </svg>
-      </span>
-      <input type="text" id="swadHomeSearch" placeholder="Search for Biryani..." oninput="swadHomeFilter(this.value)" autocomplete="off"/>
-    </div>
-
-    <!-- Right: toggle + cart + profile -->
-    <div class="swad-nav-right">
-      <!-- Sliding Theme Toggle with premium icons -->
-      <div class="swad-toggle-pill" id="themeTogglePill" onclick="toggleTheme()">
-        <div class="swad-toggle-slider" id="themeToggleSlider"></div>
-        <span class="swad-toggle-icon swad-toggle-sun">
-          <!-- Filled sun with rays -->
-          <svg viewBox="0 0 24 24" style="width:14px;height:14px">
-            <circle cx="12" cy="12" r="4.5" fill="currentColor"/>
-            <g stroke="currentColor" stroke-width="2" stroke-linecap="round">
-              <line x1="12" y1="1.5" x2="12" y2="3.5"/>
-              <line x1="12" y1="20.5" x2="12" y2="22.5"/>
-              <line x1="4.2" y1="4.2" x2="5.6" y2="5.6"/>
-              <line x1="18.4" y1="18.4" x2="19.8" y2="19.8"/>
-              <line x1="1.5" y1="12" x2="3.5" y2="12"/>
-              <line x1="20.5" y1="12" x2="22.5" y2="12"/>
-              <line x1="4.2" y1="19.8" x2="5.6" y2="18.4"/>
-              <line x1="18.4" y1="5.6" x2="19.8" y2="4.2"/>
-            </g>
-          </svg>
-        </span>
-        <span class="swad-toggle-icon swad-toggle-moon">
-          <!-- Crescent moon with star -->
-          <svg viewBox="0 0 24 24" style="width:14px;height:14px">
-            <path d="M20.35 11.35a8 8 0 01-9.7-9.7A8.5 8.5 0 1020.35 11.35z" fill="currentColor"/>
-            <circle cx="18" cy="5" r="1" fill="currentColor" opacity="0.7"/>
-            <circle cx="20" cy="8" r="0.6" fill="currentColor" opacity="0.5"/>
-          </svg>
-        </span>
+  <!-- Swiggy Official Top Header (Main Marketplace) -->
+  <nav class="swiggy-top-header" id="swadNav">
+    <!-- LEFT: Brand + Location (Side-by-Side) -->
+    <div class="swiggy-header-left">
+      <div class="swiggy-brand-logo" onclick="backToSwadHome()">
+        <img src="Logo.png" alt="Aakali Logo" class="swiggy-header-logo-img" onerror="this.onerror=null; this.src='public/Logo.png';"/>
+        <span class="swiggy-logo-title">AAKALI</span>
       </div>
 
-      <!-- Premium shopping bag icon -->
-      <button class="swad-nav-cart" id="swadNavCart" onclick="openCart()">
-        <svg viewBox="0 0 24 24" style="width:20px;height:20px">
-          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
-          <path d="M3 6h18" stroke="currentColor" stroke-width="1.8"/>
-          <path d="M16 10a4 4 0 01-8 0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-        </svg>
-        <span class="swad-cart-badge" id="swadNavCartBadge">0</span>
+      <div class="swiggy-header-loc" onclick="openSwadLocDropdown()" title="Click to change location">
+        <span class="swiggy-loc-tag">Other</span>
+        <span class="swiggy-loc-name" id="swadNavLoc">Madhapur, Hyderabad</span>
+        <i data-lucide="chevron-down" style="width:14px;height:14px;color:var(--accent)"></i>
+      </div>
+    </div>
+
+    <!-- CENTER: Search Input -->
+    <div class="swiggy-header-center">
+      <div class="swiggy-header-search-wrap">
+        <i data-lucide="search" style="width:16px;height:16px" class="swiggy-search-icon"></i>
+        <input type="text" id="swadHomeSearch" placeholder="Search for restaurant, cuisine or a dish..." oninput="swadHomeFilter(this.value)" autocomplete="off"/>
+      </div>
+    </div>
+
+    <!-- RIGHT: Offers, Orders, Cart, Theme, Profile -->
+    <div class="swiggy-header-right">
+      <button class="swiggy-nav-item" onclick="showMarketplaceDeals()">
+        <i data-lucide="percent" style="width:18px;height:18px"></i>
+        <span>Offers</span>
+        <span class="swiggy-new-chip">NEW</span>
       </button>
 
-      <!-- Profile avatar -->
-      <button class="swad-nav-user-btn" id="swadNavUserBtn" onclick="swadUserMenu()"></button>
+      <button class="swiggy-nav-item" onclick="showSection('orders')">
+        <i data-lucide="package" style="width:18px;height:18px"></i>
+        <span>Orders</span>
+      </button>
+
+      <button class="swiggy-nav-item swiggy-nav-cart-btn" onclick="openCart()">
+        <div style="position:relative;">
+          <i data-lucide="shopping-bag" style="width:20px;height:20px"></i>
+          <span class="swiggy-cart-badge-num" id="swadNavCartBadge">0</span>
+        </div>
+        <span>Cart</span>
+      </button>
+
+      <div class="swad-toggle-pill" id="themeTogglePill" onclick="toggleTheme()" title="Switch theme">
+        <div class="swad-toggle-slider" id="themeToggleSlider"></div>
+        <span class="swad-toggle-icon swad-toggle-sun">☀️</span>
+        <span class="swad-toggle-icon swad-toggle-moon">🌙</span>
+      </div>
+
+      <div class="swiggy-nav-user" onclick="swadUserMenu()" id="swadNavUserBtn">A</div>
     </div>
   </nav>
 
@@ -1036,7 +1032,7 @@
   <nav class="user-navbar">
     <!-- Brand Container (Vertical Flex) -->
     <div class="brand-container">
-      <div class="user-brand" onclick="backToMenu()">
+      <div class="user-brand" id="userBrandBox" onclick="backToMenu()">
         <div class="brand-logo-box">
           <i data-lucide="chef-hat" style="width:18px;height:18px;color:#fff"></i>
         </div>
@@ -1044,6 +1040,17 @@
         <div class="brand-dot"></div>
       </div>
       
+      <!-- Restaurant Nav Box (shown when browsing a specific restaurant) -->
+      <div class="user-rest-nav" id="userRestNavBox" style="display:none;">
+        <button class="rdh-back-btn" onclick="backToSwadHome()" title="Back to restaurants">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:18px;height:18px"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+        </button>
+        <div class="user-rest-info">
+          <div class="user-rest-name" id="userNavRestName">Restaurant</div>
+          <div class="user-rest-meta" id="userNavRestMeta">Cuisine</div>
+        </div>
+      </div>
+
       <!-- Location pill -->
       <div class="nav-location" id="navLocationBtn" onclick="toggleLocationDropdown(event)" title="Click to change location">
         <i data-lucide="map-pin" class="loc-icon"></i>
@@ -1153,10 +1160,84 @@
     </div>
   </section>
 
-  <div class="offer-strip">
-    <p><i data-lucide="gift" style="width:16px;height:16px;vertical-align:middle;margin-right:4px"></i> <b>First order?</b> Get 20% off!</p>
-    <span class="offer-code-chip">SVAD20</span>
-    <p>Free delivery on orders above ₹299</p>
+  <!-- SWIGGY RESTAURANT HERO CARD & BREADCRUMBS -->
+  <div class="swiggy-rest-hero-wrap" id="swiggyRestHeroWrap" style="display:none;">
+    <div class="swiggy-breadcrumb">
+      <a onclick="backToSwadHome()">Home</a>
+      <span class="swiggy-breadcrumb-sep">/</span>
+      <span id="swiggyBreadcrumbLoc">Hyderabad</span>
+      <span class="swiggy-breadcrumb-sep">/</span>
+      <span id="swiggyBreadcrumbName" style="color:var(--text);font-weight:700;">Restaurant</span>
+    </div>
+    
+    <div class="swiggy-rest-card-box">
+      <div class="swiggy-rest-header-row">
+        <div>
+          <div class="swiggy-rest-title-text" id="swiggyHeroRestName">Restaurant Name</div>
+          <div class="swiggy-rest-sub-meta" id="swiggyHeroRestCuisine">Cuisine Tags</div>
+          <div class="swiggy-rest-sub-meta" id="swiggyHeroRestOutlet" style="opacity:0.8;">📍 Outlet: Madhapur • 🕐 25–35 mins</div>
+        </div>
+        <div style="text-align:right;">
+          <div class="swiggy-rest-rating-pill" id="swiggyHeroRestRating">★ 4.5</div>
+          <div style="font-size:0.75rem;color:var(--muted);font-weight:700;margin-top:4px;" id="swiggyHeroPriceForTwo">₹200 for two</div>
+        </div>
+      </div>
+      
+      <div class="swiggy-coupons-strip" id="swiggyHeroCoupons">
+        <div class="swiggy-coupon-chip">🏷️ 40% OFF up to ₹80 | Use SWAD40</div>
+        <div class="swiggy-coupon-chip">🚚 FREE DELIVERY on orders above ₹299</div>
+        <div class="swiggy-coupon-chip">⚡ FAST DELIVERY (~25 min)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SWIGGY FILTER STRIP (Veg, Non-Veg, Bestsellers & Scoped Dish Search) -->
+  <div class="swiggy-filter-bar" id="swiggyFilterBar" style="display:none;">
+    <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+      <div class="swiggy-veg-toggle" onclick="toggleSwiggyVegFilter()">
+        <div class="swiggy-veg-square"></div>
+        <span>Veg</span>
+        <div class="swiggy-switch" id="swiggyVegSwitch">
+          <div class="swiggy-switch-dot"></div>
+        </div>
+      </div>
+
+      <div class="swiggy-nonveg-toggle" onclick="toggleSwiggyNonVegFilter()">
+        <div class="swiggy-nonveg-square"></div>
+        <span>Non-Veg</span>
+        <div class="swiggy-switch swiggy-switch-red" id="swiggyNonVegSwitch">
+          <div class="swiggy-switch-dot"></div>
+        </div>
+      </div>
+
+      <button class="swiggy-chip-btn" id="swiggyBestsellerBtn" onclick="toggleSwiggyBestsellersFilter()">
+        <span>⭐ Bestsellers</span>
+      </button>
+    </div>
+
+    <div style="position:relative;flex:1;max-width:280px;min-width:180px;">
+      <input type="text" id="swiggyDishSearch" placeholder="Search in menu..." oninput="filterRestaurantDishes(this.value)" style="width:100%;padding:0.45rem 1rem 0.45rem 2.2rem;background:var(--bg2);border:1px solid var(--border);border-radius:10px;font-size:0.82rem;color:var(--text);outline:none;"/>
+      <span style="position:absolute;left:0.75rem;top:50%;transform:translateY(-50%);color:var(--muted2);"><i data-lucide="search" style="width:14px;height:14px"></i></span>
+    </div>
+  </div>
+
+  <!-- SWIGGY FLOATING MENU CATEGORY FAB BUTTON -->
+  <button class="swiggy-menu-fab" id="swiggyMenuFab" style="display:none;" onclick="openSwiggyCategoryDrawer()">
+    <i data-lucide="utensils-crossed" style="width:16px;height:16px"></i>
+    <span>MENU</span>
+  </button>
+
+  <!-- SWIGGY CATEGORY MENU DRAWER MODAL -->
+  <div class="swiggy-cat-modal" id="swiggyCatModal" style="display:none;" onclick="closeSwiggyCategoryDrawer(event)">
+    <div class="swiggy-cat-modal-content" onclick="event.stopPropagation()">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;padding-bottom:0.75rem;border-bottom:1px solid var(--border)">
+        <h3 style="font-size:1.1rem;font-weight:900;color:var(--text)">Menu Categories</h3>
+        <button onclick="closeSwiggyCategoryDrawer()" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:1.2rem;font-weight:800">✕</button>
+      </div>
+      <div id="swiggyCatList">
+        <!-- Loaded dynamically in main.js -->
+      </div>
+    </div>
   </div>
 
   <!-- MENU -->
@@ -1218,10 +1299,49 @@
     </div>
   </div>
 
-  <!-- ORDERS -->
+  <!-- ORDERS & LIVE GPS DRIVER TELEMETRY -->
   <div id="ordersSection" style="display:none">
     <div class="user-section">
-      <div class="section-head"><h2>My Orders</h2><p>Your complete order history</p></div>
+      <div class="section-head">
+        <h2>My Orders & Live Telemetry</h2>
+        <p>Real-time delivery partner GPS tracking & order status</p>
+      </div>
+
+      <!-- LIVE SWIGGY GPS DRIVER TELEMETRY CARD -->
+      <div class="swiggy-telemetry-card" id="swiggyTelemetryCard">
+        <div class="telemetry-header">
+          <div class="telemetry-title-wrap">
+            <span class="telemetry-live-badge">🔴 LIVE DRIVER TELEMETRY</span>
+            <h3>Delivery Partner On The Way!</h3>
+            <p id="telemetrySubtext">Ramesh Kumar is delivering your order from Udipi Vihar</p>
+          </div>
+          <div class="telemetry-eta-box">
+            <div class="telemetry-eta-val" id="telemetryEtaVal">12 mins</div>
+            <div class="telemetry-eta-lbl">ESTIMATED DELIVERY</div>
+          </div>
+        </div>
+
+        <!-- LEAFLET INTERACTIVE MAP CONTAINER -->
+        <div id="liveDriverMap" class="telemetry-map-box"></div>
+
+        <!-- DRIVER TELEMETRY INFO BAR -->
+        <div class="telemetry-driver-bar">
+          <div class="tdb-driver-info">
+            <div class="tdb-avatar">🛵</div>
+            <div>
+              <div class="tdb-name">Ramesh Kumar <span class="tdb-rating">⭐ 4.9</span></div>
+              <div class="tdb-vehicle">TVS Jupiter • TS 09 AB 4582 • <span style="color:#16a34a;font-weight:700">Safety Verified 🛡️</span></div>
+              <div class="tdb-stats" id="tdbStatsText">📍 2.1 km away • 🕐 Speed 26 km/h</div>
+            </div>
+          </div>
+          <div class="tdb-actions">
+            <button class="tdb-call-btn" onclick="toast('Calling Ramesh Kumar (+91 98765 43210)...', 'info')">
+              <i data-lucide="phone" style="width:16px;height:16px"></i> Call Driver
+            </button>
+          </div>
+        </div>
+      </div>
+
       <div class="orders-list" id="userOrdersList"></div>
     </div>
   </div>
@@ -2277,39 +2397,8 @@
         <h3 style="font-size: 1.15rem; font-weight:800; color: var(--text); margin-bottom: 0.5rem;">Live Delivery Status</h3>
         <p style="font-size: 0.8rem; color: var(--muted); margin-bottom: 1.25rem;">Rider is currently on their way to deliver your hot meal.</p>
         
-        <div class="delivery-map-container">
-          <div class="delivery-map-grid-bg"></div>
-          
-          <!-- Route SVG Path -->
-          <svg class="map-vector-svg">
-            <path id="mapRoutePathBg" class="map-route-line-bg" d="M 60,150 Q 180,80 320,150 T 500,150" />
-            <path id="mapRoutePathFg" class="map-route-line-fg" d="M 60,150 Q 180,80 320,150 T 500,150" />
-          </svg>
-          
-          <!-- Restaurant Node (Static left) -->
-          <div class="map-node" style="left: 60px; top: 150px;">
-            <div class="node-icon-circle restaurant">
-              <i data-lucide="utensils" style="width:20px;height:20px;"></i>
-            </div>
-            <span class="node-label">Swad Restaurant</span>
-          </div>
-          
-          <!-- Rider Node (Animated along the path) -->
-          <div id="mapRiderNode" class="map-node" style="left: 60px; top: 150px;">
-            <div class="node-icon-circle rider">
-              <i data-lucide="bike" style="width:22px;height:22px;"></i>
-            </div>
-            <span class="node-label" style="background: var(--accent); color: #fff; border-color: var(--accent);">Our Rider</span>
-          </div>
-          
-          <!-- User Node (Static right) -->
-          <div class="map-node" style="left: 500px; top: 150px;">
-            <div class="node-icon-circle user">
-              <i data-lucide="home" style="width:20px;height:20px;"></i>
-            </div>
-            <span class="node-label">Your Home</span>
-          </div>
-        </div>
+        <!-- REAL INTERACTIVE OPENSTREETMAP (LEAFLET.JS) -->
+        <div id="orderSuccessRealMap" class="real-leaflet-map-box" style="width:100%;height:340px;border-radius:18px;border:1px solid var(--border);overflow:hidden;margin-bottom:1.25rem;z-index:1;"></div>
         
         <!-- Map Progress Banner -->
         <div class="map-status-banner">
@@ -7775,7 +7864,19 @@ function contactSupportOption(type) {
   </div>
 </div>
 
-<script src="js/main.js" defer></script>
+<!-- SWIGGY FLOATING BOTTOM CART PAYBAR -->
+<div class="swiggy-floating-cart-paybar" id="floatingCartPaybar" style="display:none;" onclick="toggleCart()">
+  <div class="swiggy-fp-info">
+    <span class="swiggy-fp-count" id="fpCartCount">1 ITEM</span>
+    <span class="swiggy-fp-price" id="fpCartTotal">₹0</span>
+  </div>
+  <div class="swiggy-fp-btn">
+    <span>VIEW CART</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:16px;height:16px"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+  </div>
+</div>
+
+<script src="js/main.js?v=36" defer></script>
 </body>
 </html>
  

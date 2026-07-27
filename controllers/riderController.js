@@ -1,5 +1,6 @@
 const Rider = require('../models/Rider');
 const User = require('../models/User');
+const Order = require('../models/Order');
 
 // @desc    Get all available online riders
 // @route   GET /api/riders/available
@@ -85,6 +86,23 @@ exports.updateLocation = async (req, res) => {
     rider.currentLng = lng;
     rider.lastLocationUpdatedAt = Date.now();
     await rider.save();
+
+    // Stream the rider's live position to the customer tracking the active order
+    if (rider.activeOrderId) {
+      const io = req.app.get('io');
+      if (io) {
+        const order = await Order.findById(rider.activeOrderId).select('userId orderNumber');
+        if (order && order.userId) {
+          io.to(`user_${order.userId}`).emit('rider_location_update', {
+            orderId: order._id,
+            orderNumber: order.orderNumber,
+            lat,
+            lng,
+            at: Date.now()
+          });
+        }
+      }
+    }
 
     res.json({
       success: true,

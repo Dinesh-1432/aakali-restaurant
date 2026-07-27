@@ -1026,39 +1026,59 @@ async function openRestaurant(id) {
     console.error('Failed to load menu from API:', error);
   }
 
-  // Show restaurant detail header bar
-  let rdhEl = document.getElementById('restDetailHeader');
-  if (!rdhEl) {
-    rdhEl = document.createElement('div');
-    rdhEl.id = 'restDetailHeader';
-    rdhEl.innerHTML = `
-      <button class="rdh-back-btn" onclick="backToSwadHome()" title="Back to restaurants">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:18px;height:18px"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-      </button>
-      <div class="rdh-info">
-        <div class="rdh-name" id="rdh-name"></div>
-        <div class="rdh-meta" id="rdh-meta"></div>
-      </div>
-      <div class="rdh-rating" id="rdh-rating"></div>
-      <div class="rdh-time-pill" id="rdh-time"></div>
-    `;
-    // Keep the restaurant bridge header inside the restaurant page, below the existing nav.
-    const userNav = $('userPanel').querySelector('.user-navbar');
-    if (userNav && userNav.nextSibling) {
-      $('userPanel').insertBefore(rdhEl, userNav.nextSibling);
-    } else {
-      $('userPanel').insertBefore(rdhEl, $('userPanel').firstChild);
-    }
-  }
-  const userNav = $('userPanel').querySelector('.user-navbar');
-  if (userNav && rdhEl.previousElementSibling !== userNav) {
-    userNav.insertAdjacentElement('afterend', rdhEl);
-  }
-  rdhEl.style.display = 'flex';
-  document.getElementById('rdh-name').textContent = rest.name;
-  document.getElementById('rdh-meta').textContent = rest.cuisine;
-  document.getElementById('rdh-rating').textContent = '⭐ ' + rest.rating;
-  document.getElementById('rdh-time').textContent = '🕐 ' + rest.deliveryTime;
+  // Update top navbar for restaurant mode (no Aakali brand)
+  const userBrandBox = document.getElementById('userBrandBox');
+  const navLocationBtn = document.getElementById('navLocationBtn');
+  const userRestNavBox = document.getElementById('userRestNavBox');
+  const navSearch = document.getElementById('navSearch');
+  const delPillSpan = document.querySelector('.nav-delivery-pill span:last-child');
+
+  if (userBrandBox) userBrandBox.style.display = 'none';
+  if (navLocationBtn) navLocationBtn.style.display = 'none';
+  if (userRestNavBox) userRestNavBox.style.display = 'flex';
+  
+  const userNavRestName = document.getElementById('userNavRestName');
+  const userNavRestMeta = document.getElementById('userNavRestMeta');
+  if (userNavRestName) userNavRestName.textContent = rest.name;
+  if (userNavRestMeta) userNavRestMeta.textContent = rest.cuisine;
+
+  if (navSearch) navSearch.placeholder = `Search in ${rest.name}...`;
+  if (delPillSpan) delPillSpan.textContent = `⭐ ${rest.rating} • 🕐 ${rest.deliveryTime}`;
+
+  // Populate Swiggy Restaurant Hero Card
+  const heroWrap = document.getElementById('swiggyRestHeroWrap');
+  const filterBar = document.getElementById('swiggyFilterBar');
+  if (heroWrap) heroWrap.style.display = 'block';
+  if (filterBar) filterBar.style.display = 'flex';
+
+  const bcLoc = document.getElementById('swiggyBreadcrumbLoc');
+  const bcName = document.getElementById('swiggyBreadcrumbName');
+  const heroName = document.getElementById('swiggyHeroRestName');
+  const heroCuisine = document.getElementById('swiggyHeroRestCuisine');
+  const heroOutlet = document.getElementById('swiggyHeroRestOutlet');
+  const heroRating = document.getElementById('swiggyHeroRestRating');
+  const heroPrice = document.getElementById('swiggyHeroPriceForTwo');
+
+  const locEl = document.getElementById('swadNavLoc');
+  const locText = locEl ? locEl.textContent : 'Hyderabad';
+
+  if (bcLoc) bcLoc.textContent = locText;
+  if (bcName) bcName.textContent = rest.name;
+  if (heroName) heroName.textContent = rest.name;
+  if (heroCuisine) heroCuisine.textContent = rest.cuisine;
+  if (heroOutlet) heroOutlet.textContent = `📍 Outlet: ${locText.split(',')[0]} • 🕐 ${rest.deliveryTime}`;
+  if (heroRating) heroRating.textContent = `★ ${rest.rating}`;
+  if (heroPrice) heroPrice.textContent = rest.priceRange || '₹200 for two';
+
+  const dishSearch = document.getElementById('swiggyDishSearch');
+  if (dishSearch) dishSearch.placeholder = `Search in ${rest.name}...`;
+
+  const menuFab = document.getElementById('swiggyMenuFab');
+  if (menuFab) menuFab.style.display = 'flex';
+
+  // Hide duplicate old restDetailHeader if present
+  const rdhEl = document.getElementById('restDetailHeader');
+  if (rdhEl) rdhEl.style.display = 'none';
 
   // Initialize menu with restaurant's category filter
   renderMenu();
@@ -1094,12 +1114,168 @@ async function openRestaurant(id) {
   }
 }
 
+let isSwiggyVegOnly = false;
+let isSwiggyNonVegOnly = false;
+let isSwiggyBestsellerOnly = false;
+
+function toggleSwiggyVegFilter() {
+  isSwiggyVegOnly = !isSwiggyVegOnly;
+  if (isSwiggyVegOnly) isSwiggyNonVegOnly = false;
+  
+  const vegSwitch = document.getElementById('swiggyVegSwitch');
+  const nonVegSwitch = document.getElementById('swiggyNonVegSwitch');
+  if (vegSwitch) vegSwitch.classList.toggle('active', isSwiggyVegOnly);
+  if (nonVegSwitch) nonVegSwitch.classList.remove('active');
+  
+  applySwiggyCombinedFilters();
+}
+
+function toggleSwiggyNonVegFilter() {
+  isSwiggyNonVegOnly = !isSwiggyNonVegOnly;
+  if (isSwiggyNonVegOnly) isSwiggyVegOnly = false;
+  
+  const vegSwitch = document.getElementById('swiggyVegSwitch');
+  const nonVegSwitch = document.getElementById('swiggyNonVegSwitch');
+  if (nonVegSwitch) nonVegSwitch.classList.toggle('active', isSwiggyNonVegOnly);
+  if (vegSwitch) vegSwitch.classList.remove('active');
+
+  applySwiggyCombinedFilters();
+}
+
+function toggleSwiggyBestsellersFilter() {
+  isSwiggyBestsellerOnly = !isSwiggyBestsellerOnly;
+  const bestBtn = document.getElementById('swiggyBestsellerBtn');
+  if (bestBtn) bestBtn.classList.toggle('active', isSwiggyBestsellerOnly);
+
+  applySwiggyCombinedFilters();
+}
+
+function applySwiggyCombinedFilters() {
+  if (isSwiggyVegOnly) {
+    activeFilter = 'veg';
+  } else if (isSwiggyNonVegOnly) {
+    activeFilter = 'nonveg';
+  } else {
+    activeFilter = 'all';
+  }
+  
+  const q = document.getElementById('swiggyDishSearch') ? document.getElementById('swiggyDishSearch').value : '';
+  renderMenu(q);
+
+  if (isSwiggyBestsellerOnly) {
+    const grid = document.getElementById('menuGrid');
+    const menu = getMenu().filter(m => m.available && (m.rating >= 4.5 || (m.tags && m.tags.includes('bestseller'))));
+    if (grid && menu.length) {
+      grid.innerHTML = menu.map(m => {
+        const inCart = cart.find(c => c.id === m.id);
+        return `
+        <div class="food-card" id="dish-${m.id}">
+          <div class="food-card-img">
+            <img src="${m.img}" alt="${m.name}" loading="lazy" onerror="this.src='https://via.placeholder.com/400x180?text=Food'"/>
+            <div class="veg-badge ${m.category === 'nonveg' ? 'nonveg' : 'veg'}"></div>
+          </div>
+          <div class="food-card-body">
+            <div class="food-rating"><span class="stars">${'★'.repeat(Math.round(m.rating))}</span><span class="rat-num">${m.rating}</span></div>
+            <div class="food-name">${m.name}</div>
+            <div class="food-desc">${m.desc}</div>
+            <div class="food-footer">
+              <span class="food-price">₹${m.price}</span>
+              ${inCart ? `
+                <div class="cart-qty" style="display:flex;align-items:center;gap:.45rem">
+                  <button class="qty-btn" onclick="changeQtyMenu('${m.id}',-1)">−</button>
+                  <span class="qty-num">${inCart.qty}</span>
+                  <button class="qty-btn" onclick="changeQtyMenu('${m.id}',1)">+</button>
+                </div>
+              ` : `
+                <button class="add-btn" onclick="addToCart('${m.id}')">+ Add</button>
+              `}
+            </div>
+          </div>
+        </div>`;
+      }).join('');
+    }
+  }
+}
+
+function openSwiggyCategoryDrawer() {
+  const modal = document.getElementById('swiggyCatModal');
+  const list = document.getElementById('swiggyCatList');
+  if (!modal || !list) return;
+
+  const menu = getMenu();
+  const categories = {};
+  menu.forEach(item => {
+    const cat = item.category || 'Dishes';
+    categories[cat] = (categories[cat] || 0) + 1;
+  });
+
+  list.innerHTML = Object.keys(categories).map(cat => `
+    <div class="swiggy-cat-item" onclick="jumpToSwiggyCategory('${cat}')">
+      <span style="text-transform:capitalize;">${cat}</span>
+      <span class="swiggy-cat-count">${categories[cat]}</span>
+    </div>
+  `).join('');
+
+  modal.style.display = 'flex';
+}
+
+function closeSwiggyCategoryDrawer() {
+  const modal = document.getElementById('swiggyCatModal');
+  if (modal) modal.style.display = 'none';
+}
+
+function jumpToSwiggyCategory(cat) {
+  closeSwiggyCategoryDrawer();
+  activeFilter = cat;
+  renderMenu();
+  const grid = document.getElementById('menuGrid');
+  if (grid) grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function filterRestaurantDishes(q) {
+  renderMenu(q);
+}
+
 function backToSwadHome() {
+  // Restore navbar for global home mode
+  const userBrandBox = document.getElementById('userBrandBox');
+  const navLocationBtn = document.getElementById('navLocationBtn');
+  const userRestNavBox = document.getElementById('userRestNavBox');
+  const navSearch = document.getElementById('navSearch');
+  const delPillSpan = document.querySelector('.nav-delivery-pill span:last-child');
+
+  if (userBrandBox) userBrandBox.style.display = 'flex';
+  if (navLocationBtn) navLocationBtn.style.display = 'flex';
+  if (userRestNavBox) userRestNavBox.style.display = 'none';
+  if (navSearch) navSearch.placeholder = 'What are you craving today?';
+  if (delPillSpan) delPillSpan.textContent = '~35 min delivery';
+
+  // Hide Swiggy Restaurant Hero Card & Filter Bar
+  const heroWrap = document.getElementById('swiggyRestHeroWrap');
+  const filterBar = document.getElementById('swiggyFilterBar');
+  const menuFab = document.getElementById('swiggyMenuFab');
+  const catModal = document.getElementById('swiggyCatModal');
+  if (heroWrap) heroWrap.style.display = 'none';
+  if (filterBar) filterBar.style.display = 'none';
+  if (menuFab) menuFab.style.display = 'none';
+  if (catModal) catModal.style.display = 'none';
+
+  isSwiggyVegOnly = false;
+  isSwiggyNonVegOnly = false;
+  isSwiggyBestsellerOnly = false;
+  const vegSwitch = document.getElementById('swiggyVegSwitch');
+  const nonVegSwitch = document.getElementById('swiggyNonVegSwitch');
+  const bestBtn = document.getElementById('swiggyBestsellerBtn');
+  if (vegSwitch) vegSwitch.classList.remove('active');
+  if (nonVegSwitch) nonVegSwitch.classList.remove('active');
+  if (bestBtn) bestBtn.classList.remove('active');
+
   // Hide user panel and restaurant header
   $('userPanel').style.display = 'none';
   const rdhEl = document.getElementById('restDetailHeader');
   if (rdhEl) rdhEl.style.display = 'none';
   swadSelectedRestaurant = null;
+  window.activeRestaurantMenu = null;
   // Show SWAD home
   $('swadHome').style.display = 'block';
   if (window.lucide && typeof lucide.createIcons === 'function') lucide.createIcons();
@@ -1151,9 +1327,10 @@ logout = function() {
 // Also override backToMenu to respect swadHome context
 const _origBackToMenuSwadHome = backToMenu;
 backToMenu = function() {
-  // If we came from swadHome and there's a selected restaurant, do normal back
+  // If we came from swadHome and there's a selected restaurant, do normal back but hide general heroSection
   if (swadSelectedRestaurant) {
     _origBackToMenuSwadHome();
+    if ($('heroSection')) $('heroSection').style.display = 'none';
   } else if ($('swadHome') && $('swadHome').style.display !== 'none') {
     // Already on home, do nothing
   } else if (swadSelectedRestaurant === null && $('userPanel').style.display === 'block') {
@@ -1410,7 +1587,7 @@ function getAppTaskbarItems(context) {
   }
 
   return [
-    { action: 'market', label: 'Aakali', icon: 'store' },
+    { action: 'market', label: 'Home', icon: 'store' },
     { action: 'market-search', label: 'Find', icon: 'search' },
     { action: 'offers', label: 'Deals', icon: 'badge-percent' },
     { action: 'orders', label: 'Orders', icon: 'receipt' },
@@ -1518,11 +1695,10 @@ function openAppAccountSection(section) {
 function setTaskbarVisibility(visible) {
   const mobileTaskbar = document.getElementById('mobileTaskbar');
   const desktopTaskbar = document.getElementById('taskbar');
-  if (mobileTaskbar) mobileTaskbar.classList.toggle('tb-hidden', !visible);
-  if (desktopTaskbar) desktopTaskbar.style.display = visible ? 'flex' : 'none';
+  if (mobileTaskbar) mobileTaskbar.style.display = 'none';
+  if (desktopTaskbar) desktopTaskbar.style.display = 'none';
   const userPanel = document.getElementById('userPanel');
-  if (userPanel) userPanel.style.paddingBottom = visible ? '90px' : '0';
-  if (visible) renderAppTaskbar();
+  if (userPanel) userPanel.style.paddingBottom = '0';
 }
 
 function updateTaskbarActive(tabId) {
@@ -1595,8 +1771,211 @@ const _taskbarShowSection = showSection;
 showSection = function(section) {
   _taskbarShowSection(section);
   if (section === 'orders' || section === 'profile') _activeTab = section;
+  if (section === 'orders') {
+    setTimeout(() => {
+      initSwiggyDriverTelemetry();
+    }, 150);
+  }
   renderAppTaskbar();
 };
+
+let successMap = null;
+let successDriverMarker = null;
+let successInterval = null;
+
+function initRealSuccessMap() {
+  const mapEl = document.getElementById('orderSuccessRealMap');
+  if (!mapEl || typeof L === 'undefined') return;
+
+  if (successMap) {
+    try { successMap.remove(); } catch(e){}
+    successMap = null;
+  }
+
+  const restCoords = [17.4486, 78.3908];   // Udipi Vihar, Madhapur Road
+  const userCoords = [17.4375, 78.4482];   // Delivery Address, Hyderabad
+  
+  const routePoints = [
+    [17.4486, 78.3908],
+    [17.4460, 78.3960],
+    [17.4430, 78.4030],
+    [17.4410, 78.4120],
+    [17.4395, 78.4250],
+    [17.4385, 78.4360],
+    [17.4375, 78.4482]
+  ];
+
+  let step = 1;
+
+  successMap = L.map('orderSuccessRealMap', {
+    zoomControl: true
+  }).setView([17.4430, 78.4150], 13);
+
+  // Clean, high-resolution street tiles
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+    subdomains: 'abcd',
+    maxZoom: 19
+  }).addTo(successMap);
+
+  // Restaurant Marker
+  const restIcon = L.divIcon({
+    html: '<div style="font-size:20px;background:#fff;border:2px solid #fc8019;border-radius:50%;width:38px;height:38px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,0.3)">🏬</div>',
+    className: '',
+    iconSize: [38, 38],
+    iconAnchor: [19, 19]
+  });
+  L.marker(restCoords, { icon: restIcon }).addTo(successMap).bindPopup('<b>Udipi Vihar</b><br/>Restaurant Outlet');
+
+  // Customer Home Marker
+  const homeIcon = L.divIcon({
+    html: '<div style="font-size:20px;background:#fff;border:2px solid #16a34a;border-radius:50%;width:38px;height:38px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,0.3)">🏠</div>',
+    className: '',
+    iconSize: [38, 38],
+    iconAnchor: [19, 19]
+  });
+  L.marker(userCoords, { icon: homeIcon }).addTo(successMap).bindPopup('<b>Your Home</b><br/>Delivery Location').openPopup();
+
+  // Polyline
+  L.polyline(routePoints, {
+    color: '#fc8019',
+    weight: 4,
+    opacity: 0.85,
+    dashArray: '6, 6'
+  }).addTo(successMap);
+
+  // Rider Marker
+  const bikeIcon = L.divIcon({
+    html: '<div style="font-size:22px;background:#16a34a;color:#fff;border-radius:50%;width:42px;height:42px;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(22,163,74,0.5);border:2px solid #fff">🛵</div>',
+    className: '',
+    iconSize: [42, 42],
+    iconAnchor: [21, 21]
+  });
+  successDriverMarker = L.marker(routePoints[1], { icon: bikeIcon }).addTo(successMap);
+
+  if (successInterval) clearInterval(successInterval);
+  successInterval = setInterval(() => {
+    step = (step + 1) % routePoints.length;
+    const pos = routePoints[step];
+    successDriverMarker.setLatLng(pos);
+    successMap.panTo(pos);
+  }, 3000);
+}
+
+// Auto-initialize real Leaflet map when order success page is displayed
+const successObserver = new MutationObserver(() => {
+  const page = document.getElementById('orderSuccessPage');
+  if (page && page.style.display !== 'none') {
+    setTimeout(initRealSuccessMap, 150);
+  }
+});
+window.addEventListener('load', () => {
+  const page = document.getElementById('orderSuccessPage');
+  if (page) {
+    successObserver.observe(page, { attributes: true, attributeFilter: ['style'] });
+  }
+});
+
+// ============================================================
+// SWIGGY LIVE GPS DRIVER TELEMETRY ENGINE (LEAFLET.JS)
+// ============================================================
+let telemetryMap = null;
+let telemetryDriverMarker = null;
+let telemetryPolyline = null;
+let telemetryInterval = null;
+
+function initSwiggyDriverTelemetry() {
+  const mapEl = document.getElementById('liveDriverMap');
+  if (!mapEl || typeof L === 'undefined') return;
+
+  // Cleanup existing map instance
+  if (telemetryMap) {
+    try { telemetryMap.remove(); } catch(e){}
+    telemetryMap = null;
+  }
+
+  // Coordinates: Madhapur, Hyderabad
+  const restCoords = [17.4486, 78.3908];   // Udipi Vihar Madhapur
+  const userCoords = [17.4375, 78.4482];   // Customer Delivery Address
+  
+  // Route trajectory steps
+  const routePoints = [
+    [17.4486, 78.3908],
+    [17.4460, 78.3960],
+    [17.4430, 78.4030],
+    [17.4410, 78.4120],
+    [17.4395, 78.4250],
+    [17.4385, 78.4360],
+    [17.4375, 78.4482]
+  ];
+
+  let currentStep = 1;
+
+  // Initialize Leaflet Map
+  telemetryMap = L.map('liveDriverMap', {
+    zoomControl: false
+  }).setView([17.4430, 78.4150], 13);
+
+  // Tile layer (CartoDB Positron clean map tiles)
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+    subdomains: 'abcd',
+    maxZoom: 19
+  }).addTo(telemetryMap);
+
+  // Restaurant Marker
+  const restIcon = L.divIcon({
+    html: '<div style="font-size:20px;background:#fff;border:2px solid #fc8019;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 10px rgba(0,0,0,0.3)">🏬</div>',
+    className: '',
+    iconSize: [36, 36],
+    iconAnchor: [18, 18]
+  });
+  L.marker(restCoords, { icon: restIcon }).addTo(telemetryMap).bindPopup('<b>Udipi Vihar</b><br/>Restaurant');
+
+  // User Home Marker
+  const homeIcon = L.divIcon({
+    html: '<div style="font-size:20px;background:#fff;border:2px solid #16a34a;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 10px rgba(0,0,0,0.3)">🏠</div>',
+    className: '',
+    iconSize: [36, 36],
+    iconAnchor: [18, 18]
+  });
+  L.marker(userCoords, { icon: homeIcon }).addTo(telemetryMap).bindPopup('<b>Delivery Address</b><br/>Madhapur, Hyderabad');
+
+  // Polyline Route
+  telemetryPolyline = L.polyline(routePoints, {
+    color: '#fc8019',
+    weight: 4,
+    opacity: 0.8,
+    dashArray: '8, 8'
+  }).addTo(telemetryMap);
+
+  // Live Driver Bike Marker
+  const bikeIcon = L.divIcon({
+    html: '<div style="font-size:22px;background:#16a34a;color:#fff;border-radius:50%;width:42px;height:42px;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(22,163,74,0.5);border:2px solid #fff">🛵</div>',
+    className: '',
+    iconSize: [42, 42],
+    iconAnchor: [21, 21]
+  });
+  telemetryDriverMarker = L.marker(routePoints[1], { icon: bikeIcon }).addTo(telemetryMap);
+
+  // Start Real-Time Driver Telemetry Loop
+  if (telemetryInterval) clearInterval(telemetryInterval);
+  telemetryInterval = setInterval(() => {
+    currentStep = (currentStep + 1) % routePoints.length;
+    const pos = routePoints[currentStep];
+    telemetryDriverMarker.setLatLng(pos);
+    telemetryMap.panTo(pos);
+
+    // Update telemetry live stats
+    const remainingKm = ((routePoints.length - 1 - currentStep) * 0.45).toFixed(1);
+    const etaMins = Math.max(2, Math.round(remainingKm * 4.5));
+    const speed = Math.floor(22 + Math.random() * 8);
+
+    const etaEl = document.getElementById('telemetryEtaVal');
+    const statsEl = document.getElementById('tdbStatsText');
+
+    if (etaEl) etaEl.textContent = `${etaMins} mins`;
+    if (statsEl) statsEl.textContent = `📍 ${remainingKm} km away • 🕐 Speed ${speed} km/h`;
+  }, 3500);
+}
 
 const _taskbarBackToMenu = backToMenu;
 backToMenu = function() {
@@ -1619,7 +1998,211 @@ initUser = function() {
   renderAppTaskbar();
 };
 
+// Floating Cart Paybar Manager
+function updateFloatingCartPaybar() {
+  const paybar = document.getElementById('floatingCartPaybar');
+  if (!paybar) return;
+
+  const totalQty = cart.reduce((sum, item) => sum + (item.qty || item.quantity || 0), 0);
+  const totalPrice = cart.reduce((sum, item) => sum + (item.price || 0) * (item.qty || item.quantity || 0), 0);
+
+  const countEl = document.getElementById('fpCartCount');
+  const priceEl = document.getElementById('fpCartTotal');
+
+  if (totalQty > 0) {
+    if (countEl) countEl.textContent = `${totalQty} ITEM${totalQty > 1 ? 'S' : ''}`;
+    if (priceEl) priceEl.textContent = `₹${totalPrice}`;
+    paybar.style.display = 'flex';
+  } else {
+    paybar.style.display = 'none';
+  }
+}
+
+// Override updateCartBadge to also sync Floating Cart Paybar
+const _origUpdateCartBadgePaybar = updateCartBadge;
+updateCartBadge = function() {
+  _origUpdateCartBadgePaybar();
+  updateFloatingCartPaybar();
+};
+
+// Scroll listener for Compact Sticky Top Header & Swiggy Scroll Behavior
+window.addEventListener('scroll', () => {
+  const scrollY = window.scrollY || window.pageYOffset;
+  const userNav = document.querySelector('.user-navbar');
+  const swadNav = document.getElementById('swadNav');
+
+  if (userNav) {
+    if (scrollY > 160 && swadSelectedRestaurant) {
+      userNav.classList.add('scrolled-rest-mode');
+    } else {
+      userNav.classList.remove('scrolled-rest-mode');
+    }
+  }
+
+  if (swadNav) {
+    if (scrollY > 100) {
+      swadNav.classList.add('scrolled');
+    } else {
+      swadNav.classList.remove('scrolled');
+    }
+  }
+});
+
+// Swiggy Opening Splash Screen Animation Dismissal
+function dismissSwiggyOpeningSplash() {
+  const splash = document.getElementById('swiggyOpeningSplash');
+  if (!splash) return;
+
+  setTimeout(() => {
+    splash.classList.add('splash-fade-out');
+    setTimeout(() => {
+      splash.style.display = 'none';
+    }, 600);
+  }, 1800);
+}
+
 window.addEventListener('load', () => {
   renderAppTaskbar();
   syncAppTaskbarCartBadges();
+  updateFloatingCartPaybar();
+  dismissSwiggyOpeningSplash();
 });
+
+// ═══════════════════════════════════════════════════════════════════
+// REAL-TIME SOCKET.IO BRIDGE — live order status + rider GPS tracking
+// Closes the biggest gap vs Swiggy: the tracking screen now updates from
+// real server events instead of only a client-side timer.
+// ═══════════════════════════════════════════════════════════════════
+let aakaliSocket = null;
+let _aakaliJoinedUserId = null;
+
+function _aakaliCurrentUserId() {
+  try {
+    const u = (typeof currentUser !== 'undefined' && currentUser)
+      ? currentUser
+      : JSON.parse(localStorage.getItem('currentUser') || 'null');
+    return u ? (u.id || u._id || null) : null;
+  } catch (e) { return null; }
+}
+
+function initRealtimeSocket() {
+  // socket.io client script is deferred — retry until it's available
+  if (typeof io === 'undefined') { setTimeout(initRealtimeSocket, 800); return; }
+  if (aakaliSocket) return;
+  const base = (typeof API_BASE_URL !== 'undefined' && API_BASE_URL) ? API_BASE_URL : undefined;
+  try {
+    aakaliSocket = base ? io(base) : io();
+    aakaliSocket.on('connect', ensureRealtimeJoin);
+    aakaliSocket.on('order_status_update', handleRealtimeStatusUpdate);
+    aakaliSocket.on('rider_location_update', handleRealtimeRiderLocation);
+    console.log('🔌 Realtime socket initialising…');
+  } catch (e) {
+    console.warn('Realtime socket init failed:', e);
+    return;
+  }
+  // Re-join automatically if the logged-in user changes after connect
+  setInterval(ensureRealtimeJoin, 3000);
+}
+
+function ensureRealtimeJoin() {
+  if (!aakaliSocket || !aakaliSocket.connected) return;
+  const uid = _aakaliCurrentUserId();
+  if (uid && uid !== _aakaliJoinedUserId) {
+    aakaliSocket.emit('join', uid);
+    _aakaliJoinedUserId = uid;
+    console.log('🔌 Realtime: joined room user_' + uid);
+  }
+}
+
+// Map backend order status -> tracking UI (progress %, title, description)
+const REALTIME_STATUS_MAP = {
+  pending:          { p: 8,   title: 'Order placed',        desc: 'Waiting for the restaurant to confirm' },
+  confirmed:        { p: 20,  title: 'Order confirmed',     desc: 'Restaurant accepted your order' },
+  preparing:        { p: 40,  title: 'Preparing your meal', desc: 'Chef is cooking fresh specialties' },
+  ready:            { p: 55,  title: 'Food is ready',       desc: 'Packed and waiting for rider pickup' },
+  out_for_delivery: { p: 78,  title: 'Out for delivery',    desc: 'Rider is on the way to you' },
+  delivered:        { p: 100, title: 'Delivered!',          desc: 'Enjoy your meal' },
+  cancelled:        { p: 0,   title: 'Order cancelled',     desc: 'This order was cancelled' }
+};
+
+function _trackingOrderId() {
+  try {
+    return (typeof currentTrackingOrder !== 'undefined' && currentTrackingOrder)
+      ? (currentTrackingOrder._id || currentTrackingOrder.id)
+      : null;
+  } catch (e) { return null; }
+}
+
+function handleRealtimeStatusUpdate(payload) {
+  if (!payload || !payload.orderId) return;
+  const tid = _trackingOrderId();
+
+  if (tid && String(payload.orderId) === String(tid)) {
+    const map = REALTIME_STATUS_MAP[payload.status];
+    if (!map) return;
+    // Real status now drives the UI — stop the simulated animation timer
+    if (typeof liveTrackingInterval !== 'undefined' && liveTrackingInterval) {
+      clearInterval(liveTrackingInterval);
+    }
+    const statusTextEl = document.getElementById('liveMapStatusText');
+    const statusDescEl = document.querySelector('.ms-left div div:last-child');
+    const timeTextEl = document.getElementById('liveMapTimeText');
+    if (statusTextEl) statusTextEl.textContent = map.title;
+    if (statusDescEl) statusDescEl.textContent = map.desc;
+    if (timeTextEl) {
+      const remaining = Math.max(0, Math.ceil(35 * (1 - map.p / 100)));
+      timeTextEl.textContent = payload.status === 'delivered' ? 'Delivered'
+        : payload.status === 'cancelled' ? 'Cancelled'
+        : remaining + ' mins';
+    }
+    _moveRiderToProgress(map.p);
+    if (payload.status === 'delivered' || payload.status === 'cancelled') {
+      const cancelBtn = document.getElementById('btnCancelOrder');
+      if (cancelBtn) cancelBtn.style.display = 'none';
+    }
+    if (typeof toast === 'function') toast('Order update: ' + map.title, 'info');
+  } else {
+    // Not viewing this order right now — notify + refresh the orders list if visible
+    if (typeof toast === 'function') {
+      toast('Order status: ' + String(payload.status || '').replace(/_/g, ' '), 'info');
+    }
+    if (typeof renderUserOrders === 'function') { try { renderUserOrders(); } catch (e) {} }
+  }
+}
+
+// Move the SVG rider node along the existing delivery path to match progress
+function _moveRiderToProgress(progress) {
+  const rider = document.getElementById('mapRiderNode');
+  if (!rider) return;
+  let x, y;
+  if (progress <= 50) {
+    const t = progress / 50;
+    x = (1 - t) * (1 - t) * 60 + 2 * (1 - t) * t * 180 + t * t * 320;
+    y = (1 - t) * (1 - t) * 150 + 2 * (1 - t) * t * 80 + t * t * 150;
+  } else {
+    const t = (progress - 50) / 50;
+    x = 320 + t * (500 - 320);
+    y = 150;
+  }
+  rider.style.left = x + 'px';
+  rider.style.top = y + 'px';
+}
+
+// Live rider GPS — updates a real Leaflet marker if one is present
+function handleRealtimeRiderLocation(payload) {
+  if (!payload) return;
+  const tid = _trackingOrderId();
+  if (!tid || String(payload.orderId) !== String(tid)) return;
+  if (window.aakaliRiderMarker &&
+      typeof payload.lat === 'number' && typeof payload.lng === 'number') {
+    window.aakaliRiderMarker.setLatLng([payload.lat, payload.lng]);
+    if (window.aakaliTrackMap) window.aakaliTrackMap.panTo([payload.lat, payload.lng]);
+  }
+}
+
+// Boot the realtime bridge once the DOM is ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initRealtimeSocket);
+} else {
+  initRealtimeSocket();
+}
