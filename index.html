@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
@@ -71,12 +71,6 @@
           <div id="realGoogleSignInBtn" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; opacity: 0.01; cursor: pointer; display: none;"></div>
         </div>
 
-        <!-- Premium Demo Auth Mode Toggle -->
-        <div class="demo-mode-toggle-wrap" style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-bottom: 0.85rem; font-size: 0.82rem; color: var(--text2);">
-          <input type="checkbox" id="useMockAuthLogin" onchange="toggleMockAuthMode(this.checked)" style="width: auto; margin: 0; cursor: pointer; transform: scale(1.1);" />
-          <label for="useMockAuthLogin" style="cursor: pointer; font-weight: 600; user-select: none;">Enable Demo/Mock Auth (Offline Bypass)</label>
-        </div>
-        
         <div class="auth-divider-row"><span>or select login method</span></div>
 
         <!-- Pill-style sub-tabs for Email & Password vs Mobile OTP -->
@@ -154,11 +148,6 @@
           <div id="realGoogleSignUpBtn" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; opacity: 0.01; cursor: pointer; display: none;"></div>
         </div>
 
-        <!-- Premium Demo Auth Mode Toggle (Register) -->
-        <div class="demo-mode-toggle-wrap" style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-bottom: 0.85rem; font-size: 0.82rem; color: var(--text2);">
-          <input type="checkbox" id="useMockAuthReg" onchange="toggleMockAuthMode(this.checked)" style="width: auto; margin: 0; cursor: pointer; transform: scale(1.1);" />
-          <label for="useMockAuthReg" style="cursor: pointer; font-weight: 600; user-select: none;">Enable Demo/Mock Auth (Offline Bypass)</label>
-        </div>
       </div>
 
       <div class="auth-switch" id="authSwitch">
@@ -506,18 +495,6 @@
         <button class="modal-btn" onclick="closeForgotModal()">Back to Sign In</button>
       </div>
     </div>
-  </div>
-</div>
-
-<!-- ===== SOCIAL MODAL ===== -->
-<div class="modal-overlay" id="oauthModal">
-  <div class="modal-box">
-    <button class="modal-close" onclick="closeOauthModal()">✕</button>
-    <div class="oauth-brand-row" id="oauthBrandRow"></div>
-    <h3 id="oauthModalTitle">Choose an account</h3>
-    <p class="modal-sub" id="oauthModalSub">Select the account you'd like to use.</p>
-    <div class="oauth-acc-list" id="oauthAccList"></div>
-    <button class="modal-btn modal-btn-ghost" onclick="closeOauthModal()">Cancel</button>
   </div>
 </div>
 
@@ -3203,34 +3180,7 @@ async function doEmailPasswordLogin() {
       btn.style.background = '';
     }
     
-    // Offline local storage fallback only if mock auth is enabled
-    if (localStorage.getItem('useMockAuth') === 'true') {
-      const users = getUsers();
-      const u = users.find(x => x.email === email && x.password === password);
-      if (u) {
-        const mockToken = 'mock_jwt_token_' + u.id;
-        localStorage.setItem('authToken', mockToken);
-        localStorage.setItem('currentUser', JSON.stringify(u));
-        currentUser = u;
-        
-        if (btn) {
-          btn.disabled = true;
-          btn.textContent = '✅ Success!';
-          btn.style.background = 'linear-gradient(135deg, #16a34a, #22c55e)';
-        }
-        setTimeout(() => {
-          if (typeof routeByRole === 'function') {
-            routeByRole(currentUser);
-          } else {
-            $('authScreen').style.display = 'none';
-            initUser();
-          }
-          toast('Welcome back, ' + u.name + ' (Offline Mode)! 👋', 'success');
-        }, 400);
-        return;
-      }
-    }
-    
+
     if (err) err.textContent = '�Œ ' + (e.message || 'Server connection failed.');
     toast(e.message || 'Login failed. Please check your connection.', 'error');
     // Shake the form
@@ -3265,12 +3215,8 @@ async function sendLoginOtp() {
     $('loginSendOtpBtn').textContent = 'Resend';
     toast('OTP sent successfully!', 'success');
   } catch (e) {
-    console.warn('API send OTP failed, using offline fallback:', e.message);
-    // Offline/Demo fallback
-    alert('Demo OTP for ' + fullPhone + ': 123456');
-    $('loginVerifySection').style.display = 'flex';
-    $('loginSendOtpBtn').textContent = 'Resend';
-    toast('OTP sent (Offline Mode)! Use code 123456.', 'success');
+    if (err) err.textContent = 'X ' + (e.message || 'Failed to send OTP.');
+    toast(e.message || 'Failed to send OTP.', 'error');
   }
 }
 
@@ -3310,38 +3256,8 @@ async function verifyLoginOtp() {
     }
     toast('Login successful! Welcome, ' + currentUser.name + ' 👋', 'success');
   } catch (e) {
-    console.warn('API verify OTP failed:', e.message);
-    // Offline local storage fallback
-    if (otp === '123456' && localStorage.getItem('useMockAuth') === 'true') {
-      const users = getUsers();
-      let u = users.find(x => x.phone === fullPhone || x.phone === mobile);
-      if (!u) {
-        u = {
-          id: 'u_mock_' + Date.now(),
-          name: 'Customer ' + mobile.substring(6),
-          email: 'user_' + mobile + '@example.com',
-          phone: fullPhone,
-          role: 'user'
-        };
-        users.push(u);
-        saveUsers(users);
-      }
-      const mockToken = 'mock_jwt_token_' + u.id;
-      localStorage.setItem('authToken', mockToken);
-      localStorage.setItem('currentUser', JSON.stringify(u));
-      currentUser = u;
-
-      if (typeof routeByRole === 'function') {
-        routeByRole(currentUser);
-      } else {
-        $('authScreen').style.display = 'none';
-        initUser();
-      }
-      toast('Login successful (Offline Mode)! Welcome, ' + u.name + ' 👋', 'success');
-    } else {
-      if (err) err.textContent = '�Œ ' + (e.message || 'OTP verification failed. Try again.');
-      toast(e.message || 'Verification failed.', 'error');
-    }
+    if (err) err.textContent = 'X ' + (e.message || 'OTP verification failed. Try again.');
+    toast(e.message || 'Verification failed.', 'error');
   }
 }
 
@@ -3371,12 +3287,8 @@ async function sendRegOtp() {
     $('regSendOtpBtn').textContent = 'Resend';
     toast('OTP sent successfully!', 'success');
   } catch (e) {
-    console.warn('API send OTP failed, using offline fallback:', e.message);
-    // Offline/Demo fallback
-    alert('Demo OTP for ' + fullPhone + ': 123456');
-    $('regVerifySection').style.display = 'flex';
-    $('regSendOtpBtn').textContent = 'Resend';
-    toast('OTP sent (Offline Mode)! Use code 123456.', 'success');
+    if (err) err.textContent = 'X ' + (e.message || 'Failed to send OTP.');
+    toast(e.message || 'Failed to send OTP.', 'error');
   }
 }
 
@@ -3414,129 +3326,17 @@ async function verifyRegOtp() {
     }
     toast('Mobile number verified! You can now create your account.', 'success');
   } catch (e) {
-    console.warn('API verify OTP failed:', e.message);
-    // Offline local storage fallback
-    if (otp === '123456' && localStorage.getItem('useMockAuth') === 'true') {
-      const mockUser = {
-        name: '',
-        email: '',
-        phone: fullPhone,
-        role: 'user'
-      };
-      localStorage.setItem('regToken', 'mock_reg_token_' + Date.now());
-      localStorage.setItem('regUser', JSON.stringify(mockUser));
-
-      const btn = $('btnCreateAccount');
-      if (btn) {
-        btn.disabled = false;
-        btn.style.opacity = '1';
-        btn.style.cursor = 'pointer';
-      }
-      toast('Mobile number verified (Offline Mode)! You can now create your account.', 'success');
-    } else {
-      if (err) err.textContent = '�Œ ' + (e.message || 'OTP verification failed. Try again.');
-      toast(e.message || 'Verification failed.', 'error');
-    }
+    if (err) err.textContent = 'X ' + (e.message || 'OTP verification failed. Try again.');
+    toast(e.message || 'Verification failed.', 'error');
   }
 }
 
 function triggerGoogleSignIn() {
   if (typeof google !== 'undefined' && google.accounts) {
     toast('Opening Google Sign-In...', 'info');
-    google.accounts.id.prompt((notification) => {
-      if (notification.isNotDisplayed()) {
-        console.warn('Google One Tap not displayed:', notification.getNotDisplayedReason());
-        openOauthModal('google');
-      }
-    });
+    google.accounts.id.prompt();
   } else {
-    openOauthModal('google');
-  }
-}
-
-function openOauthModal(provider) {
-  const modal = $('oauthModal');
-  if (!modal) return;
-  modal.classList.add('open');
-  
-  const title = $('oauthModalTitle');
-  if (title) title.textContent = `Sign in with ${provider.charAt(0).toUpperCase() + provider.slice(1)}`;
-  
-  const brandRow = $('oauthBrandRow');
-  if (brandRow) {
-    brandRow.innerHTML = provider === 'google' 
-      ? `<svg viewBox="0 0 24 24" style="width:36px;height:36px;"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22c-.17-.22-.32-.45-.45-.69z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>`
-      : '';
-  }
-  
-  const accList = $('oauthAccList');
-  if (accList) {
-    const list = OAUTH_ACCOUNTS[provider] || [];
-    accList.innerHTML = list.map(acc => `
-      <div class="oauth-acc-item" onclick="doOauthLogin('${provider}', '${acc.name}', '${acc.email}')">
-        <div class="oauth-acc-av" style="background:${acc.color}">${acc.name[0]}</div>
-        <div class="oauth-acc-info">
-          <span>${acc.name}</span>
-          <small>${acc.email}</small>
-        </div>
-        <div class="oauth-acc-arrow">→</div>
-      </div>
-    `).join('');
-  }
-}
-
-function closeOauthModal() {
-  const modal = $('oauthModal');
-  if (modal) modal.classList.remove('open');
-}
-
-async function doOauthLogin(provider, name, email) {
-  closeOauthModal();
-  toast('Signing in as ' + name + '...', 'info');
-  try {
-    const res = await fetch(API_BASE_URL + '/api/auth/google-mock', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, email })
-    }).catch(() => null);
-    
-    if (res && res.ok) {
-      const data = await res.json();
-      localStorage.setItem('authToken', data.token);
-      localStorage.setItem('currentUser', JSON.stringify(data.user));
-      currentUser = data.user;
-    } else {
-      if (localStorage.getItem('useMockAuth') === 'true') {
-        const users = getUsers();
-        let u = users.find(x => x.email === email);
-        if (!u) {
-          u = {
-            id: 'u_oauth_' + Date.now(),
-            name,
-            email,
-            role: 'user'
-          };
-          users.push(u);
-          saveUsers(users);
-        }
-        const mockToken = 'mock_jwt_token_' + u.id;
-        localStorage.setItem('authToken', mockToken);
-        localStorage.setItem('currentUser', JSON.stringify(u));
-        currentUser = u;
-      } else {
-        throw new Error(res ? 'OAuth verification failed.' : 'Server is unreachable.');
-      }
-    }
-    
-    if (typeof routeByRole === 'function') {
-      routeByRole(currentUser);
-    } else {
-      $('authScreen').style.display = 'none';
-      initUser();
-    }
-    toast(`Welcome ${currentUser.name}! 👋`, 'success');
-  } catch (e) {
-    toast('Login failed: ' + e.message, 'error');
+    toast('Google Sign-In is unavailable right now. Please use email or mobile OTP.', 'error');
   }
 }
 
@@ -3560,59 +3360,33 @@ async function doRegister(){
   const user = JSON.parse(regUser);
   user.name = name;
   user.email = email;
-  user.password = password; // For offline local DB
 
   try {
-    if (regToken.startsWith('mock_reg_token_')) {
-      // Offline fallback: Save user details locally in localStorage mock database
-      const users = getUsers();
-      let u = users.find(x => x.email === email || x.phone === user.phone);
-      if (u) {
-        throw new Error('User already exists with this email or phone number');
-      }
-      u = {
-        id: 'u_registered_' + Date.now(),
+    // Update user profile and set password on the backend
+    const profileRes = await fetch(API_BASE_URL + '/api/auth/update-profile', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + regToken
+      },
+      body: JSON.stringify({
         name,
         email,
-        phone: user.phone,
         password,
-        role: 'user'
-      };
-      users.push(u);
-      saveUsers(users);
+        phone: user.phone || (document.getElementById('regCountryCode').value + phone)
+      })
+    });
+    const profileData = await profileRes.json().catch(() => ({}));
+    if(!profileRes.ok) throw new Error(profileData.message || 'Could not finish profile setup');
 
-      // Log in offline
-      const offlineToken = 'offline_token_' + u.id;
-      localStorage.setItem('authToken', offlineToken);
-      localStorage.setItem('currentUser', JSON.stringify(u));
-      currentUser = u;
-    } else {
-      // Online mode: Update user profile and set password on backend
-      const profileRes = await fetch(API_BASE_URL + '/api/auth/update-profile', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + regToken
-        },
-        body: JSON.stringify({
-          name,
-          email,
-          password,
-          phone: user.phone || (document.getElementById('regCountryCode').value + phone)
-        })
-      });
-      const profileData = await profileRes.json().catch(() => ({}));
-      if(!profileRes.ok) throw new Error(profileData.message || 'Could not finish profile setup');
-      
-      if(profileData.user) {
-        user.name = profileData.user.name || user.name;
-        user.email = profileData.user.email || user.email;
-        user.phone = profileData.user.phone || user.phone;
-      }
-      localStorage.setItem('authToken', regToken);
-      localStorage.setItem('currentUser', JSON.stringify(user));
-      currentUser = user;
+    if(profileData.user) {
+      user.name = profileData.user.name || user.name;
+      user.email = profileData.user.email || user.email;
+      user.phone = profileData.user.phone || user.phone;
     }
+    localStorage.setItem('authToken', regToken);
+    localStorage.setItem('currentUser', JSON.stringify(user));
+    currentUser = user;
   } catch(e) {
     err.textContent = e.message;
     return;
@@ -3769,18 +3543,6 @@ function handleOtpPaste(e, prefix) {
   }
 }
 
-// ===== SOCIAL LOGIN =====
-const OAUTH_ACCOUNTS={
-  google:[
-    {name:'Priya Sharma',email:'priya.sharma@gmail.com',color:'#4285f4'},
-    {name:'Rahul Kumar',email:'rahulk@gmail.com',color:'#34a853'},
-  ],
-  facebook:[
-    {name:'Sneha Reddy',email:'sneha.reddy@gmail.com',color:'#1877f2'},
-    {name:'Ankit Verma',email:'ankit.v@gmail.com',color:'#9333ea'},
-  ]
-};
-
 // ===== REAL GOOGLE SIGN-IN IMPLEMENTATION =====
 // This shows ACTUAL Google accounts from the user's browser!
 
@@ -3792,6 +3554,9 @@ const API_BASE_URL = window.location.origin.includes('localhost:5000') || window
 
 // Global flag to prevent checkBackendStatus from interfering with an active login
 window._loginInProgress = false;
+
+// Auth is now fully API-driven — clear any stale demo/mock mode from earlier builds
+localStorage.removeItem('useMockAuth');
 
 async function checkBackendStatus() {
   const banner = document.getElementById('backendConnectionBanner');
@@ -3866,14 +3631,14 @@ async function checkBackendStatus() {
       banner.style.background = 'rgba(217, 119, 6, 0.1)';
       banner.style.color = '#d97706';
       banner.style.border = '1px solid rgba(217, 119, 6, 0.2)';
-      banner.innerHTML = `⚠� Backend returned an error. Some features might be unavailable. Check "Enable Demo/Mock Auth" to use offline demo mode.`;
+      banner.innerHTML = `Backend returned an error. Some features may be temporarily unavailable. Please try again shortly.`;
     }
   } catch (err) {
     banner.style.display = 'block';
     banner.style.background = 'rgba(217, 119, 6, 0.1)';
     banner.style.color = '#d97706';
     banner.style.border = '1px solid rgba(217, 119, 6, 0.2)';
-    banner.innerHTML = `⚠� Backend server is offline. Please check "Enable Demo/Mock Auth" above to run in offline/demo bypass mode.`;
+    banner.innerHTML = `Backend server is unreachable. Please check your connection and try again.`;
   }
 }
 
@@ -3905,16 +3670,12 @@ function toggleMockAuthMode(enabled) {
 }
 
 function handleCustomGoogleClick(event) {
-  const isMock = localStorage.getItem('useMockAuth') === 'true';
   const googleLoaded = typeof google !== 'undefined' && google.accounts && google.accounts.id;
-  
-  if (isMock || !googleLoaded) {
+  if (!googleLoaded) {
     if (event) event.preventDefault();
-    openOauthModal('google');
-  } else {
-    // Real mode is enabled and SDK is loaded.
-    console.log('Real Google Sign-In SDK is active. Overlay click should capture.');
+    toast('Google Sign-In is unavailable right now. Please use email or mobile OTP.', 'error');
   }
+  // When the SDK is loaded the transparent Google button overlay captures the click.
 }
 
 async function doQuickDemoLogin(role) {
@@ -3943,28 +3704,7 @@ async function doQuickDemoLogin(role) {
       localStorage.setItem('currentUser', JSON.stringify(data.user));
       currentUser = data.user;
     } else {
-      if (localStorage.getItem('useMockAuth') === 'true') {
-        const users = getUsers();
-        let u = users.find(x => x.email === userDetails.email);
-        if (!u) {
-          u = {
-            id: 'u_quick_' + role + '_' + Date.now(),
-            name: userDetails.name,
-            email: userDetails.email,
-            phone: userDetails.phone,
-            password: userDetails.password,
-            role: role
-          };
-          users.push(u);
-          saveUsers(users);
-        }
-        const mockToken = 'mock_jwt_token_' + u.id;
-        localStorage.setItem('authToken', mockToken);
-        localStorage.setItem('currentUser', JSON.stringify(u));
-        currentUser = u;
-      } else {
-        throw new Error(res ? 'Failed to fetch quick demo user login from server.' : 'Server is offline.');
-      }
+      throw new Error(res ? 'Demo login failed — is this account seeded on the server?' : 'Server is offline.');
     }
     
     if (typeof routeByRole === 'function') {
