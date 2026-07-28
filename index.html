@@ -20,7 +20,7 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <!-- Socket.IO client for real-time order status + live rider tracking -->
 <script src="/socket.io/socket.io.js" defer></script>
-<!-- Critical app styles -->
+<!-- Critical app styles -->i0.0
 <link rel="stylesheet" href="css/styles.css?v=35">
 </head>
 <body>
@@ -2441,50 +2441,6 @@
 
   <div class="mob-search-results-info" id="mobSearchInfo">Browse our full menu</div>
   <div class="mob-search-grid" id="mobSearchGrid"></div>
-</div>
-
-<!-- ===== PREMIUM FLOATING TASKBAR ===== -->
-<div class="mobile-taskbar" id="mobileTaskbar">
-  <button class="tb-item tb-active" id="tb-menu" onclick="handleTaskbarNav('menu')">
-    <div class="tb-icon">
-      <svg viewBox="0 0 24 24" fill="none" style="width:22px;height:22px"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" stroke="currentColor" stroke-width="1.8"/><polyline points="9 22 9 12 15 12 15 22" stroke="currentColor" stroke-width="1.8"/></svg>
-    </div>
-    <span class="tb-label">Home</span>
-    <div class="tb-active-dot"></div>
-  </button>
-
-  <button class="tb-item" id="tb-search" onclick="handleTaskbarNav('search')">
-    <div class="tb-icon">
-      <svg viewBox="0 0 24 24" fill="none" style="width:22px;height:22px"><circle cx="10.5" cy="10.5" r="7" stroke="currentColor" stroke-width="1.8"/><path d="M15.5 15.5L21 21" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
-    </div>
-    <span class="tb-label">Search</span>
-    <div class="tb-active-dot"></div>
-  </button>
-
-  <!-- CENTER FAB: Cart -->
-  <button class="tb-fab" id="tb-cart" onclick="handleTaskbarNav('cart')">
-    <div class="tb-fab-circle">
-      <svg viewBox="0 0 24 24" fill="none" style="width:22px;height:22px"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M3 6h18" stroke="currentColor" stroke-width="1.8"/><path d="M16 10a4 4 0 01-8 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-      <span class="tb-cart-badge" id="mobCartBadge">0</span>
-    </div>
-    <span class="tb-fab-label">Cart</span>
-  </button>
-
-  <button class="tb-item" id="tb-orders" onclick="handleTaskbarNav('orders')">
-    <div class="tb-icon">
-      <svg viewBox="0 0 24 24" fill="none" style="width:22px;height:22px"><path d="M5 18h2l1-3h8l1 3h2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 18h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="7" cy="20.5" r="1.5" stroke="currentColor" stroke-width="1.5"/><circle cx="17" cy="20.5" r="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M5 15V9a2 2 0 012-2h6l4 4v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M13 7v4h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </div>
-    <span class="tb-label">Orders</span>
-    <div class="tb-active-dot"></div>
-  </button>
-
-  <button class="tb-item" id="tb-profile" onclick="handleTaskbarNav('profile')">
-    <div class="tb-icon">
-      <svg viewBox="0 0 24 24" fill="none" style="width:22px;height:22px"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="1.8"/></svg>
-    </div>
-    <span class="tb-label">Account</span>
-    <div class="tb-active-dot"></div>
-  </button>
 </div>
 
 <!-- CART OVERLAY + DRAWER -->
@@ -6929,9 +6885,6 @@ function contactSupportOption(type) {
     <span id="cb-btn-top">1 item</span>
     <span id="cb-btn-bottom">View Cart</span>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-  </button>
-  <button id="cb-clear-btn" class="fcb-trash-btn" onclick="clearCart()" title="Clear Cart">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
   </button>
 </div>
 
