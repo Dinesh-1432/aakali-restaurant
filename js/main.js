@@ -562,6 +562,22 @@ if (typeof currentUser !== 'undefined' && currentUser) {
     }
   }, { once: true });
 }
+
+// ============================================================
+// TEMPORARY: GUEST BYPASS — skip the login gate and open the
+// Aakali marketplace home directly. Set to false to restore login.
+// (Guests can browse; placing an order still requires signing in.)
+// ============================================================
+const AAKALI_GUEST_BYPASS = true;
+if (AAKALI_GUEST_BYPASS && (typeof currentUser === 'undefined' || !currentUser)) {
+  currentUser = { id: 'guest', name: 'Guest', email: '', phone: '', role: 'user' };
+  const authEl = document.getElementById('authScreen');
+  if (authEl) authEl.style.display = 'none';
+  window.addEventListener('load', () => {
+    if (typeof showSwadHome === 'function') showSwadHome();
+    else if (typeof initUser === 'function') initUser();
+  }, { once: true });
+}
 initializeGoogleSignIn();
 
 // ═══════════════════════════════════════════════════════
