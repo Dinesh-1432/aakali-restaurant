@@ -21,7 +21,7 @@
 <!-- Socket.IO client for real-time order status + live rider tracking -->
 <script src="/socket.io/socket.io.js" defer></script>
 <!-- Critical app styles -->
-<link rel="stylesheet" href="css/styles.css?v=52">
+<link rel="stylesheet" href="css/styles.css?v=53">
 </head>
 <body>
 
@@ -484,11 +484,11 @@
   <!-- Sort / Filter Tabs -->
   <div class="swad-filter-tabs">
     <button class="swad-filter-tab active" id="swadTabAll" onclick="swadSortFilter('all', this)">All</button>
-    <button class="swad-filter-tab" id="swadTabRating" onclick="swadSortFilter('rating', this)">⭐ Top Rated</button>
-    <button class="swad-filter-tab" id="swadTabFast" onclick="swadSortFilter('fast', this)">⚡ Fastest</button>
-    <button class="swad-filter-tab" id="swadTabOffer" onclick="swadSortFilter('offer', this)">🞁 Offers</button>
-    <button class="swad-filter-tab" id="swadTabVeg" onclick="swadSortFilter('veg', this)">🥦 Pure Veg</button>
-    <button class="swad-filter-tab" id="swadTabNew" onclick="swadSortFilter('new', this)">✨ New</button>
+    <button class="swad-filter-tab" id="swadTabRating" onclick="swadSortFilter('rating', this)">Top Rated</button>
+    <button class="swad-filter-tab" id="swadTabFast" onclick="swadSortFilter('fast', this)">Fastest</button>
+    <button class="swad-filter-tab" id="swadTabOffer" onclick="swadSortFilter('offer', this)">Offers</button>
+    <button class="swad-filter-tab" id="swadTabVeg" onclick="swadSortFilter('veg', this)">Pure Veg</button>
+    <button class="swad-filter-tab" id="swadTabNew" onclick="swadSortFilter('new', this)">New</button>
   </div>
 
   <!-- Dish Search Results -->
@@ -1374,12 +1374,12 @@
       </div>
       <div class="section-head"><h2>Explore Menu</h2><p>Freshly prepared, full of authentic flavour</p></div>
       <div class="filter-row">
-        <button class="filter-btn active" onclick="applyFilter('all',this)">🍴 All</button>
-        <button class="filter-btn" onclick="applyFilter('starters',this)">🥘 Starters</button>
-        <button class="filter-btn" onclick="applyFilter('veg',this)">🥦 Veg</button>
-        <button class="filter-btn" onclick="applyFilter('nonveg',this)">🍗 Non-Veg</button>
-        <button class="filter-btn" onclick="applyFilter('dessert',this)">🍮 Desserts</button>
-        <button class="filter-btn" onclick="applyFilter('drinks',this)">🥤 Drinks</button>
+        <button class="filter-btn active" onclick="applyFilter('all',this)">All</button>
+        <button class="filter-btn" onclick="applyFilter('starters',this)">Starters</button>
+        <button class="filter-btn" onclick="applyFilter('veg',this)">Veg</button>
+        <button class="filter-btn" onclick="applyFilter('nonveg',this)">Non-Veg</button>
+        <button class="filter-btn" onclick="applyFilter('dessert',this)">Desserts</button>
+        <button class="filter-btn" onclick="applyFilter('drinks',this)">Drinks</button>
       </div>
       <div class="food-grid" id="menuGrid"></div>
     </div>
@@ -4791,7 +4791,7 @@ function initScratchCard(promoCode) {
   ctx.font = 'bold 16px "Plus Jakarta Sans", sans-serif';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  ctx.fillText('🞁 SCRATCH ME! 🞁', w/2, h/2);
+  ctx.fillText('SCRATCH ME!', w/2, h/2);
   
   let isDrawing = false;
   
