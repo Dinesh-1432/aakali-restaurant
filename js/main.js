@@ -1329,20 +1329,36 @@ backToMenu = function() {
   }
 };
 
-// Theme — Earth (light) and Dark Premium toggle
+// Theme — light only for now.
+// TEMPORARY: dark mode is shelved until its contrast is fully audited
+// (many surfaces use hardcoded colors that don't flip on theme switch).
+// Set AAKALI_FORCE_LIGHT = false to re-enable the dark toggle.
+const AAKALI_FORCE_LIGHT = true;
+
 function setTheme(theme) {
-  document.body.classList.remove('theme-earth', 'theme-dark');
+  if (AAKALI_FORCE_LIGHT) theme = 'light';
+  document.body.classList.remove('theme-earth', 'theme-dark', 'theme-light', 'dark');
   document.body.classList.add('theme-' + theme);
+  try { document.body.removeAttribute('data-theme'); } catch (e) {}
   localStorage.setItem('theme', theme);
 }
 
 function toggleTheme() {
+  if (AAKALI_FORCE_LIGHT) { setTheme('light'); return; }
   const current = localStorage.getItem('theme') || 'earth';
   const next = current === 'earth' ? 'dark' : 'earth';
   setTheme(next);
 }
 
 function toggleProfileTheme() { toggleTheme(); }
+
+// On load, guarantee the readable light theme (defensive against any stale dark class)
+if (AAKALI_FORCE_LIGHT) {
+  try {
+    document.body.classList.remove('theme-dark', 'dark');
+    document.body.removeAttribute('data-theme');
+  } catch (e) {}
+}
 function updateThemeUI() {}
 function setupSystemThemeListener() {}
 function handleSystemThemeChange() {}

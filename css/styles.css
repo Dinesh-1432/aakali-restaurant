@@ -10716,3 +10716,10 @@ body.checkout-open #checkoutPage { display: block !important; }
 /* Payment option titles/subtitles clear */
 .love-cart-page .love-pay-option strong { color: #1f2937; }
 .love-cart-page .love-pay-option small { color: #6b7280; }
+
+/* ============================================================
+   TEMPORARY: hide dark-mode toggle UI (dark theme shelved)
+   Re-show by removing this block + setting AAKALI_FORCE_LIGHT=false
+   ============================================================ */
+.profile-theme-toggle-wrap { display: none !important; }
+.profile-card:has(.theme-toggle-container) { display: none !important; }
