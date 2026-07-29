@@ -10677,3 +10677,42 @@ body.checkout-open #checkoutPage { display: block !important; }
 .cook-req-help {
   font-weight: 600;
 }
+
+/* ============================================================
+   VIEW CART — LOVEABLE, READABLE COLOURS
+   Fix washed-out basket text + warm the accents to match brand
+   ============================================================ */
+
+/* Basket item: name dark & bold, description mid-gray, price warm amber */
+.love-cart-page .cir-info h4 {
+  color: #1f2937 !important;
+  font-weight: 800;
+}
+.love-cart-page .cir-info p {
+  color: #6b7280 !important;
+}
+.love-cart-page .cir-price-col {
+  color: #ea580c !important;
+  font-weight: 900;
+}
+.love-cart-page .cir-qty-num {
+  color: #1f2937 !important;
+}
+
+/* Warm, on-brand eyebrows/section labels (was green) */
+.love-cart-page .love-eyebrow,
+.love-cart-page .love-section-title span {
+  color: #ea580c !important;
+}
+
+/* Header title + subtitle: strong contrast */
+.love-cart-page .love-cart-header h1 { color: #1a1206 !important; }
+.love-cart-page .love-cart-header .sco-address-line { color: #5b5147 !important; }
+
+/* Bill rows + grand total readable and warm */
+.love-cart-page .bill-details-list .summary-item { color: #374151; }
+.love-cart-page .summary-grand span:last-child { color: #ea580c !important; }
+
+/* Payment option titles/subtitles clear */
+.love-cart-page .love-pay-option strong { color: #1f2937; }
+.love-cart-page .love-pay-option small { color: #6b7280; }
