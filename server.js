@@ -81,14 +81,21 @@ const staticOptions = {
     else if (/\.(png|jpg|jpeg|webp|gif|svg|ico)$/i.test(filePath)) {
       res.setHeader('Cache-Control', 'public, max-age=604800'); // 7 days
     }
-    // JS/CSS get 1 day with revalidation
+    // JS/CSS get no-cache in development mode to prevent stale browser caching
     else if (/\.(js|css)$/i.test(filePath)) {
-      res.setHeader('Cache-Control', 'public, max-age=86400, must-revalidate'); // 1 day
+      if (process.env.NODE_ENV !== 'production') {
+        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+        res.setHeader('Pragma', 'no-cache');
+        res.setHeader('Expires', '0');
+      } else {
+        res.setHeader('Cache-Control', 'public, max-age=86400, must-revalidate');
+      }
     }
   }
 };
 
 // Serve static files
+app.use(express.static(__dirname, staticOptions));
 app.use('/uploads', express.static('uploads', staticOptions));
 app.use(express.static('public', staticOptions));
 app.use('/css', express.static('css', staticOptions));

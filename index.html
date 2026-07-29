@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<meta name="description" content="Aakali "” Fast food delivery from top restaurants. Order online and get fresh food delivered to your door."/>
-<title>Aakali "” Food Delivery</title>
+<meta name="description" content="Aakali — Fast food delivery from top restaurants. Order online and get fresh food delivered to your door."/>
+<title>Aakali — Food Delivery</title>
 <!-- DNS prefetch and preconnect for faster external resource loading -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,7 +12,7 @@
 <!-- Google Fonts with display=swap and preload for non-render-blocking load -->
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"></noscript>
-<!-- Lucide Icons "” defer to not block initial render -->
+<!-- Lucide Icons — defer to not block initial render -->
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <!-- Leaflet.js Interactive Map for Live GPS Driver Telemetry -->
@@ -21,24 +21,32 @@
 <!-- Socket.IO client for real-time order status + live rider tracking -->
 <script src="/socket.io/socket.io.js" defer></script>
 <!-- Critical app styles -->i0.0
-<link rel="stylesheet" href="css/styles.css?v=35">
+<link rel="stylesheet" href="css/styles.css?v=48">
 </head>
 <body>
 
-<!-- SWIGGY-STYLE OPENING SPLASH SCREEN LOGO ANIMATION -->
-<div id="swiggyOpeningSplash" class="swiggy-splash-overlay">
-  <div class="swiggy-splash-content">
-    <div class="swiggy-splash-logo-wrap">
-      <div class="swiggy-splash-glow"></div>
-      <img src="Logo.png" alt="Aakali Logo" class="swiggy-splash-logo-img" onerror="this.onerror=null; this.src='public/Logo.png';"/>
+<!-- AAKALI PREMIUM OPENING SPLASH -->
+<div id="swiggyOpeningSplash" class="ak-splash">
+  <div class="ak-splash-noise" aria-hidden="true"></div>
+  <div class="ak-splash-particles" aria-hidden="true">
+    <span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+  <div class="ak-splash-inner">
+    <div class="ak-splash-halo" aria-hidden="true">
+      <span class="ak-halo ak-halo-1"></span>
+      <span class="ak-halo ak-halo-2"></span>
+      <span class="ak-halo ak-halo-3"></span>
+      <img src="Logo.png" alt="Aakali" class="ak-splash-logo" onerror="this.onerror=null; this.src='public/Logo.png';"/>
     </div>
-    <h1 class="swiggy-splash-title">AAK<span>ALI</span></h1>
-    <p class="swiggy-splash-tagline">Vibrant Flavors, Delivered Fast ⚡</p>
-
-    <!-- Swiggy-style animated loading line -->
-    <div class="swiggy-splash-progress">
-      <div class="swiggy-splash-bar"></div>
+    <h1 class="ak-splash-word" aria-label="Aakali">
+      <span>A</span><span>a</span><span>k</span><span>a</span><span>l</span><span>i</span>
+    </h1>
+    <p class="ak-splash-tagline">Handcrafted flavours, delivered with love</p>
+    <div class="ak-splash-dots" aria-label="Loading">
+      <span></span><span></span><span></span>
     </div>
+    <div class="ak-splash-trust">SECURED BY AAKALI · SINCE 2024</div>
   </div>
 </div>
 
@@ -105,16 +113,7 @@
 
                 <p class="auth-error" id="loginError"></p>
 
-        <!-- Quick Demo Access Section -->
-        <div class="quick-demo-wrapper" style="margin-top: 0.5rem; padding-top: 0.75rem; border-top: 1px dashed var(--border); text-align: center;">
-          <div style="font-size: 0.75rem; color: var(--muted); margin-bottom: 0.55rem; font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase;">Quick Demo Access</div>
-          <div style="display: flex; flex-wrap: wrap; gap: 0.4rem; justify-content: center;">
-            <button type="button" onclick="doQuickDemoLogin('admin')" style="padding: 0.45rem 0.8rem; border-radius: 50px; border: 1.5px solid var(--border); background: var(--card); color: var(--text2); font-size: 0.76rem; font-weight: 700; cursor: pointer; transition: all 0.25s ease;" onmouseover="this.style.borderColor='var(--accent)'; this.style.color='var(--accent)';" onmouseout="this.style.borderColor='var(--border)'; this.style.color='var(--text2)';">🔑 Admin</button>
-            <button type="button" onclick="doQuickDemoLogin('user')" style="padding: 0.45rem 0.8rem; border-radius: 50px; border: 1.5px solid var(--border); background: var(--card); color: var(--text2); font-size: 0.76rem; font-weight: 700; cursor: pointer; transition: all 0.25s ease;" onmouseover="this.style.borderColor='var(--accent)'; this.style.color='var(--accent)';" onmouseout="this.style.borderColor='var(--border)'; this.style.color='var(--text2)';">👤 Customer</button>
-            <button type="button" onclick="doQuickDemoLogin('rider')" style="padding: 0.45rem 0.8rem; border-radius: 50px; border: 1.5px solid var(--border); background: var(--card); color: var(--text2); font-size: 0.76rem; font-weight: 700; cursor: pointer; transition: all 0.25s ease;" onmouseover="this.style.borderColor='var(--accent)'; this.style.color='var(--accent)';" onmouseout="this.style.borderColor='var(--border)'; this.style.color='var(--text2)';">🛵 Rider</button>
-            <button type="button" onclick="doQuickDemoLogin('kds')" style="padding: 0.45rem 0.8rem; border-radius: 50px; border: 1.5px solid var(--border); background: var(--card); color: var(--text2); font-size: 0.76rem; font-weight: 700; cursor: pointer; transition: all 0.25s ease;" onmouseover="this.style.borderColor='var(--accent)'; this.style.color='var(--accent)';" onmouseout="this.style.borderColor='var(--border)'; this.style.color='var(--text2)';">🍳 Kitchen (KDS)</button>
-          </div>
-        </div>
+        <!-- removed: quick demo access panel -->
       </div>
 
       <!-- REGISTER -->
@@ -159,86 +158,176 @@
   </div>
 </div>
 
-<!-- ===== SWAD HOME "” MULTI-RESTAURANT LISTING ===== -->
+<!-- ===== SWAD HOME — MULTI-RESTAURANT LISTING ===== -->
 <div id="swadHome">
-  <!-- Swiggy Official Top Header (Main Marketplace) -->
-  <nav class="swiggy-top-header" id="swadNav">
-    <!-- LEFT: Brand + Location (Side-by-Side) -->
-    <div class="swiggy-header-left">
-      <div class="swiggy-brand-logo" onclick="backToSwadHome()">
-        <img src="Logo.png" alt="Aakali Logo" class="swiggy-header-logo-img" onerror="this.onerror=null; this.src='public/Logo.png';"/>
-        <span class="swiggy-logo-title">AAKALI</span>
-      </div>
+  <!-- Aakali Top Nav — Warm Floating Glass Pill (marketplace) -->
+  <nav class="aknav aknav-top swiggy-top-header" id="swadNav" role="navigation" aria-label="Main navigation">
+    <!-- LEFT: Logo + Location pill -->
+    <div class="aknav-left">
+      <button type="button" class="aknav-brand" onclick="if(typeof backToSwadHome==='function')backToSwadHome()" title="Aakali home" aria-label="Aakali home">
+        <span class="aknav-brand-bubble" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px">
+            <path d="M12 2c1 3 4 4 4 8a4 4 0 11-8 0c0-1 .3-2 1-3 .3 1 1 1.5 1.5 1.5C10.5 6 12 5 12 2z"/>
+            <path d="M8.5 14.5c.5 2 2 3.5 3.5 3.5s3-1.5 3.5-3.5"/>
+          </svg>
+        </span>
+        <span class="aknav-brand-text">AAKALI</span>
+      </button>
 
-      <div class="swiggy-header-loc" onclick="openSwadLocDropdown()" title="Click to change location">
-        <span class="swiggy-loc-tag">Other</span>
-        <span class="swiggy-loc-name" id="swadNavLoc">Madhapur, Hyderabad</span>
-        <i data-lucide="chevron-down" style="width:14px;height:14px;color:var(--accent)"></i>
+      <button type="button" class="aknav-loc" id="swadNavLocBtn" onclick="if(typeof openSwadLocDropdown==='function')openSwadLocDropdown()" title="Change location" aria-label="Change location">
+        <span class="aknav-loc-pinwrap">
+          <svg viewBox="0 0 24 24" fill="currentColor" style="width:15px;height:15px" aria-hidden="true">
+            <path d="M12 2a7 7 0 00-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 00-7-7zm0 9.5A2.5 2.5 0 1112 6.5a2.5 2.5 0 010 5z"/>
+          </svg>
+          <span class="aknav-loc-dot" aria-hidden="true"></span>
+        </span>
+        <span class="aknav-loc-text" id="swadNavLoc">Hyderabad</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;opacity:.6" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+    </div>
+
+    <!-- CENTER: Search -->
+    <div class="aknav-center">
+      <div class="aknav-search">
+        <svg class="aknav-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+        </svg>
+        <input type="text" id="swadHomeSearchTop"
+               placeholder="Search for restaurant, cuisine or a dish..."
+               oninput="swadMirrorSearch && swadMirrorSearch(this)"
+               autocomplete="off" aria-label="Search restaurants, cuisines or dishes"/>
       </div>
     </div>
 
-    <!-- CENTER: Search Input -->
-    <div class="swiggy-header-center">
-      <div class="swiggy-header-search-wrap">
-        <i data-lucide="search" style="width:16px;height:16px" class="swiggy-search-icon"></i>
-        <input type="text" id="swadHomeSearch" placeholder="Search for restaurant, cuisine or a dish..." oninput="swadHomeFilter(this.value)" autocomplete="off"/>
-      </div>
-    </div>
-
-    <!-- RIGHT: Offers, Orders, Cart, Theme, Profile -->
-    <div class="swiggy-header-right">
-      <button class="swiggy-nav-item" onclick="showMarketplaceDeals()">
-        <i data-lucide="percent" style="width:18px;height:18px"></i>
-        <span>Offers</span>
-        <span class="swiggy-new-chip">NEW</span>
+    <!-- RIGHT: Cart + Profile -->
+    <div class="aknav-right">
+      <button type="button" class="aknav-cart" id="aknavCartBtnTop" onclick="if(typeof toggleCart==='function')toggleCart()" title="View cart" aria-label="View cart">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:19px;height:19px" aria-hidden="true">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+          <path d="M3 6h18"/>
+          <path d="M16 10a4 4 0 01-8 0"/>
+        </svg>
+        <span class="aknav-cart-badge" id="swadNavCartBadge" data-count="0">0</span>
       </button>
 
-      <button class="swiggy-nav-item" onclick="showSection('orders')">
-        <i data-lucide="package" style="width:18px;height:18px"></i>
-        <span>Orders</span>
-      </button>
-
-      <button class="swiggy-nav-item swiggy-nav-cart-btn" onclick="openCart()">
-        <div style="position:relative;">
-          <i data-lucide="shopping-bag" style="width:20px;height:20px"></i>
-          <span class="swiggy-cart-badge-num" id="swadNavCartBadge">0</span>
-        </div>
-        <span>Cart</span>
-      </button>
-
-      <div class="swad-toggle-pill" id="themeTogglePill" onclick="toggleTheme()" title="Switch theme">
-        <div class="swad-toggle-slider" id="themeToggleSlider"></div>
-        <span class="swad-toggle-icon swad-toggle-sun">☀️</span>
-        <span class="swad-toggle-icon swad-toggle-moon">🌙</span>
-      </div>
-
-      <div class="swiggy-nav-user" onclick="swadUserMenu()" id="swadNavUserBtn">A</div>
+      <button type="button" class="aknav-avatar" onclick="if(typeof swadUserMenu==='function')swadUserMenu()" id="swadNavUserBtn" title="Account menu" aria-label="Account menu">A</button>
     </div>
   </nav>
 
-  <!-- Immersive Fullscreen Hero -->
-  <section class="aakali-hero" id="aakaliHero">
-    <div class="aakali-hero-bg"></div>
-    <div class="aakali-hero-overlay"></div>
-    <div class="aakali-hero-content">
-      <span class="aakali-hero-badge">Premium Food Delivery</span>
-      <h1 class="aakali-hero-title">Taste the<br><span>Extraordinary</span></h1>
-      <p class="aakali-hero-sub">500+ restaurants. 30 min delivery. One app.</p>
-      <button class="aakali-hero-cta" onclick="document.getElementById('swadCategories').scrollIntoView({behavior:'smooth'})">
-        <svg viewBox="0 0 24 24" fill="none" style="width:18px;height:18px"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.3 4.6a1 1 0 00.9 1.4h12.8M10 21a1 1 0 100-2 1 1 0 000 2zm8 0a1 1 0 100-2 1 1 0 000 2z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        Explore Restaurants
-      </button>
-    </div>
-    <div class="aakali-hero-scroll" onclick="document.getElementById('swadCategories').scrollIntoView({behavior:'smooth'})">
-      <span>Scroll to explore</span>
-      <div class="aakali-hero-arrow">
-        <svg viewBox="0 0 24 24" fill="none" style="width:22px;height:22px">
-          <path d="M7 8l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/>
-          <path d="M7 13l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Personalized Hero (Zomato/DoorDash inspired) -->
+  <section class="aakali-phero" id="aakaliHero">
+    <div class="aakali-phero-orb aakali-phero-orb-1" aria-hidden="true"></div>
+    <div class="aakali-phero-orb aakali-phero-orb-2" aria-hidden="true"></div>
+    <div class="aakali-phero-orb aakali-phero-orb-3" aria-hidden="true"></div>
+
+    <div class="aakali-phero-inner">
+      <div class="aakali-phero-row">
+        <div class="aakali-phero-greeting-wrap">
+          <h1 class="aakali-phero-greeting" id="aakaliPheroGreeting">Hi there 👋</h1>
+          <p class="aakali-phero-sub">What are you craving today?</p>
+        </div>
+
+        <button type="button" class="aakali-phero-loc" id="aakaliPheroLoc"
+                onclick="(typeof openSwadLocDropdown==='function') && openSwadLocDropdown()"
+                title="Change location" aria-label="Change location">
+          <span class="aakali-phero-loc-pinwrap">
+            <svg viewBox="0 0 24 24" fill="none" style="width:16px;height:16px" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0116 0z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+            <span class="aakali-phero-loc-dot" aria-hidden="true"></span>
+          </span>
+          <span class="aakali-phero-loc-body">
+            <span class="aakali-phero-loc-label">Delivering to</span>
+            <span class="aakali-phero-loc-text" id="aakaliPheroLocText">Hyderabad</span>
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" style="width:14px;height:14px;opacity:.55" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M6 9l6 6 6-6"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="aakali-phero-searchbar" onclick="document.getElementById('swadHomeSearch')?.focus()">
+        <svg class="aakali-phero-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"/>
+          <path d="M21 21l-4.35-4.35"/>
         </svg>
+        <input type="text" id="swadHomeSearch"
+               placeholder="Search for restaurant, cuisine or a dish..."
+               oninput="swadMirrorSearch && swadMirrorSearch(this)" autocomplete="off"
+               aria-label="Search restaurants, cuisines or dishes"/>
+        <button type="button" class="aakali-phero-search-cta"
+                onclick="event.stopPropagation(); document.getElementById('swadCategories')?.scrollIntoView({behavior:'smooth'})"
+                aria-label="Explore restaurants">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px" aria-hidden="true">
+            <path d="M5 12h14M13 5l7 7-7 7"/>
+          </svg>
+        </button>
       </div>
     </div>
   </section>
+
+  <script>
+    /* Personalized hero: greeting + location + search mirror.
+       Kept inline so it runs early and doesn't depend on module load order. */
+    (function initAakaliPhero(){
+      function firstName(u){
+        if(!u) return '';
+        var n = (u.name || u.fullName || '').trim();
+        return n ? n.split(/\s+/)[0] : '';
+      }
+      function getName(){
+        try { if (typeof currentUser !== 'undefined' && currentUser) return firstName(currentUser); } catch(e){}
+        try {
+          var raw = localStorage.getItem('currentUser');
+          if (raw) return firstName(JSON.parse(raw));
+        } catch(e){}
+        return '';
+      }
+      function greetingFor(hour, name){
+        var who = name || 'there';
+        if (hour >= 5  && hour < 11) return 'Good morning, '   + who + ' 🌅';
+        if (hour >= 11 && hour < 16) return 'Good afternoon, ' + who + ' ☀️';
+        if (hour >= 16 && hour < 21) return 'Good evening, '   + who + ' 🌆';
+        return 'Feeling hungry, ' + who + '? 🌙';
+      }
+      function getLocation(){
+        try{
+          var raw = localStorage.getItem('swad_detected_location');
+          if (raw){
+            var j = JSON.parse(raw);
+            return j.area || j.city || j.displayName || 'Hyderabad';
+          }
+        }catch(e){}
+        return 'Hyderabad';
+      }
+      function refresh(){
+        var g = document.getElementById('aakaliPheroGreeting');
+        var l = document.getElementById('aakaliPheroLocText');
+        if (g) g.textContent = greetingFor(new Date().getHours(), getName());
+        if (l) l.textContent = getLocation();
+      }
+      // Two-way sync between hero search and the smaller nav search (visible on scroll).
+      window.swadMirrorSearch = function(src){
+        var val = src.value;
+        var a = document.getElementById('swadHomeSearch');
+        var b = document.getElementById('swadHomeSearchTop');
+        if (a && a !== src && a.value !== val) a.value = val;
+        if (b && b !== src && b.value !== val) b.value = val;
+        if (typeof swadHomeFilter === 'function') swadHomeFilter(val);
+      };
+      // Expose refresh so login/logout/location-change flows can call it.
+      window.updateAakaliPhero = refresh;
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', refresh);
+      } else {
+        refresh();
+      }
+      // Re-check greeting every 10 min so it adapts across time windows.
+      setInterval(refresh, 10 * 60 * 1000);
+    })();
+  </script>
 
   <!-- Stats / Trust Bar -->
   <section class="aakali-stats-bar">
@@ -323,57 +412,74 @@
     </div>
   </section>
 
-  <!-- Popular Near You -->
-  <section class="aakali-popular">
-    <h2 class="aakali-section-title">Popular near you</h2>
-    <div class="aakali-popular-grid" id="aakaliPopularGrid">
+  <!-- Phase 3: Popular right now — Zomato-style featured cards -->
+  <section class="aakali-popular" id="aakaliPopular" aria-labelledby="aakaliPopularTitle">
+    <div class="aakali-pop-head">
+      <div class="aakali-pop-title-wrap">
+        <h2 class="aakali-pop-title" id="aakaliPopularTitle">
+          <span class="aakali-pop-live-dot" aria-hidden="true"></span>
+          Popular right now
+        </h2>
+        <p class="aakali-pop-sub">Hot picks in your area, updated live</p>
+      </div>
+      <button type="button" class="aakali-pop-see-all" onclick="aakaliPopSeeAll()" aria-label="See all restaurants">
+        See all <span class="aakali-pop-see-all-arrow" aria-hidden="true">→</span>
+      </button>
+    </div>
+    <div class="aakali-popular-grid" id="aakaliPopularGrid" role="list" aria-label="Popular restaurants right now">
       <!-- Filled dynamically by JS -->
     </div>
   </section>
 
-  <!-- Category Chips -->
-  <div class="swad-categories" id="swadCategories">
-    <div class="swad-cat-chip active" data-cat="all" onclick="swadCatFilter('all', this)">
-      <span class="swad-cat-emoji">🍽</span>
-      <span class="swad-cat-label">All</span>
+  <!-- Phase 2: "What's on your mind?" bubble categories -->
+  <section class="aakali-craving" id="swadCategories" aria-labelledby="aakaliCravingTitle">
+    <div class="aakali-craving-head">
+      <h2 class="aakali-craving-title" id="aakaliCravingTitle">What's on your mind?</h2>
+      <p class="aakali-craving-sub">Pick a craving. We'll deliver the joy.</p>
     </div>
-    <div class="swad-cat-chip" data-cat="biryani" onclick="swadCatFilter('biryani', this)">
-      <span class="swad-cat-emoji">🍚</span>
-      <span class="swad-cat-label">Biryani</span>
+    <div class="aakali-craving-scroll" role="tablist" aria-label="Food categories">
+      <button type="button" class="aakali-craving-item swad-cat-chip active" data-cat="all" onclick="swadCatFilter('all', this)" aria-label="All">
+        <span class="aakali-craving-bubble"><span class="aakali-craving-emoji swad-cat-emoji" aria-hidden="true">🍽</span></span>
+        <span class="aakali-craving-label swad-cat-label">All</span>
+      </button>
+      <button type="button" class="aakali-craving-item swad-cat-chip" data-cat="biryani" onclick="swadCatFilter('biryani', this)" aria-label="Biryani">
+        <span class="aakali-craving-bubble"><span class="aakali-craving-emoji swad-cat-emoji" aria-hidden="true">🍚</span></span>
+        <span class="aakali-craving-label swad-cat-label">Biryani</span>
+      </button>
+      <button type="button" class="aakali-craving-item swad-cat-chip" data-cat="pizza" onclick="swadCatFilter('pizza', this)" aria-label="Pizza">
+        <span class="aakali-craving-bubble"><span class="aakali-craving-emoji swad-cat-emoji" aria-hidden="true">🍕</span></span>
+        <span class="aakali-craving-label swad-cat-label">Pizza</span>
+      </button>
+      <button type="button" class="aakali-craving-item swad-cat-chip" data-cat="burger" onclick="swadCatFilter('burger', this)" aria-label="Burger">
+        <span class="aakali-craving-bubble"><span class="aakali-craving-emoji swad-cat-emoji" aria-hidden="true">🍔</span></span>
+        <span class="aakali-craving-label swad-cat-label">Burger</span>
+      </button>
+      <button type="button" class="aakali-craving-item swad-cat-chip" data-cat="south" onclick="swadCatFilter('south', this)" aria-label="South Indian">
+        <span class="aakali-craving-bubble"><span class="aakali-craving-emoji swad-cat-emoji" aria-hidden="true">🥘</span></span>
+        <span class="aakali-craving-label swad-cat-label">South Indian</span>
+      </button>
+      <button type="button" class="aakali-craving-item swad-cat-chip" data-cat="chinese" onclick="swadCatFilter('chinese', this)" aria-label="Chinese">
+        <span class="aakali-craving-bubble"><span class="aakali-craving-emoji swad-cat-emoji" aria-hidden="true">🥢</span></span>
+        <span class="aakali-craving-label swad-cat-label">Chinese</span>
+      </button>
+      <button type="button" class="aakali-craving-item swad-cat-chip" data-cat="dessert" onclick="swadCatFilter('dessert', this)" aria-label="Desserts">
+        <span class="aakali-craving-bubble"><span class="aakali-craving-emoji swad-cat-emoji" aria-hidden="true">🍨</span></span>
+        <span class="aakali-craving-label swad-cat-label">Desserts</span>
+      </button>
+      <button type="button" class="aakali-craving-item swad-cat-chip" data-cat="tandoor" onclick="swadCatFilter('tandoor', this)" aria-label="Tandoor">
+        <span class="aakali-craving-bubble"><span class="aakali-craving-emoji swad-cat-emoji" aria-hidden="true">🔥</span></span>
+        <span class="aakali-craving-label swad-cat-label">Tandoor</span>
+      </button>
+      <button type="button" class="aakali-craving-item swad-cat-chip" data-cat="drinks" onclick="swadCatFilter('drinks', this)" aria-label="Drinks">
+        <span class="aakali-craving-bubble"><span class="aakali-craving-emoji swad-cat-emoji" aria-hidden="true">🥤</span></span>
+        <span class="aakali-craving-label swad-cat-label">Drinks</span>
+      </button>
+      <button type="button" class="aakali-craving-item swad-cat-chip" data-cat="north" onclick="swadCatFilter('north', this)" aria-label="North Indian">
+        <span class="aakali-craving-bubble"><span class="aakali-craving-emoji swad-cat-emoji" aria-hidden="true">🍛</span></span>
+        <span class="aakali-craving-label swad-cat-label">North Indian</span>
+      </button>
     </div>
-    <div class="swad-cat-chip" data-cat="pizza" onclick="swadCatFilter('pizza', this)">
-      <span class="swad-cat-emoji">🍕</span>
-      <span class="swad-cat-label">Pizza</span>
-    </div>
-    <div class="swad-cat-chip" data-cat="burger" onclick="swadCatFilter('burger', this)">
-      <span class="swad-cat-emoji">🍔</span>
-      <span class="swad-cat-label">Burger</span>
-    </div>
-    <div class="swad-cat-chip" data-cat="south" onclick="swadCatFilter('south', this)">
-      <span class="swad-cat-emoji">🥘</span>
-      <span class="swad-cat-label">South Indian</span>
-    </div>
-    <div class="swad-cat-chip" data-cat="chinese" onclick="swadCatFilter('chinese', this)">
-      <span class="swad-cat-emoji">🥢</span>
-      <span class="swad-cat-label">Chinese</span>
-    </div>
-    <div class="swad-cat-chip" data-cat="dessert" onclick="swadCatFilter('dessert', this)">
-      <span class="swad-cat-emoji">🍨</span>
-      <span class="swad-cat-label">Desserts</span>
-    </div>
-    <div class="swad-cat-chip" data-cat="tandoor" onclick="swadCatFilter('tandoor', this)">
-      <span class="swad-cat-emoji">🔥</span>
-      <span class="swad-cat-label">Tandoor</span>
-    </div>
-    <div class="swad-cat-chip" data-cat="drinks" onclick="swadCatFilter('drinks', this)">
-      <span class="swad-cat-emoji">🥤</span>
-      <span class="swad-cat-label">Drinks</span>
-    </div>
-    <div class="swad-cat-chip" data-cat="north" onclick="swadCatFilter('north', this)">
-      <span class="swad-cat-emoji">🍛</span>
-      <span class="swad-cat-label">North Indian</span>
-    </div>
-  </div>
+  </section>
 
   <!-- Sort / Filter Tabs -->
   <div class="swad-filter-tabs">
@@ -654,7 +760,7 @@
         <div class="admin-user-av" id="adminAv"></div>
         <div class="admin-user-info"><span id="adminName"></span><small>Administrator</small></div>
       </div>
-      <button class="btn-logout" onclick="logout()">←🍚� Sign Out</button>
+      <button class="btn-logout" onclick="logout()">Sign Out</button>
     </div>
   </aside>
   <main class="admin-main">
@@ -775,7 +881,7 @@
         <div class="admin-user-av" id="superAv" style="background:#0284c7; color:#fff; width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700;">S</div>
         <div class="admin-user-info" style="margin-left:0.5rem;"><span id="superName" style="font-weight:700; color:#fff;">Super Admin</span><small style="color:#64748b; display:block;">Root Control</small></div>
       </div>
-      <button class="btn-logout" onclick="logout()" style="width:100%; padding:0.5rem; background:#ef4444; border:none; border-radius:6px; color:#fff; cursor:pointer;">←🍚� Sign Out</button>
+      <button class="btn-logout" onclick="logout()" style="width:100%; padding:0.5rem; background:#ef4444; border:none; border-radius:6px; color:#fff; cursor:pointer;">Sign Out</button>
     </div>
   </aside>
   <main class="super-main">
@@ -857,7 +963,7 @@
         <div class="admin-user-av" id="restAv" style="background:#f97316; color:#fff; width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700;">R</div>
         <div class="admin-user-info" style="margin-left:0.5rem;"><span id="restName" style="font-weight:700; color:#fff;">Rest Admin</span><small style="color:#d6c6b4; display:block;">Store Manager</small></div>
       </div>
-      <button class="btn-logout" onclick="logout()" style="width:100%; padding:0.5rem; background:#ef4444; border:none; border-radius:6px; color:#fff; cursor:pointer;">←🍚� Sign Out</button>
+      <button class="btn-logout" onclick="logout()" style="width:100%; padding:0.5rem; background:#ef4444; border:none; border-radius:6px; color:#fff; cursor:pointer;">Sign Out</button>
     </div>
   </aside>
   <main class="rest-main">
@@ -1006,30 +1112,34 @@
 
 <!-- ===== USER PANEL ===== -->
 <div id="userPanel">
-  <nav class="user-navbar">
-    <!-- Brand Container (Vertical Flex) -->
-    <div class="brand-container">
-      <div class="user-brand" id="userBrandBox" onclick="backToMenu()">
-        <div class="brand-logo-box">
-          <i data-lucide="chef-hat" style="width:18px;height:18px;color:#fff"></i>
+  <nav class="aknav aknav-ctx user-navbar" role="navigation" aria-label="Restaurant navigation">
+    <!-- LEFT: Back arrow + brand fallback -->
+    <div class="aknav-left aknav-ctx-left">
+      <button type="button" class="aknav-back" onclick="if(typeof backToSwadHome==='function')backToSwadHome(); else if(typeof backToMenu==='function')backToMenu();" title="Back to restaurants" aria-label="Back">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px" aria-hidden="true"><path d="M19 12H5"/><path d="M12 5l-7 7 7 7"/></svg>
+      </button>
+
+      <div class="aknav-ctx-info">
+        <!-- Brand shown when not inside a specific restaurant view -->
+        <div class="user-brand aknav-ctx-brand" id="userBrandBox" onclick="if(typeof backToMenu==='function')backToMenu()">
+          <div class="brand-logo-box">
+            <i data-lucide="chef-hat" style="width:16px;height:16px;color:#fff"></i>
+          </div>
+          <span>Aakali</span>
+          <div class="brand-dot"></div>
         </div>
-        <span>Aakali</span>
-        <div class="brand-dot"></div>
-      </div>
-      
-      <!-- Restaurant Nav Box (shown when browsing a specific restaurant) -->
-      <div class="user-rest-nav" id="userRestNavBox" style="display:none;">
-        <button class="rdh-back-btn" onclick="backToSwadHome()" title="Back to restaurants">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:18px;height:18px"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-        </button>
-        <div class="user-rest-info">
-          <div class="user-rest-name" id="userNavRestName">Restaurant</div>
-          <div class="user-rest-meta" id="userNavRestMeta">Cuisine</div>
+
+        <!-- Restaurant nav (shown when browsing a specific restaurant) -->
+        <div class="user-rest-nav aknav-ctx-rest" id="userRestNavBox" style="display:none;">
+          <div class="user-rest-info">
+            <div class="user-rest-name" id="userNavRestName">Restaurant</div>
+            <div class="user-rest-meta" id="userNavRestMeta">Cuisine</div>
+          </div>
         </div>
       </div>
 
-      <!-- Location pill -->
-      <div class="nav-location" id="navLocationBtn" onclick="toggleLocationDropdown(event)" title="Click to change location">
+      <!-- Location pill (kept for backwards compat; hidden inside contextual bar via CSS) -->
+      <div class="nav-location" id="navLocationBtn" onclick="toggleLocationDropdown(event)" title="Click to change location" style="display:none;">
         <i data-lucide="map-pin" class="loc-icon"></i>
         <span id="navLocationText">Detecting Location...</span>
       </div>
@@ -1065,32 +1175,31 @@
       </div>
     </div>
 
-    <!-- Center: search + delivery -->
-    <div class="nav-center">
+    <!-- Center: (dropped in contextual view — search is inside the restaurant filter bar) -->
+    <div class="nav-center aknav-ctx-center" style="display:none;">
       <div class="nav-search-wrap">
         <span class="nav-search-icon"><i data-lucide="search" style="width:15px;height:15px"></i></span>
         <input type="text" id="navSearch" placeholder="What are you craving today?" oninput="filterMenu(this.value)"/>
       </div>
-      <div class="nav-delivery-pill">
-        <span class="del-dot"></span>
-        <span>~35 min delivery</span>
-      </div>
     </div>
 
     <!-- Right: cart + avatar -->
-    <div class="nav-right">
-      <button class="cart-btn" onclick="toggleCart()">
-        <i data-lucide="shopping-bag" style="width:16px;height:16px"></i>
-        <span>Cart</span>
-        <span class="cart-badge" id="cartBadge">0</span>
+    <div class="nav-right aknav-right aknav-ctx-right">
+      <button class="cart-btn aknav-cart" id="aknavCartBtnCtx" onclick="toggleCart()" title="View cart" aria-label="View cart">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px" aria-hidden="true">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+          <path d="M3 6h18"/>
+          <path d="M16 10a4 4 0 01-8 0"/>
+        </svg>
+        <span class="cart-badge aknav-cart-badge" id="cartBadge" data-count="0">0</span>
       </button>
 
       <div class="dropdown-wrap">
-        <button type="button" class="nav-mode-toggle swad-nav-theme-btn" onclick="toggleTheme()" aria-label="Switch color mode" title="Switch color mode">
+        <button type="button" class="nav-mode-toggle swad-nav-theme-btn" onclick="toggleTheme()" aria-label="Switch color mode" title="Switch color mode" style="display:none;">
           <span class="nav-mode-toggle-glow"></span>
           <i data-lucide="sun" class="nav-mode-icon"></i>
         </button>
-        <button class="user-avatar-btn" id="avatarBtn" onclick="toggleDropdown()"></button>
+        <button class="user-avatar-btn aknav-avatar" id="avatarBtn" onclick="toggleDropdown()"></button>
         <div class="user-dropdown" id="userDropdown">
           <!-- User greeting -->
           <div style="padding:1rem 1.15rem .8rem;border-bottom:1px solid rgba(245,192,122,.08)">
@@ -1124,7 +1233,7 @@
     <div class="hero-content">
       <div class="hero-tag"><i data-lucide="flame" style="width:14px;height:14px"></i> Fresh & Hot Today</div>
       <h1>Taste the<br><em>Difference</em> with<br>Every Bite</h1>
-      <p>Aakali brings you handcrafted dishes made with the finest ingredients "” delivered warm to your door.</p>
+      <p>Aakali brings you handcrafted dishes made with the finest ingredients — delivered warm to your door.</p>
       <div class="hero-btns">
         <button class="btn-hero btn-hero-solid" onclick="scrollToMenu()">Order Now →</button>
         <button class="btn-hero btn-hero-ghost" onclick="scrollToMenu()">View Menu</button>
@@ -1333,1003 +1442,10 @@
   </div>
 
   <!-- CHECKOUT -->
-  <div id="checkoutPage" style="display:none">
-    <!-- Swiggy-style checkout -->
-    <div class="checkout-container-sw">
-      <!-- Header -->
-      <div class="checkout-header-sw">
-        <button class="ch-back-btn" onclick="backToMenu()">
-          <i data-lucide="arrow-left" style="width:16px;height:16px"></i> Back to Menu
-        </button>
-        <div class="ch-left-sw">
-          <h1 id="sco-rest-name">View Cart</h1>
-          <p class="sco-address-line">📍 Delivering to your location</p>
-        </div>
-      </div>
-
-      <!-- Left Column (Main) -->
-      <div class="checkout-main-sw">
-        <!-- Savings banner -->
-        <div class="checkout-promo-banner" id="sco-savings-banner">
-          <div class="cpb-icon">🎉</div>
-          <div class="cpb-info">
-            <h4>SAVINGS CORNER</h4>
-            <p id="sco-savings-text">You're saving ₹0 on this order!</p>
-          </div>
-        </div>
-
-        <!-- Address Selection Card -->
-        <div class="checkout-section-card vc-address-card">
-          <div class="vc-section-head">
-            <div>
-              <div class="sco-section-title" style="font-weight: 800; font-size: 0.95rem; color: var(--text); letter-spacing: 0.05em; text-transform: uppercase;">DELIVERY ADDRESS</div>
-              <p class="vc-section-sub">Choose where this order should arrive.</p>
-            </div>
-            <button type="button" class="vc-add-address-btn" onclick="toggleNewAddressForm(true)">
-              <i data-lucide="plus" style="width:15px;height:15px"></i> Add New
-            </button>
-          </div>
-          <div class="vc-address-grid" id="vcSavedAddresses"></div>
-          <div class="vc-address-form" id="vcAddressForm" style="display:none">
-            <div class="vc-form-title">Add New Address</div>
-            <div class="sco-form">
-              <div class="sco-form-row">
-                <div class="sco-form-group"><label>Full Name *</label><input type="text" id="addr-name" placeholder="Your name"/></div>
-                <div class="sco-form-group"><label>Phone *</label><input type="tel" id="addr-phone" placeholder="10-digit number" maxlength="10"/></div>
-              </div>
-              <div class="sco-form-group"><label>Email *</label><input type="email" id="addr-email" placeholder="you@example.com"/></div>
-              <div class="sco-form-row">
-                <div class="sco-form-group"><label>Address Type</label>
-                  <select id="addr-type">
-                    <option value="Home">Home</option>
-                    <option value="Work">Work</option>
-                    <option value="Other">Other</option>
-                  </select>
-                </div>
-                <div class="sco-form-group"><label>Pincode *</label><input type="text" id="addr-pin" placeholder="500001" maxlength="6"/></div>
-              </div>
-              <div class="sco-form-group"><label>Flat / Building *</label><input type="text" id="addr-line1" placeholder="Flat 4B, Sunshine Apts"/></div>
-              <div class="sco-form-group"><label>Street / Area *</label><input type="text" id="addr-line2" placeholder="MG Road, Banjara Hills"/></div>
-              <div class="sco-form-row">
-                <div class="sco-form-group"><label>City *</label><input type="text" id="addr-city" placeholder="Hyderabad"/></div>
-                <div class="sco-form-group"><label>State *</label><input type="text" id="addr-state" placeholder="Telangana"/></div>
-              </div>
-              <div class="vc-form-actions">
-                <button type="button" class="vc-form-cancel" onclick="toggleNewAddressForm(false)">Cancel</button>
-                <button type="button" class="vc-form-save" onclick="saveNewAddress()">Save & Use</button>
-              </div>
-            </div>
-          </div>
-          <input type="hidden" id="co-name"/>
-          <input type="hidden" id="co-phone"/>
-          <input type="hidden" id="co-email"/>
-          <input type="hidden" id="co-addr1"/>
-          <input type="hidden" id="co-addr2"/>
-          <input type="hidden" id="co-city"/>
-          <input type="hidden" id="co-pin"/>
-          <input type="hidden" id="co-state"/>
-        </div>
-
-        <!-- Cart Items Card -->
-        <div class="checkout-section-card">
-          <div class="csc-title-row">
-            <div class="csc-num">1</div>
-            <h3>ITEMS IN CART</h3>
-          </div>
-          <div class="checkout-items-list" id="sco-cart-items"></div>
-          <div class="csc-actions-row">
-            <button class="csc-action-btn" onclick="backToMenu()">
-              <i data-lucide="plus" style="width:14px;height:14px"></i> Add Items
-            </button>
-            <button class="csc-action-btn">
-              <i data-lucide="message-square" style="width:14px;height:14px"></i> Cooking Requests
-            </button>
-          </div>
-        </div>
-
-        <!-- Complete Your Meal Suggestions Card -->
-        <div class="checkout-section-card">
-          <div class="csc-title-row">
-            <div class="csc-num">2</div>
-            <h3>COMPLETE YOUR MEAL</h3>
-          </div>
-          <div class="sco-meal-tabs" id="sco-meal-tabs" style="margin-bottom:1rem">
-            <button class="sco-meal-tab active" onclick="filterMealSuggestions('all', this)">Popular</button>
-            <button class="sco-meal-tab" onclick="filterMealSuggestions('veg', this)">Veg</button>
-            <button class="sco-meal-tab" onclick="filterMealSuggestions('nonveg', this)">Non-Veg</button>
-          </div>
-          <div class="suggestions-scroll" id="sco-meal-scroll"></div>
-        </div>
-
-        <!-- Delivery Speed Card -->
-        <div class="checkout-section-card">
-          <div class="csc-title-row">
-            <div class="csc-num">3</div>
-            <h3>DELIVERY PREFERENCE</h3>
-          </div>
-          <div class="vc-delivery-options" style="margin-bottom:0">
-            <label class="vc-option selected"><input type="radio" name="deliverySpeed" value="standard" checked> <span>Standard</span><small>30-40 mins</small></label>
-            <label class="vc-option"><input type="radio" name="deliverySpeed" value="priority"> <span>Priority</span><small>Fastest rider</small></label>
-            <label class="vc-option"><input type="radio" name="deliverySpeed" value="scheduled"> <span>Schedule</span><small>Plan ahead</small></label>
-          </div>
-          <div class="sco-form-group" style="margin-top:1rem"><label>Delivery Note (optional)</label><input type="text" id="co-note" placeholder="Ring bell twice, leave at reception..."/></div>
-        </div>
-      </div>
-
-      <!-- Right Column (Sidebar) -->
-      <div class="checkout-main-sw">
-        <!-- Savings Corner Card -->
-        <div class="checkout-section-card">
-          <div class="csc-title-row" style="margin-bottom:1rem">
-            <h3>SAVINGS CORNER</h3>
-          </div>
-          <div class="sco-coupon-row" onclick="applyCoupon()" style="margin-bottom:0.75rem; cursor:pointer;">
-            <span class="sco-coupon-icon">🎟️�</span>
-            <span class="sco-coupon-label" style="font-weight:700; color:var(--text2)">Apply Coupon</span>
-            <span class="sco-coupon-arrow" style="float:right">›</span>
-          </div>
-          <div class="sco-discount-row" id="sco-discount-row" style="margin-top:0.75rem">
-            <span class="sco-discount-icon">✅</span>
-            <span id="sco-discount-text" style="font-weight:600; color:var(--green)">Free delivery applied</span>
-            <span class="sco-applied-badge" style="float:right; background:var(--green-bg); color:var(--green); font-size:0.7rem; padding:2px 6px; border-radius:4px; font-weight:700">Applied</span>
-          </div>
-        </div>
-
-        <!-- Delivery Partner Tip Card -->
-        <div class="checkout-section-card vc-tip-card">
-          <div class="csc-title-row" style="margin-bottom:0.5rem">
-            <h3>DELIVERY PARTNER TIP</h3>
-          </div>
-          <p class="vc-section-sub" style="margin-bottom:1rem">A small thank-you goes directly to your delivery partner.</p>
-          <div class="vc-tip-grid">
-            <button type="button" class="vc-tip-btn" onclick="selectDeliveryTip(20, this)">₹20</button>
-            <button type="button" class="vc-tip-btn most-tipped" onclick="selectDeliveryTip(30, this)">₹30 <small>Most tipped</small></button>
-            <button type="button" class="vc-tip-btn" onclick="selectDeliveryTip(50, this)">₹50</button>
-            <button type="button" class="vc-tip-btn" onclick="selectDeliveryTip(0, this)">Skip</button>
-          </div>
-        </div>
-
-        <!-- Bill Details Card -->
-        <div class="checkout-section-card">
-          <div class="csc-title-row" style="margin-bottom:1rem">
-            <h3>BILL DETAILS</h3>
-          </div>
-          <div class="bill-details-list">
-            <div class="summary-item"><span>Item Total</span><span id="sco-subtotal">₹0</span></div>
-            <div class="summary-item"><span>Delivery Fee</span><div><span class="sco-strike" id="sco-delivery-orig">₹30</span>&nbsp;<span class="sco-green" style="color:var(--green); font-weight:700">FREE</span></div></div>
-            <div class="summary-item"><span>Delivery Tip</span><span id="sco-tip">₹0</span></div>
-            <div class="summary-item" style="color:var(--green); font-weight:700"><span>💰 Total Savings</span><span id="sco-total-saving">₹30</span></div>
-            <div class="summary-divider"></div>
-            <div class="summary-grand"><span>To Pay</span><span id="sco-grand">₹0</span></div>
-          </div>
-        </div>
-
-        <!-- Safe Checkout Badge -->
-        <div class="checkout-bottom-safe-row" style="margin-top: 1rem;">
-          <i data-lucide="shield-check"></i>
-          <span>Safe & Secure Checkout. 100% Assurance.</span>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- The floating checkout pay bar is rendered dynamically by
-         renderSwiggycheckout() so this static block was removed to eliminate
-         a duplicate #floatingProceedBtn id. -->
-    </div>
-  </div>
+  <div id="checkoutPage" style="display:none"></div>
 
   
   
-  <!-- PAYMENT PAGE -->
-  <div id="paymentPage" style="display:none">
-    <div class="sco-wrap">
-      <!-- Header -->
-      <div class="sco-header">
-        <button class="sco-back" onclick="backToCheckout()">&#8592;</button>
-        <div class="sco-header-info">
-          <div class="sco-restaurant-name">Payment options</div>
-          <div class="sco-address-line">Aakali Restaurant</div>
-        </div>
-        <div class="sco-header-right">&#8942;</div>
-      </div>
-
-      <!-- Order Summary Card -->
-      <div class="sco-section" style="padding: 10px 16px 5px;">
-        <div class="pg-order-summary-box" style="padding: 14px 16px; background: var(--card2, #fff); border-radius: 12px; border: 1px solid var(--border, #fcd9c9); display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
-          <div class="summary-left" style="display: flex; flex-direction: column; gap: 4px;">
-            <span style="font-size: 0.7rem; color: #9ca3af; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">Order Summary</span>
-            <span style="font-size: 0.95rem; font-weight: 800; color: var(--text);" id="pg-summary-items">0 Items</span>
-          </div>
-          <div class="summary-right" style="text-align: right; display: flex; flex-direction: column; gap: 2px;">
-            <span style="font-size: 1.15rem; font-weight: 900; color: var(--accent);" id="pg-summary-total">₹0</span>
-            <span style="font-size: 0.75rem; color: var(--green); font-weight: 700;" id="pg-summary-savings">Saving ₹30</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="sco-section pg-section" style="padding: 10px 16px 20px;">
-        
-        <!-- 1. Recommended Pay -->
-        <div id="pgSection-recommended-upi" class="pg-section-container pg-section-selected" onclick="selectPGMethod('upi', 'recommended-upi')">
-          <div class="pg-section-header" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; border-bottom: 1px dashed var(--border, #fcd9c9); padding-bottom: 8px;">
-            <div style="display: flex; align-items: center; gap: 8px;">
-              <input type="radio" name="pg-active-method" id="pgRadio-recommended-upi" style="accent-color: var(--accent);" checked />
-              <span style="font-size: 0.9rem; font-weight: 800; color: var(--text); text-transform: uppercase; letter-spacing: 0.05em;">Recommended Pay</span>
-            </div>
-            <span style="font-size: 1.1rem;">🔥</span>
-          </div>
-          
-          <div class="pg-recommended-options" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
-            <!-- Paytm -->
-            <button class="pg-recommended-item pg-upi-active" onclick="selectUPIAppNew(this, 'paytm', event)">
-              <span style="height: 24px; display: flex; align-items: center; justify-content: center; margin-bottom: 4px;">
-                <svg viewBox="0 0 16.837998 5.2849998" width="34" height="11" xmlns="http://www.w3.org/2000/svg"><defs
-     id="defs392" />
-  <sodipodi:namedview
-     inkscape:window-maximized="0"
-     inkscape:window-y="0"
-     inkscape:window-x="183"
-     inkscape:window-height="1030"
-     inkscape:window-width="1375"
-     showgrid="false"
-     inkscape:document-rotation="0"
-     inkscape:current-layer="layer1"
-     inkscape:document-units="mm"
-     inkscape:cy="8.9720079"
-     inkscape:cx="41.899999"
-     inkscape:zoom="8"
-     inkscape:pageshadow="2"
-     inkscape:pageopacity="0.0"
-     borderopacity="1.0"
-     bordercolor="#666666"
-     pagecolor="#ffffff"
-     id="base" />
-  <metadata
-     id="metadata395">
-    <rdf:RDF>
-      <cc:Work
-         rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
-      </cc:Work>
-    </rdf:RDF>
-  </metadata>
-  <g
-     id="layer1"
-     inkscape:groupmode="layer"
-     inkscape:label="Layer 1">
-    <g
-       transform="matrix(0.35277777,0,0,-0.35277777,16.777056,1.5610286)"
-       id="g52">
-      <path
-         id="path54"
-         fill="#54c1f0"
-         d="M 0,0 C -0.433,1.238 -1.613,2.127 -2.999,2.127 H -3.028 C -3.929,2.127 -4.741,1.752 -5.319,1.15 -5.898,1.752 -6.71,2.127 -7.61,2.127 h -0.029 c -0.792,0 -1.516,-0.29 -2.072,-0.77 V 1.601 C -9.73,1.844 -9.93,2.035 -10.177,2.035 h -2.126 c -0.26,0 -0.47,-0.21 -0.47,-0.471 V -9.981 c 0,-0.261 0.21,-0.471 0.47,-0.471 h 2.126 c 0.237,0 0.432,0.177 0.463,0.406 l -10e-4,8.288 c 0,0.029 10e-4,0.056 0.004,0.083 0.034,0.37 0.305,0.674 0.733,0.712 h 0.079 0.223 0.09 c 0.179,-0.016 0.33,-0.079 0.449,-0.174 0.185,-0.147 0.288,-0.373 0.288,-0.621 l 0.008,-8.247 c 0,-0.261 0.211,-0.472 0.47,-0.472 h 2.126 c 0.251,0 0.455,0.2 0.467,0.449 l -0.001,8.281 c -0.001,0.272 0.125,0.518 0.346,0.664 0.109,0.07 0.24,0.117 0.391,0.131 h 0.079 0.223 0.09 c 0.46,-0.04 0.738,-0.389 0.737,-0.795 l 0.008,-8.236 c 0,-0.261 0.211,-0.471 0.47,-0.471 h 2.126 c 0.259,0 0.47,0.21 0.47,0.471 v 8.858 C 0.161,-0.521 0.093,-0.264 0,0" />
-    </g>
-    <g
-       transform="matrix(0.35277777,0,0,-0.35277777,11.699676,0.85374862)"
-       id="g56">
-      <path
-         id="path58"
-         fill="#54c1f0"
-         d="m 0,0 h -1.216 v 1.97 0 c 0,0.002 0,0.004 0,0.006 0,0.237 -0.192,0.429 -0.429,0.429 C -1.673,2.405 -1.7,2.401 -1.726,2.396 -3.074,2.026 -2.804,0.159 -5.265,0 H -5.32 -5.504 c -0.036,0 -0.07,-0.005 -0.103,-0.012 h -0.002 l 0.002,-10e-4 C -5.817,-0.06 -5.975,-0.246 -5.975,-0.47 v -2.126 c 0,-0.259 0.211,-0.47 0.471,-0.47 h 1.283 l -0.002,-9.015 c 0,-0.257 0.208,-0.465 0.465,-0.465 h 2.102 c 0.256,0 0.464,0.208 0.464,0.465 l 10e-4,9.015 H 0 c 0.259,0 0.47,0.211 0.47,0.47 V -0.47 C 0.47,-0.211 0.259,0 0,0" />
-    </g>
-    <g
-       transform="matrix(0.35277777,0,0,-0.35277777,9.0012361,0.85374862)"
-       id="g60">
-      <path
-         id="path62"
-         fill="#233266"
-         d="M 0,0 H -2.126 C -2.385,0 -2.595,-0.211 -2.595,-0.47 V -4.866 C -2.6,-5.138 -2.82,-5.356 -3.093,-5.356 h -0.89 c -0.276,0 -0.499,0.222 -0.499,0.498 L -4.49,-0.47 C -4.49,-0.211 -4.701,0 -4.96,0 h -2.126 c -0.26,0 -0.47,-0.211 -0.47,-0.47 v -4.818 c 0,-1.83 1.305,-3.135 3.136,-3.135 0,0 1.374,0 1.416,-0.008 0.248,-0.028 0.441,-0.236 0.441,-0.492 0,-0.253 -0.189,-0.46 -0.434,-0.491 -0.012,-0.002 -0.023,-0.005 -0.036,-0.007 l -3.109,-0.011 c -0.26,0 -0.47,-0.211 -0.47,-0.47 v -2.125 c 0,-0.26 0.21,-0.47 0.47,-0.47 h 3.476 c 1.832,0 3.136,1.304 3.136,3.135 V -0.47 C 0.47,-0.211 0.26,0 0,0" />
-    </g>
-    <g
-       transform="matrix(0.35277777,0,0,-0.35277777,1.7417071,2.2279886)"
-       id="g64">
-      <path
-         id="path66"
-         fill="#233266"
-         d="m 0,0 v -0.992 -0.32 c 0,-0.275 -0.223,-0.499 -0.498,-0.499 l -1.349,-0.001 v 2.629 h 1.349 C -0.223,0.817 0,0.595 0,0.319 Z M 0.187,3.896 H -4.46 c -0.255,0 -0.461,-0.207 -0.461,-0.461 V 1.352 c 0,-0.004 0.001,-0.008 0.001,-0.012 0,-0.01 -0.001,-0.02 -0.001,-0.029 V -5.37 -8.117 c 0,-0.256 0.192,-0.465 0.43,-0.471 h 0.04 2.126 c 0.259,0 0.47,0.21 0.47,0.47 l 0.008,3.231 h 2.034 c 1.702,0 2.888,1.181 2.888,2.89 v 2.999 c 0,1.709 -1.186,2.894 -2.888,2.894" />
-    </g>
-    <g
-       transform="matrix(0.35277777,0,0,-0.35277777,4.8535941,3.9887686)"
-       id="g68">
-      <path
-         id="path70"
-         fill="#233266"
-         d="M 0,0 V -0.332 C 0,-0.359 -0.004,-0.385 -0.008,-0.41 -0.013,-0.434 -0.02,-0.457 -0.028,-0.479 -0.094,-0.665 -0.28,-0.8 -0.501,-0.8 h -0.885 c -0.276,0 -0.501,0.21 -0.501,0.468 v 0.401 c 0,0.005 -10e-4,0.01 -10e-4,0.015 l 10e-4,1.067 v 0.002 0.118 0.214 l 0.001,0.003 c 10e-4,0.257 0.224,0.465 0.5,0.465 h 0.885 C -0.224,1.953 0,1.744 0,1.485 Z m -0.338,8.875 h -2.95 C -3.549,8.875 -3.76,8.677 -3.76,8.434 V 7.607 c 0,-0.005 10e-4,-0.011 10e-4,-0.016 0,-0.006 -10e-4,-0.012 -10e-4,-0.018 V 6.44 c 0,-0.257 0.224,-0.467 0.5,-0.467 h 2.809 c 0.222,-0.035 0.398,-0.197 0.423,-0.45 V 5.249 C -0.053,5.008 -0.227,4.832 -0.439,4.812 H -1.83 c -1.85,0 -3.168,-1.229 -3.168,-2.955 v -2.409 -0.063 c 0,-1.716 1.133,-2.937 2.97,-2.937 h 3.855 c 0.692,0 1.253,0.524 1.253,1.169 v 8.067 c 0,1.956 -1.008,3.191 -3.418,3.191" />
-    </g>
-  </g></svg>
-              </span>
-              <span style="font-size: 0.7rem; font-weight: 700; color: var(--text);">Paytm</span>
-            </button>
-            
-            <!-- GPay -->
-            <button class="pg-recommended-item" onclick="selectUPIAppNew(this, 'gpay', event)">
-              <span style="height: 24px; display: flex; align-items: center; justify-content: center; margin-bottom: 4px;">
-                <svg viewBox="0 0 80 38.1" width="34" height="16" xmlns="http://www.w3.org/2000/svg"><style type="text/css">
-	.st0{fill:#5F6368;}
-	.st1{fill:#4285F4;}
-	.st2{fill:#34A853;}
-	.st3{fill:#FBBC04;}
-	.st4{fill:#EA4335;}
-</style>
-<path fill="#5F6368" d="M37.8,19.7V29h-3V6h7.8c1.9,0,3.7,0.7,5.1,2c1.4,1.2,2.1,3,2.1,4.9c0,1.9-0.7,3.6-2.1,4.9c-1.4,1.3-3.1,2-5.1,2
-	L37.8,19.7L37.8,19.7z M37.8,8.8v8h5c1.1,0,2.2-0.4,2.9-1.2c1.6-1.5,1.6-4,0.1-5.5c0,0-0.1-0.1-0.1-0.1c-0.8-0.8-1.8-1.3-2.9-1.2
-	L37.8,8.8L37.8,8.8z"/>
-<path fill="#5F6368" d="M56.7,12.8c2.2,0,3.9,0.6,5.2,1.8s1.9,2.8,1.9,4.8V29H61v-2.2h-0.1c-1.2,1.8-2.9,2.7-4.9,2.7
-	c-1.7,0-3.2-0.5-4.4-1.5c-1.1-1-1.8-2.4-1.8-3.9c0-1.6,0.6-2.9,1.8-3.9c1.2-1,2.9-1.4,4.9-1.4c1.8,0,3.2,0.3,4.3,1v-0.7
-	c0-1-0.4-2-1.2-2.6c-0.8-0.7-1.8-1.1-2.9-1.1c-1.7,0-3,0.7-3.9,2.1l-2.6-1.6C51.8,13.8,53.9,12.8,56.7,12.8z M52.9,24.2
-	c0,0.8,0.4,1.5,1,1.9c0.7,0.5,1.5,0.8,2.3,0.8c1.2,0,2.4-0.5,3.3-1.4c1-0.9,1.5-2,1.5-3.2c-0.9-0.7-2.2-1.1-3.9-1.1
-	c-1.2,0-2.2,0.3-3,0.9C53.3,22.6,52.9,23.3,52.9,24.2z"/>
-<path fill="#5F6368" d="M80,13.3l-9.9,22.7h-3l3.7-7.9l-6.5-14.7h3.2l4.7,11.3h0.1l4.6-11.3H80z"/>
-<path fill="#4285F4" d="M25.9,17.7c0-0.9-0.1-1.8-0.2-2.7H13.2v5.1h7.1c-0.3,1.6-1.2,3.1-2.6,4v3.3H22C24.5,25.1,25.9,21.7,25.9,17.7z"
-	/>
-<path fill="#34A853" d="M13.2,30.6c3.6,0,6.6-1.2,8.8-3.2l-4.3-3.3c-1.2,0.8-2.7,1.3-4.5,1.3c-3.4,0-6.4-2.3-7.4-5.5H1.4v3.4
-	C3.7,27.8,8.2,30.6,13.2,30.6z"/>
-<path fill="#FBBC04" d="M5.8,19.9c-0.6-1.6-0.6-3.4,0-5.1v-3.4H1.4c-1.9,3.7-1.9,8.1,0,11.9L5.8,19.9z"/>
-<path fill="#EA4335" d="M13.2,9.4c1.9,0,3.7,0.7,5.1,2l0,0l3.8-3.8c-2.4-2.2-5.6-3.5-8.8-3.4c-5,0-9.6,2.8-11.8,7.3l4.4,3.4
-	C6.8,11.7,9.8,9.4,13.2,9.4z"/></svg>
-              </span>
-              <span style="font-size: 0.7rem; font-weight: 700; color: var(--text);">Google Pay</span>
-            </button>
-            
-            <!-- BHIM -->
-            <button class="pg-recommended-item" onclick="selectUPIAppNew(this, 'bhim', event)">
-              <span style="height: 24px; display: flex; align-items: center; justify-content: center; margin-bottom: 4px;">
-                <span style="color: #ed7324; font-weight: 900; font-style: italic; font-size: 0.95rem; font-family: 'Outfit', sans-serif;">BHIM <span style="color: #069b3e; font-size: 0.75rem;">UPI</span></span>
-              </span>
-              <span style="font-size: 0.7rem; font-weight: 700; color: var(--text);">BHIM</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- 2. Cards Section -->
-        <div id="pgSection-card" class="pg-section-container" onclick="selectPGMethod('card', 'card')">
-          <div class="pg-section-header" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; border-bottom: 1px dashed var(--border, #fcd9c9); padding-bottom: 8px;">
-            <div style="display: flex; align-items: center; gap: 8px;">
-              <input type="radio" name="pg-active-method" id="pgRadio-card" style="accent-color: var(--accent);" />
-              <span style="font-size: 0.9rem; font-weight: 800; color: var(--text); text-transform: uppercase; letter-spacing: 0.05em;">Credit & Debit Cards</span>
-            </div>
-            <span style="font-size: 1.1rem;">💳</span>
-          </div>
-          
-          <!-- Live card preview -->
-          <div class="pg-card-preview" id="pg-card-preview">
-            <div class="pg-card-chip">▬▬</div>
-            <div class="pg-card-number" id="pg-card-num-display">"�"�"�"� "�"�"�"� "�"�"�"� "�"�"�"�</div>
-            <div class="pg-card-row">
-              <div>
-                <div class="pg-card-sub">CARD HOLDER</div>
-                <div class="pg-card-holder" id="pg-card-holder-display">YOUR NAME</div>
-              </div>
-              <div>
-                <div class="pg-card-sub">EXPIRES</div>
-                <div class="pg-card-expiry" id="pg-card-expiry-display">MM/YY</div>
-              </div>
-              <div class="pg-card-brand" id="pg-card-brand">
-                <img id="pg-brand-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/100px-Visa_Inc._logo.svg.png"
-                  alt="Card" style="height:20px;width:auto;display:none" onerror="this.style.display='none'"/>
-                <span id="pg-brand-text" style="font-size:0.7rem;font-weight:800;color:rgba(255,255,255,0.5)">CARD</span>
-              </div>
-            </div>
-          </div>
-          <!-- Card inputs -->
-          <div class="pg-field-wrap">
-            <label class="pg-label">Card Number</label>
-            <div class="pg-input-icon-wrap">
-              <input type="text" id="pg-card-num" onfocus="selectPGMethod('card', 'card')" class="pg-input" placeholder="1234 5678 9012 3456" maxlength="19"
-                oninput="formatCardNumber(this)" autocomplete="cc-number"/>
-              <span class="pg-input-icon" id="pg-brand-icon">
-                <img id="pg-brand-icon-img" src="" alt="" style="height:18px;width:auto;display:none"/>
-                <span id="pg-brand-icon-text" style="font-size:0.75rem;font-weight:800;color:#6b7280">💳</span>
-              </span>
-            </div>
-          </div>
-          <div class="pg-field-wrap">
-            <label class="pg-label">Cardholder Name</label>
-            <input type="text" id="pg-card-holder" onfocus="selectPGMethod('card', 'card')" class="pg-input" placeholder="As on card"
-              oninput="document.getElementById('pg-card-holder-display').textContent=this.value.toUpperCase()||'YOUR NAME'" autocomplete="cc-name"/>
-          </div>
-          <div class="sco-form-row">
-            <div class="pg-field-wrap" style="flex:1">
-              <label class="pg-label">Expiry</label>
-              <input type="text" id="pg-card-expiry" onfocus="selectPGMethod('card', 'card')" class="pg-input" placeholder="MM / YY" maxlength="7"
-                oninput="formatExpiry(this)" autocomplete="cc-exp"/>
-            </div>
-            <div class="pg-field-wrap" style="flex:1">
-              <label class="pg-label">CVV</label>
-              <div class="pg-input-icon-wrap">
-                <input type="password" id="pg-card-cvv" onfocus="selectPGMethod('card', 'card')" class="pg-input" placeholder=""�"�"�" maxlength="4" autocomplete="cc-csc"/>
-                <span class="pg-input-icon">🔒</span>
-              </div>
-            </div>
-          </div>
-          <div class="pg-trust-row">
-            <span>🔒 256-bit SSL Encrypted</span>
-            <span>✅ PCI DSS Compliant</span>
-          </div>
-        </div>
-
-        <!-- 3. Pay by any UPI app section -->
-        <div id="pgSection-custom-upi" class="pg-section-container" onclick="selectPGMethod('upi', 'custom-upi')">
-          <div class="pg-section-header" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; border-bottom: 1px dashed var(--border, #fcd9c9); padding-bottom: 8px;">
-            <div style="display: flex; align-items: center; gap: 8px;">
-              <input type="radio" name="pg-active-method" id="pgRadio-custom-upi" style="accent-color: var(--accent);" />
-              <span style="font-size: 0.9rem; font-weight: 800; color: var(--text); text-transform: uppercase; letter-spacing: 0.05em;">Pay by any UPI app</span>
-            </div>
-            <span style="font-size: 1.1rem;">📱</span>
-          </div>
-          
-          <div class="pg-field-wrap">
-            <label class="pg-label">UPI ID / VPA</label>
-            <div class="pg-input-icon-wrap">
-              <input type="text" id="pg-upi-id" class="pg-input" placeholder="yourname@upi" onfocus="selectPGMethod('upi', 'custom-upi')" autocomplete="off"/>
-              <span class="pg-input-icon">📱</span>
-            </div>
-            <div class="pg-hint">e.g. mobilenumber@upi, name@okicici</div>
-          </div>
-          <div class="pg-trust-row">
-            <span>🔒 256-bit SSL Encrypted</span>
-            <span>✅ RBI Compliant</span>
-          </div>
-        </div>
-
-        <!-- 4. Wallets Section -->
-        <div id="pgSection-wallets" class="pg-section-container" onclick="selectPGMethod('wallets', 'wallets')">
-          <div class="pg-section-header" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; border-bottom: 1px dashed var(--border, #fcd9c9); padding-bottom: 8px;">
-            <div style="display: flex; align-items: center; gap: 8px;">
-              <input type="radio" name="pg-active-method" id="pgRadio-wallets" style="accent-color: var(--accent);" />
-              <span style="font-size: 0.9rem; font-weight: 800; color: var(--text); text-transform: uppercase; letter-spacing: 0.05em;">Wallets</span>
-            </div>
-            <span style="font-size: 1.1rem;">👛</span>
-          </div>
-          
-          <div class="pg-wallets-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;">
-            <button class="pg-wallet-btn" onclick="selectWalletApp(this, 'paytm', event)">
-              <span style="font-size: 1.2rem;">�™</span>
-              <span style="font-size: 0.65rem; font-weight: 700; color: var(--text2);">Paytm</span>
-            </button>
-            <button class="pg-wallet-btn" onclick="selectWalletApp(this, 'phonepe', event)">
-              <span style="font-size: 1.2rem;">💜</span>
-              <span style="font-size: 0.65rem; font-weight: 700; color: var(--text2);">PhonePe</span>
-            </button>
-            <button class="pg-wallet-btn" onclick="selectWalletApp(this, 'amazonpay', event)">
-              <span style="font-size: 1.2rem;">💛</span>
-              <span style="font-size: 0.65rem; font-weight: 700; color: var(--text2);">Amazon Pay</span>
-            </button>
-            <button class="pg-wallet-btn" onclick="selectWalletApp(this, 'mobikwik', event)">
-              <span style="font-size: 1.2rem;">💚</span>
-              <span style="font-size: 0.65rem; font-weight: 700; color: var(--text2);">Mobikwik</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- 5. Net Banking Section -->
-        <div id="pgSection-netbanking" class="pg-section-container" onclick="selectPGMethod('netbanking', 'netbanking')">
-          <div class="pg-section-header" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; border-bottom: 1px dashed var(--border, #fcd9c9); padding-bottom: 8px;">
-            <div style="display: flex; align-items: center; gap: 8px;">
-              <input type="radio" name="pg-active-method" id="pgRadio-netbanking" style="accent-color: var(--accent);" />
-              <span style="font-size: 0.9rem; font-weight: 800; color: var(--text); text-transform: uppercase; letter-spacing: 0.05em;">Net Banking</span>
-            </div>
-            <span style="font-size: 1.1rem;">🏦</span>
-          </div>
-          
-          <div class="pg-banks-grid">
-            <!-- SBI -->
-            <button class="pg-bank-btn" onclick="selectBank(this,'sbi')">
-              <svg width="40" height="40" viewBox="0 0 80 80">
-                <rect width="80" height="80" rx="12" fill="#003874"/>
-                <svg x="8" y="24" width="64" height="32" viewBox="0 0 27.947618 9.7486626">
-                  <defs
-     id="defs9963" />
-  <sodipodi:namedview
-     id="base"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageopacity="0.0"
-     inkscape:pageshadow="2"
-     inkscape:zoom="7.6651943"
-     inkscape:cx="52.314394"
-     inkscape:cy="17.922669"
-     inkscape:document-units="mm"
-     inkscape:current-layer="layer1"
-     showgrid="false"
-     fit-margin-top="0"
-     fit-margin-left="0"
-     fit-margin-right="0"
-     fit-margin-bottom="0"
-     units="px"
-     inkscape:window-width="1280"
-     inkscape:window-height="744"
-     inkscape:window-x="-4"
-     inkscape:window-y="-4"
-     inkscape:window-maximized="1" />
-  <metadata
-     id="metadata9966">
-    <rdf:RDF>
-      <cc:Work
-         rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
-      </cc:Work>
-    </rdf:RDF>
-  </metadata>
-  <g
-     inkscape:label="Layer 1"
-     inkscape:groupmode="layer"
-     id="layer1"
-     transform="translate(-33.783483,-175.57671)">
-    <g
-       id="g9996"
-       transform="translate(0.13229192,-0.13228808)">
-      <path
-         d="m 50.143059,180.65424 c -0.505531,-0.4191 -1.159933,-0.68968 -1.737078,-0.92851 -0.795866,-0.32914 -1.48343,-0.61313 -1.48343,-1.13983 0,-0.23001 0.107597,-0.44132 0.303389,-0.59372 0.206375,-0.16087 0.494594,-0.24941 0.811036,-0.24941 0.995186,0 1.788936,0.70379 1.795991,0.71014 l 0.194028,0.17709 0.881945,-1.65417 -0.100895,-0.10654 c -0.03845,-0.0409 -0.967317,-0.99977 -2.759075,-0.99977 -0.859719,0 -1.650294,0.27481 -2.227086,0.77364 -0.585258,0.50623 -0.908403,1.20509 -0.908403,1.96744 0,0.7433 0.288573,1.34443 0.880886,1.83727 0.498123,0.4138 1.118659,0.68121 1.719087,0.94015 0.818797,0.35278 1.526822,0.65793 1.526822,1.20085 0,0.41346 -0.280106,0.85549 -1.065036,0.85549 -1.125714,0 -2.029178,-0.85725 -2.037998,-0.86607 l -0.169333,-0.16439 -1.096433,1.51941 0.109361,0.12241 c 0.01235,0.0127 0.295628,0.32562 0.827969,0.63712 0.488245,0.28504 1.291167,0.62512 2.341386,0.62512 0.918986,0 1.702153,-0.28187 2.265186,-0.81456 0.52952,-0.50165 0.820914,-1.19451 0.820914,-1.95122 0,-0.77858 -0.2921,-1.39947 -0.893233,-1.89794"
-         style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.35277778"
-         id="path2868"
-         inkscape:connector-curvature="0" />
-      <path
-         inkscape:connector-curvature="0"
-         id="path2870"
-         style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.35277778"
-         d="m 59.41194,185.18144 h 2.054577 v -9.1754 H 59.41194 Z" />
-      <path
-         d="m 55.39592,183.46306 h -1.563864 v -5.73934 h 1.379008 c 0.618067,0 0.972609,0.34572 0.972609,0.94827 0,0.60889 -0.318911,0.91722 -0.948267,0.91722 h -0.474839 v 1.68874 h 0.635353 c 0.347486,0 0.637117,0.10831 0.837142,0.31433 0.210255,0.2159 0.295627,0.42968 0.295627,0.73766 0,0.6992 -0.433916,1.13312 -1.132769,1.13312 m 2.72803,-2.40524 c -0.2032,-0.31962 -0.481894,-0.57362 -0.813505,-0.74365 0.535164,-0.42898 0.837847,-1.08762 0.837847,-1.83974 0,-0.76059 -0.28963,-1.39488 -0.837847,-1.8355 -0.516467,-0.41452 -1.233664,-0.63394 -2.075039,-0.63394 h -3.342922 v 9.17539 h 3.380317 c 0.896761,0 1.672519,-0.22648 2.242961,-0.65581 0.6477,-0.48684 0.989541,-1.21144 0.989541,-2.09621 0,-0.50412 -0.131586,-0.97825 -0.381353,-1.37054"
-         style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.35277778"
-         id="path2874"
-         inkscape:connector-curvature="0" />
-      <path
-         d="m 38.526933,175.84129 c -2.619728,0 -4.74345,2.12866 -4.74345,4.75439 0,2.46168 1.866547,4.48627 4.258028,4.72969 v -3.4537 c -0.513997,-0.19614 -0.880181,-0.69391 -0.880181,-1.27599 0,-0.75318 0.612422,-1.36596 1.365603,-1.36596 0.752828,0 1.365956,0.61278 1.365956,1.36596 0,0.58208 -0.366889,1.07985 -0.880887,1.27599 v 3.4537 c 2.391834,-0.24342 4.258381,-2.26801 4.258381,-4.72969 0,-2.62573 -2.123722,-4.75439 -4.74345,-4.75439"
-         style="fill:#00b5ef;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.35277778"
-         id="path2878"
-         inkscape:connector-curvature="0" />
-    </g>
-  </g>
-                </svg>
-              </svg>
-              <span>SBI</span>
-            </button>
-            
-            <!-- HDFC -->
-            <button class="pg-bank-btn" onclick="selectBank(this,'hdfc')">
-              <svg width="40" height="40" viewBox="0 0 80 80">
-                <rect width="80" height="80" rx="12" fill="white" stroke="#e5e7eb" stroke-width="1.5"/>
-                <svg x="5" y="24" width="70" height="32" viewBox="0 0 289 50">
-                  <defs id="defs11055">
-    <inkscape:perspective sodipodi:type="inkscape:persp3d" inkscape:vp_x="0 : 526.18109 : 1" inkscape:vp_y="0 : 1000 : 0" inkscape:vp_z="744.09448 : 526.18109 : 1" inkscape:persp3d-origin="372.04724 : 350.78739 : 1" id="perspective11061"/>
-    <inkscape:perspective id="perspective11033" inkscape:persp3d-origin="0.5 : 0.33333333 : 1" inkscape:vp_z="1 : 0.5 : 1" inkscape:vp_y="0 : 1000 : 0" inkscape:vp_x="0 : 0.5 : 1" sodipodi:type="inkscape:persp3d"/>
-  </defs>
-  <sodipodi:namedview id="base" pagecolor="#ffffff" bordercolor="#666666" borderopacity="1.0" inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:zoom="2.8" inkscape:cx="149.08562" inkscape:cy="8.2254134" inkscape:document-units="px" inkscape:current-layer="layer1" showgrid="false" inkscape:window-width="1280" inkscape:window-height="750" inkscape:window-x="-8" inkscape:window-y="-8" inkscape:window-maximized="1"/>
-  <metadata id="metadata11058">
-    <rdf:RDF>
-      <cc:Work rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-        <dc:title/>
-      </cc:Work>
-    </rdf:RDF>
-  </metadata>
-  <g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1" transform="translate(-227.317, -407.333)">
-    <g transform="matrix(6.01697, 0, 0, -6.01697, -1957.41, 2763.93)" id="g11008">
-      <path id="path1556" fill="#004c8f" d="m 363.272,391.479 47.722,0 0,-7.953 -47.722,0 0,7.953 z"/>
-      <path id="path1558" fill="#004c8f" d="m 371.226,391.479 39.768,0 0,-7.953 -39.768,0 0,7.953 z"/>
-      <path id="path1560" fill="#ffffff" d="m 373.755,385.621 0,3.763 1.238,0 0,-1.27 1.16,0 0,1.27 1.24,0 0,-3.763 -1.24,0 0,1.46 -1.16,0 0,-1.46 -1.238,0"/>
-      <path id="path1562" fill="#ffffff" d="m 379.352,388.449 0.321,0 c 0.231,0 0.4,-0.024 0.508,-0.072 0.08,-0.035 0.145,-0.087 0.202,-0.165 0.052,-0.077 0.094,-0.174 0.125,-0.296 0.028,-0.121 0.043,-0.249 0.043,-0.384 0,-0.22 -0.03,-0.404 -0.095,-0.553 -0.063,-0.149 -0.154,-0.256 -0.271,-0.322 -0.117,-0.067 -0.291,-0.099 -0.521,-0.099 l -0.312,-0.002 0,1.893 z m 0.478,-2.828 0,0 c 0.292,0 0.534,0.024 0.732,0.077 0.199,0.051 0.361,0.119 0.485,0.2 0.126,0.083 0.24,0.195 0.345,0.334 0.104,0.144 0.195,0.325 0.266,0.547 0.073,0.221 0.108,0.47 0.108,0.752 0,0.414 -0.079,0.764 -0.239,1.056 -0.162,0.286 -0.382,0.493 -0.663,0.615 -0.28,0.122 -0.614,0.182 -1.002,0.182 l -1.721,0 0,-3.763 1.689,0"/>
-      <path id="path1564" fill="#ffffff" d="m 382.333,385.621 0,3.763 2.936,0 0,-0.928 -1.714,0 0,-0.603 1.371,0 0,-0.903 -1.371,0 0,-1.329 -1.222,0"/>
-      <path id="path1566" fill="#ffffff" d="m 389.415,387.945 -1.169,0 c -0.022,0.187 -0.09,0.335 -0.203,0.441 -0.114,0.104 -0.257,0.155 -0.433,0.155 -0.219,0 -0.397,-0.085 -0.534,-0.253 -0.138,-0.17 -0.207,-0.445 -0.207,-0.823 0,-0.264 0.031,-0.462 0.088,-0.597 0.059,-0.139 0.142,-0.239 0.245,-0.306 0.106,-0.067 0.235,-0.098 0.394,-0.098 0.19,0 0.342,0.048 0.453,0.158 0.114,0.103 0.18,0.257 0.202,0.463 l 1.19,0 c -0.026,-0.234 -0.073,-0.43 -0.141,-0.59 -0.065,-0.159 -0.181,-0.317 -0.338,-0.476 -0.159,-0.161 -0.349,-0.285 -0.568,-0.371 -0.219,-0.087 -0.472,-0.128 -0.762,-0.128 -0.286,0 -0.553,0.041 -0.794,0.125 -0.244,0.086 -0.45,0.208 -0.614,0.361 -0.167,0.159 -0.297,0.337 -0.39,0.538 -0.134,0.283 -0.197,0.594 -0.197,0.941 0,0.29 0.047,0.565 0.142,0.817 0.095,0.25 0.226,0.463 0.393,0.635 0.168,0.171 0.351,0.299 0.555,0.385 0.258,0.11 0.542,0.163 0.857,0.163 0.274,0 0.528,-0.04 0.768,-0.121 0.239,-0.081 0.435,-0.199 0.588,-0.356 0.155,-0.157 0.274,-0.337 0.357,-0.542 0.06,-0.143 0.098,-0.316 0.118,-0.521"/>
-      <path id="path1568" fill="#ffffff" d="m 393.38,388.537 c 0.175,0 0.288,-0.008 0.344,-0.024 0.072,-0.021 0.132,-0.062 0.175,-0.116 0.044,-0.056 0.067,-0.121 0.067,-0.196 0,-0.096 -0.038,-0.175 -0.111,-0.235 -0.078,-0.063 -0.211,-0.092 -0.402,-0.092 l -0.466,0 0,0.663 0.393,0 z m 0.311,-2.916 0,0 c 0.293,0 0.499,0.014 0.62,0.04 0.119,0.028 0.242,0.072 0.367,0.13 0.122,0.064 0.216,0.124 0.278,0.19 0.096,0.089 0.167,0.197 0.219,0.327 0.052,0.131 0.078,0.279 0.078,0.438 0,0.227 -0.056,0.414 -0.17,0.566 -0.114,0.153 -0.267,0.254 -0.46,0.309 0.327,0.206 0.49,0.472 0.49,0.796 0,0.335 -0.144,0.591 -0.429,0.765 -0.22,0.134 -0.563,0.202 -1.028,0.202 l -1.867,0 0,-3.763 1.902,0 z m -0.199,1.576 0,0 c 0.245,0 0.404,-0.03 0.484,-0.093 0.074,-0.061 0.114,-0.145 0.114,-0.258 0,-0.114 -0.04,-0.204 -0.121,-0.267 -0.077,-0.067 -0.238,-0.095 -0.477,-0.095 l -0.505,0 0,0.713 0.505,0"/>
-      <path id="path1570" fill="#ffffff" d="m 397.972,386.886 -0.787,0 0.388,1.369 0.399,-1.369 z m -1.157,-1.265 0,0 0.143,0.494 1.232,0 0.144,-0.494 1.231,0 -1.35,3.763 -1.257,0 -1.351,-3.763 1.208,0"/>
-      <path id="path1572" fill="#ffffff" d="m 400.085,385.621 0,3.763 1.153,0 1.301,-2.015 0,2.015 1.186,0 0,-3.763 -1.178,0 -1.273,1.965 0,-1.965 -1.189,0"/>
-      <path id="path1574" fill="#ffffff" d="m 404.55,385.621 0,3.763 1.199,0 0,-1.241 1.119,1.241 1.454,0 -1.379,-1.417 1.522,-2.346 -1.482,0 -0.905,1.499 -0.329,-0.325 0,-1.174 -1.199,0"/>
-      <path id="path1576" fill="#ed232a" d="m 363.272,391.479 7.953,0 0,-7.953 -7.953,0 0,7.953 z"/>
-      <path id="path1578" fill="#ffffff" d="m 364.664,390.087 5.17,0 0,-5.17 -5.17,0 0,5.17 z"/>
-      <path id="path1580" fill="#ffffff" d="m 366.851,391.479 0.795,0 0,-7.953 -0.795,0 0,7.953 z"/>
-      <path id="path1582" fill="#ffffff" d="m 363.272,387.899 7.953,0 0,-0.795 -7.953,0 0,0.795 z"/>
-      <path id="path1584" fill="#004c8f" d="m 366.056,388.695 2.386,0 0,-2.386 -2.386,0 0,2.386 z"/>
-    </g>
-  </g>
-                </svg>
-              </svg>
-              <span>HDFC</span>
-            </button>
-            <!-- ICICI - Real Simple Icons SVG path -->
-            <button class="pg-bank-btn" onclick="selectBank(this,'icici')">
-              <svg width="40" height="40" viewBox="0 0 80 80">
-                <rect width="80" height="80" rx="12" fill="white"/>
-                <svg x="8" y="8" width="64" height="64" viewBox="0 0 24 24" fill="#AE282E">
-                  <path d="M21.9258 2.0961C19.279-1.6476 12.698-.2426 7.2138 5.2416c-5.484 5.475-7.7865 12.9625-5.1397 16.7062.8728 1.2386 2.1837 1.902 3.7386 2.0522 1.0516.0078 1.9129-1.1846 2.6158-2.7774.7252-1.6678 1.1694-3.218 1.5138-4.6592.5077-2.2934.544-3.934.29-4.2786-.435-.5801-1.4321-.435-2.5561.2176-.544.2991-1.26.0997-.408-.9336.8612-1.0425 4.2605-3.5625 5.4933-3.9523 1.3415-.3898 2.8734.136 2.3568 1.6226-.3706 1.0847-5.0473 13.486-1.596 12.2719 1.1049-.747 2.205-1.6497 3.2639-2.7086 5.4841-5.475 7.7865-12.9625 5.1396-16.7063zm-5.3662 3.209c-1.0969 1.0968-2.52 1.4865-3.1364.852-.6617-.6345-.272-2.0577.8249-3.1726 1.1058-1.115 2.529-1.4594 3.1454-.834.6345.6436.2448 2.0487-.834 3.1545z"/>
-                </svg>
-              </svg>
-              <span>ICICI</span>
-            </button>
-            <!-- Axis - Real Simple Icons SVG path -->
-            <button class="pg-bank-btn" onclick="selectBank(this,'axis')">
-              <svg width="40" height="40" viewBox="0 0 80 80">
-                <rect width="80" height="80" rx="12" fill="white"/>
-                <svg x="8" y="8" width="64" height="64" viewBox="0 0 24 24" fill="#971A4D">
-                  <path d="M11.978 1.596 0 22.404h7.453l8.265-14.369Zm.027 12.896 4.533 7.903H24l-4.533-7.903z"/>
-                </svg>
-              </svg>
-              <span>Axis</span>
-            </button>
-            <!-- Kotak -->
-            <button class="pg-bank-btn" onclick="selectBank(this,'kotak')">
-              <svg width="40" height="40" viewBox="0 0 80 80">
-                <rect width="80" height="80" rx="12" fill="white" stroke="#e5e7eb" stroke-width="1.5"/>
-                <svg x="6" y="26" width="68" height="28" viewBox="0 0 107 29">
-                  <defs>
-    <style>
-      .cls-1 {
-        fill: #fff;
-      }
-
-      .cls-2, .cls-3 {
-        fill: #ec1c24;
-      }
-
-      .cls-2, .cls-4 {
-        fill-rule: evenodd;
-      }
-
-      .cls-5, .cls-4 {
-        fill: #003974;
-      }
-    </style>
-  </defs>
-  <path class="cls-5" d="M2.28,14.5C2.28,7.43,8.94,1.7,17.16,1.7s14.88,5.73,14.88,12.8-6.66,12.8-14.88,12.8S2.28,21.57,2.28,14.5Z"/>
-  <polygon class="cls-3" points="15.35 5.83 18.81 4.69 18.83 23.38 15.34 24.55 15.35 5.83"/>
-  <path class="cls-1" d="M17.4,17.47c-1.5,1.81-2.95,3.66-5.67,3.66-3.84,0-5.66-3.71-5.66-6.82s1.42-6.51,5.17-6.51c1.62,0,3.19.99,4.12,2.04v2.53c-.78-.52-2.52-1.04-3.66-1.06-2.37-.04-4.47.99-4.43,3.33.03,1.61,1.62,2.71,3.21,2.71,2.44,0,3.91-2.22,5.14-3.91.34-.44,1.31-1.74,1.47-1.95,1.37-1.91,2.95-3.66,5.67-3.66,3.2,0,5,2.58,5.51,5.24h-1.44c-.58-.86-1.7-1.39-2.8-1.39-2.52,0-4.02,2.32-5.28,4.02,0,0-.98,1.33-1.33,1.76ZM28.35,15.79c-.32,2.67-1.82,5.37-5.1,5.38-1.91,0-3.4-1.31-4.44-2.91v-1.85c1.29.64,2.5,1.33,3.97,1.35,1.81.03,3.44-.67,4.12-1.97h1.45Z"/>
-  <g>
-    <polygon class="cls-5" points="34.57 24.45 35.1 24.45 35.1 21.76 37.72 24.45 38.45 24.45 35.61 21.6 38.23 19.06 37.53 19.06 35.1 21.48 35.1 19.06 34.57 19.06 34.57 24.45"/>
-    <path class="cls-4" d="M39.4,22.48c0-.91.46-1.65,1.31-1.65s1.31.73,1.31,1.65-.46,1.65-1.31,1.65-1.31-.73-1.31-1.65ZM38.87,22.48c0,1.08.56,2.06,1.84,2.06s1.84-.99,1.84-2.06-.56-2.06-1.84-2.06-1.84.99-1.84,2.06Z"/>
-    <path class="cls-5" d="M45.17,20.51h-.9v-1.12l-.49.17v.95h-.77v.42h.77v2.3c0,.72.03,1.31.9,1.31.24,0,.48-.06.6-.11l-.03-.4c-.14.05-.26.09-.45.09-.39,0-.53-.29-.53-.65v-2.55h.9v-.42Z"/>
-    <path class="cls-4" d="M48.26,22.71c0,.43-.02,1.42-1.17,1.42-.45,0-.82-.19-.82-.71,0-.86,1.01-.95,1.85-.95h.14v.24ZM48.31,24.45h.48c-.04-.27-.04-.51-.04-.83v-1.74c0-1.03-.41-1.47-1.38-1.47-.35,0-.86.12-1.16.27v.47c.36-.23.75-.33,1.16-.33.66,0,.9.34.9,1.01v.2h-.09c-1.02,0-2.43.06-2.43,1.38,0,.36.18,1.11,1.3,1.11.49,0,1.04-.26,1.25-.73h.02v.63Z"/>
-    <polygon class="cls-5" points="49.91 24.45 50.39 24.45 50.39 22.43 52.34 24.45 53.01 24.45 50.86 22.26 52.78 20.51 52.15 20.51 50.39 22.13 50.39 18.66 49.91 18.66 49.91 24.45"/>
-    <polygon class="cls-5" points="55.97 24.45 56.51 24.45 56.51 19.59 56.52 19.59 58.55 24.45 59 24.45 60.97 19.59 60.98 19.59 60.98 24.45 61.52 24.45 61.52 19.06 60.75 19.06 58.77 23.8 56.8 19.06 55.97 19.06 55.97 24.45"/>
-    <path class="cls-4" d="M65.01,22.71c0,.43-.02,1.42-1.17,1.42-.45,0-.82-.19-.82-.71,0-.86,1.01-.95,1.85-.95h.14v.24ZM65.06,24.45h.48c-.04-.27-.04-.51-.04-.83v-1.74c0-1.03-.41-1.47-1.38-1.47-.35,0-.86.12-1.16.27v.47c.36-.23.75-.33,1.16-.33.66,0,.9.34.9,1.01v.2h-.09c-1.02,0-2.43.06-2.43,1.38,0,.36.18,1.11,1.3,1.11.49,0,1.04-.26,1.25-.73h.02v.63Z"/>
-    <path class="cls-5" d="M66.66,24.45h.49v-2.11c0-.69.3-1.51,1.17-1.51.8,0,.93.59.93,1.27v2.35h.49v-2.36c0-.97-.29-1.68-1.34-1.68-.58,0-1.02.33-1.23.76h-.02v-2.52h-.49v5.8Z"/>
-    <path class="cls-4" d="M71.44,18.81h-.49v.65h.49v-.65ZM70.96,24.45h.49v-3.94h-.49v3.94Z"/>
-    <path class="cls-5" d="M72.67,24.45h.49v-2.18c0-.66.28-1.44,1.17-1.44.67,0,.93.48.93,1.22v2.4h.49v-2.52c0-.87-.37-1.52-1.34-1.52-.82,0-1.11.44-1.28.8h-.02v-.7h-.47c.03.32.03.63.03.93v3.01Z"/>
-    <path class="cls-4" d="M77.27,22.48c0-.76.24-1.65,1.17-1.65.87,0,1.17.93,1.17,1.65s-.3,1.65-1.17,1.65c-.93,0-1.17-.88-1.17-1.65ZM80.09,18.66h-.49v2.52h-.02c-.07-.19-.46-.76-1.23-.76-1.16,0-1.62.87-1.62,2.06s.54,2.06,1.62,2.06c.56,0,.97-.22,1.23-.72h.02v.63h.49v-5.8Z"/>
-    <path class="cls-5" d="M81.27,24.45h.49v-1.95c0-.71.21-1.58.98-1.58.12,0,.26.02.36.05v-.51c-.09-.02-.22-.05-.34-.05-.5,0-.83.41-1.01.85h-.02v-.76h-.49c.03.29.03.45.03.88v3.06Z"/>
-    <path class="cls-4" d="M86.06,22.71c0,.43-.02,1.42-1.17,1.42-.45,0-.82-.19-.82-.71,0-.86,1.01-.95,1.85-.95h.14v.24ZM86.1,24.45h.48c-.04-.27-.04-.51-.04-.83v-1.74c0-1.03-.41-1.47-1.38-1.47-.35,0-.86.12-1.16.27v.47c.36-.23.75-.33,1.16-.33.66,0,.9.34.9,1.01v.2h-.09c-1.02,0-2.43.06-2.43,1.38,0,.36.18,1.11,1.3,1.11.49,0,1.03-.26,1.25-.73h.02v.63Z"/>
-    <path class="cls-4" d="M90.41,19.52h.73c.46,0,1.17.11,1.17.89,0,.86-.75,1-1.31,1h-.59v-1.89ZM90.39,21.88h.47c.79,0,1.62.1,1.62,1.06,0,.86-.81,1.05-1.53,1.05h-.56v-2.11ZM89.86,24.45h1.07c1.12,0,2.08-.36,2.08-1.54,0-.71-.46-1.16-1.14-1.28v-.02c.66-.13.98-.54.98-1.23,0-1.04-.83-1.33-1.71-1.33h-1.28v5.4Z"/>
-    <path class="cls-4" d="M96.37,22.71c0,.43-.02,1.42-1.17,1.42-.45,0-.82-.19-.82-.71,0-.86,1-.95,1.85-.95h.14v.24ZM96.41,24.45h.48c-.04-.27-.04-.51-.04-.83v-1.74c0-1.03-.41-1.47-1.38-1.47-.35,0-.86.12-1.16.27v.47c.36-.23.75-.33,1.16-.33.66,0,.9.34.9,1.01v.2h-.09c-1.02,0-2.43.06-2.43,1.38,0,.36.18,1.11,1.3,1.11.49,0,1.04-.26,1.25-.73h.01v.63Z"/>
-    <path class="cls-5" d="M98.02,24.45h.49v-2.18c0-.66.28-1.44,1.17-1.44.67,0,.93.48.93,1.22v2.4h.49v-2.52c0-.87-.37-1.52-1.34-1.52-.82,0-1.11.44-1.28.8h-.01v-.7h-.47c.03.32.03.63.03.93v3.01Z"/>
-    <polygon class="cls-5" points="102.31 24.45 102.8 24.45 102.8 22.43 104.75 24.45 105.42 24.45 103.26 22.26 105.19 20.51 104.56 20.51 102.8 22.13 102.8 18.66 102.31 18.66 102.31 24.45"/>
-  </g>
-  <g>
-    <path class="cls-2" d="M48.05,14.58c-1.41,0-1.98-1.17-1.98-2.47s.58-2.49,1.98-2.49,1.98,1.17,1.98,2.49-.58,2.47-1.98,2.47ZM48.05,16.71c2.91,0,5.13-1.69,5.13-4.61s-2.22-4.62-5.13-4.62-5.13,1.69-5.13,4.62,2.22,4.61,5.13,4.61Z"/>
-    <path class="cls-3" d="M52.9,9.82h1.74v3.59c0,2.1.66,3.3,3.39,3.3.76,0,1.34-.1,1.91-.17l-.1-1.98c-.3.05-.63.12-.93.12-.97,0-1.22-.54-1.22-1.61v-3.25h2.13v-2.13h-2.13v-3.05s-3,1.07-3,1.07v1.98h-1.8v2.13Z"/>
-    <polygon class="cls-3" points="70.49 16.51 73.54 16.51 73.54 12.14 73.58 12.14 76.01 16.51 79.71 16.51 76.39 11.73 79.45 7.69 76.12 7.69 73.58 11.39 73.54 11.39 73.54 4.65 70.49 5.7 70.49 16.51"/>
-    <polygon class="cls-3" points="34.8 16.51 37.85 16.51 37.85 12.14 37.88 12.14 40.32 16.51 44.01 16.51 40.69 11.73 43.76 7.69 40.42 7.69 37.88 11.39 37.85 11.39 37.85 4.65 34.8 5.65 34.8 16.51"/>
-    <path class="cls-2" d="M63.19,13.72c0-.86.82-1.18,1.87-1.18.46,0,.91.03,1.3.05,0,1.04-.74,2.11-1.9,2.11-.72,0-1.27-.36-1.27-.98ZM69.41,16.55c-.14-.7-.17-1.4-.17-2.11v-3.32c0-2.73-1.97-3.7-4.25-3.7-1.32,0-2.47.19-3.56.63l.05,2.09c.86-.48,1.85-.67,2.85-.67,1.11,0,2.02.33,2.04,1.54-.39-.07-.94-.12-1.44-.12-1.65,0-4.61.33-4.61,3.05,0,1.94,1.58,2.81,3.34,2.81,1.27,0,2.13-.5,2.83-1.61h.03c0,.46.05.93.07,1.4h2.83Z"/>
-  </g>
-                </svg>
-              </svg>
-              <span>Kotak</span>
-            </button>
-            <!-- PNB -->
-            <button class="pg-bank-btn" onclick="selectBank(this,'pnb')">
-              <svg width="40" height="40" viewBox="0 0 80 80">
-                <rect width="80" height="80" rx="12" fill="#a20e37"/>
-                <svg x="4" y="24" width="72" height="32" viewBox="0 0 180.35875 35.355003">
-                  <defs
-     id="defs4">
-    <inkscape:perspective
-       sodipodi:type="inkscape:persp3d"
-       inkscape:vp_x="0 : 526.18109 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_z="744.09448 : 526.18109 : 1"
-       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
-       id="perspective10" />
-    <clipPath
-       id="clipPath2894"
-       clipPathUnits="userSpaceOnUse">
-      <path
-         id="path2896"
-         d="m 407.055,734.35 144.567,0 0,28.737 -144.567,0 0,-28.737 z" />
-    </clipPath>
-    <clipPath
-       id="clipPath2840"
-       clipPathUnits="userSpaceOnUse">
-      <path
-         id="path2842"
-         d="m 407.48,734.492 144.567,0 0,28.737 -144.567,0 0,-28.737 z" />
-    </clipPath>
-    <clipPath
-       id="clipPath2832"
-       clipPathUnits="userSpaceOnUse">
-      <path
-         id="path2834"
-         d="m 0,0 595.276,0 0,793.701 L 0,793.701 0,0 z" />
-    </clipPath>
-    <inkscape:perspective
-       id="perspective2824"
-       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
-       inkscape:vp_z="1 : 0.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 0.5 : 1"
-       sodipodi:type="inkscape:persp3d" />
-  </defs>
-  <sodipodi:namedview
-     id="base"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageopacity="0.0"
-     inkscape:pageshadow="2"
-     inkscape:zoom="4.1179688"
-     inkscape:cx="87.551962"
-     inkscape:cy="12.895388"
-     inkscape:document-units="px"
-     inkscape:current-layer="layer1"
-     showgrid="false"
-     inkscape:window-width="1680"
-     inkscape:window-height="1000"
-     inkscape:window-x="-8"
-     inkscape:window-y="-8"
-     inkscape:window-maximized="1" />
-  <metadata
-     id="metadata7">
-    <rdf:RDF>
-      <cc:Work
-         rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
-      </cc:Work>
-    </rdf:RDF>
-  </metadata>
-  <g
-     inkscape:label="Layer 1"
-     inkscape:groupmode="layer"
-     id="layer1"
-     transform="translate(-520.75575,-88.936485)">
-    
-    <path
-       d="m 598.5845,115.15524 0.82125,0 -0.16375,0.89 -0.82,0 0.1625,-0.89 z"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
-       id="path2900" />
-    <path
-       d="m 600.0995,115.15524 0.82125,0 -0.1625,0.89 -0.82125,0 0.1625,-0.89 z"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
-       id="path2902" />
-    <path
-       d="m 601.61575,115.15524 0.82,0 -0.1625,0.89 -0.82125,0 0.16375,-0.89 z"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
-       id="path2904" />
-    <path
-       d="m 604.2995,116.06899 c -0.12375,0.01 -0.28,0.015 -0.47,0.015 -0.2775,0 -0.46375,-0.0525 -0.55875,-0.1575 -0.095,-0.10375 -0.12,-0.28375 -0.0738,-0.53875 l 0.365,-1.98 -0.39625,0 0.11375,-0.6125 0.3975,0 0.15875,-0.875 0.765,0 -0.16,0.875 0.46125,0 -0.115,0.6125 -0.46125,0 -0.3375,1.83375 c -0.0125,0.0675 10e-4,0.11625 0.04,0.14875 0.0387,0.03 0.1075,0.045 0.205,0.045 l 0.18375,-0.0112 -0.1175,0.645 z"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
-       id="path2906" />
-    <path
-       d="m 604.7895,116.04524 0.81,-4.39125 0.38125,0 0.3825,0 -0.28625,1.55625 0.0738,-0.0838 c 0.24125,-0.27875 0.535,-0.4175 0.88,-0.4175 0.3125,0 0.53875,0.0987 0.68,0.2975 0.14,0.1975 0.17625,0.47125 0.11125,0.8225 l -0.40875,2.21625 -0.38,0 -0.3825,0 0.37,-2.0075 c 0.0362,-0.20625 0.0263,-0.36125 -0.0325,-0.46 -0.0587,-0.1 -0.1675,-0.15 -0.32875,-0.15 -0.19625,0 -0.36125,0.0662 -0.49625,0.19875 -0.13625,0.1325 -0.225,0.31625 -0.2675,0.5525 l -0.3425,1.86625 -0.38,0 -0.38375,0 z"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
-       id="path2908" />
-    <path
-       d="m 609.32075,116.13149 c -0.37875,0 -0.66875,-0.1 -0.87,-0.29875 -0.20125,-0.20125 -0.3025,-0.49 -0.3025,-0.86625 0.002,-0.08 0.007,-0.165 0.0163,-0.25625 0.009,-0.0925 0.0212,-0.18375 0.0375,-0.2775 0.0987,-0.54125 0.29875,-0.9625 0.5975,-1.2675 0.3,-0.305 0.665,-0.45625 1.09625,-0.45625 0.36375,0 0.63875,0.0987 0.82625,0.29875 0.18625,0.19875 0.28,0.4925 0.28,0.87875 0,0.0937 -0.006,0.1975 -0.0163,0.30625 -0.0113,0.11 -0.0288,0.22375 -0.0525,0.34125 l -0.02,0.10375 -1.985,0 -0.004,0.0425 c -0.008,0.06 -0.0113,0.11625 -0.0113,0.17 10e-4,0.1975 0.0475,0.345 0.135,0.44375 0.09,0.0987 0.2225,0.1475 0.4025,0.1475 0.13,0 0.2475,-0.0312 0.35375,-0.0937 0.1075,-0.0625 0.1825,-0.145 0.2275,-0.24625 l 0.7725,0 c -0.135,0.31625 -0.33625,0.5675 -0.60375,0.7525 -0.2675,0.185 -0.56,0.2775 -0.88,0.2775 m 0.9175,-2.05125 0,0 0.003,-0.11375 c 0,-0.1875 -0.0388,-0.3275 -0.11875,-0.4175 -0.0788,-0.0913 -0.19875,-0.13625 -0.36,-0.13625 -0.20375,0 -0.37375,0.0888 -0.5075,0.26625 -0.0788,0.10375 -0.145,0.2375 -0.2,0.40125 l 1.18375,0 z"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
-       id="path2910" />
-    <path
-       d="m 612.672,116.04524 0.59875,-3.25 0.37125,0 0.37125,0 -0.085,0.46625 0.10625,-0.135 c 0.24125,-0.27875 0.535,-0.4175 0.8775,-0.4175 0.31375,0 0.54,0.0987 0.68,0.2975 0.14,0.1975 0.1775,0.47125 0.11125,0.8225 l -0.40875,2.21625 -0.38,0 -0.3825,0 0.37,-2.0075 c 0.0375,-0.20625 0.0263,-0.36125 -0.0325,-0.46 -0.0588,-0.1 -0.1675,-0.15 -0.32875,-0.15 -0.195,0 -0.36125,0.0662 -0.49625,0.19875 -0.135,0.1325 -0.225,0.31625 -0.2675,0.5525 l -0.34125,1.86625 -0.38,0 -0.38375,0 z"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
-       id="path2912" />
-    <path
-       d="m 616.71325,116.13149 c -0.23625,0 -0.42375,-0.0625 -0.56,-0.18875 -0.135,-0.12625 -0.20375,-0.3025 -0.20375,-0.5275 0,-0.0362 0.002,-0.0762 0.007,-0.1225 0.004,-0.0462 0.0113,-0.09 0.0188,-0.135 0.0512,-0.27125 0.17,-0.4975 0.35875,-0.68 0.1875,-0.18375 0.41875,-0.29625 0.6925,-0.3375 l 0.64375,-0.1025 c 0.06,-0.01 0.1175,-0.0263 0.17,-0.0512 0.0675,-0.0288 0.12,-0.0725 0.155,-0.12875 0.035,-0.0575 0.0525,-0.12375 0.0512,-0.19875 -0.002,-0.08 -0.0263,-0.14125 -0.0725,-0.1825 -0.0662,-0.0588 -0.18375,-0.0875 -0.3575,-0.0875 -0.13,0 -0.2425,0.0387 -0.335,0.11625 -0.0925,0.0763 -0.16375,0.19 -0.215,0.34125 l -0.7225,0 c 0.075,-0.3725 0.23875,-0.655 0.49,-0.84875 0.2525,-0.1925 0.5825,-0.28875 0.9925,-0.28875 0.37625,0 0.64625,0.0812 0.81375,0.24375 0.12375,0.12125 0.185,0.28125 0.18375,0.485 0.001,0.0687 -0.006,0.145 -0.0213,0.22375 l -0.32875,1.77125 c -0.0263,0.14375 -0.0337,0.25375 -0.0237,0.33 0.0112,0.0775 0.0425,0.13 0.0937,0.16 l 0,0.004 -0.0213,0.115 -0.41375,0 -0.41375,0 0,0 c -0.0125,-0.1275 -0.0113,-0.25375 0.005,-0.37875 -0.3,0.3125 -0.62875,0.46875 -0.9875,0.46875 m 1.12,-1.26875 0.0712,-0.395 c -0.0725,0.0463 -0.1525,0.08 -0.24,0.1025 l -0.3075,0.0675 c -0.20375,0.0462 -0.34875,0.105 -0.43625,0.17375 -0.0875,0.07 -0.14375,0.17125 -0.16875,0.305 -0.004,0.0187 -0.004,0.0187 0,0 -0.004,0.0187 -0.006,0.04 -0.009,0.0588 -10e-4,0.0212 -0.002,0.0387 -0.002,0.0575 0,0.0912 0.0263,0.1625 0.0788,0.2125 0.0525,0.05 0.12625,0.0738 0.22,0.0738 0.24125,0 0.455,-0.10625 0.64125,-0.3225 0.0325,-0.035 0.0625,-0.085 0.0913,-0.14875 0.03,-0.0662 0.05,-0.1275 0.0612,-0.185"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
-       id="path2914" />
-    <path
-       d="m 619.032,116.04524 0.59875,-3.25 0.37125,0 0.3725,0 -0.0875,0.46 0.11625,-0.155 c 0.22125,-0.26125 0.48625,-0.39125 0.79875,-0.39125 0.2825,0 0.48625,0.0888 0.6125,0.26875 0.055,0.0738 0.0912,0.16125 0.10875,0.26125 l 0.105,-0.13875 c 0.21,-0.26125 0.4675,-0.39125 0.77,-0.39125 0.31,0 0.535,0.0987 0.67375,0.295 0.0962,0.13375 0.14375,0.3025 0.14125,0.5075 0.003,0.0963 -0.009,0.19875 -0.0287,0.30875 l -0.41125,2.225 -0.38,0 -0.38375,0 0.38375,-2.10625 c 0.035,-0.17375 0.0263,-0.30125 -0.0238,-0.385 -0.05,-0.0838 -0.1425,-0.12625 -0.2775,-0.12625 -0.17375,0 -0.31625,0.055 -0.42375,0.165 -0.10875,0.11 -0.18375,0.27375 -0.22375,0.4925 l -0.35875,1.96 -0.38125,0 -0.38375,0 0.38375,-2.08125 c 0.0338,-0.1825 0.0238,-0.31625 -0.0275,-0.40375 -0.0525,-0.0888 -0.15,-0.1325 -0.28875,-0.1325 -0.17125,0 -0.30875,0.055 -0.41375,0.165 -0.10625,0.11 -0.17875,0.27375 -0.22,0.4925 l -0.3575,1.96 -0.38125,0 -0.38375,0 z"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
-       id="path2916" />
-    <path
-       d="m 625.08575,116.13149 c -0.3775,0 -0.6675,-0.1 -0.86875,-0.29875 -0.20125,-0.20125 -0.3025,-0.49 -0.3025,-0.86625 10e-4,-0.08 0.007,-0.165 0.0162,-0.25625 0.009,-0.0925 0.0213,-0.18375 0.0375,-0.2775 0.0987,-0.54125 0.2975,-0.9625 0.5975,-1.2675 0.3,-0.305 0.66375,-0.45625 1.09625,-0.45625 0.36375,0 0.63875,0.0987 0.825,0.29875 0.18625,0.19875 0.28,0.4925 0.28,0.87875 0,0.0937 -0.005,0.1975 -0.0163,0.30625 -0.0113,0.11 -0.0275,0.22375 -0.0512,0.34125 l -0.02,0.10375 -1.985,0 -0.005,0.0425 c -0.008,0.06 -0.0113,0.11625 -0.0113,0.17 0.002,0.1975 0.0475,0.345 0.13625,0.44375 0.0888,0.0987 0.2225,0.1475 0.40125,0.1475 0.13,0 0.24875,-0.0312 0.355,-0.0937 0.10625,-0.0625 0.18125,-0.145 0.22625,-0.24625 l 0.7725,0 c -0.13375,0.31625 -0.33625,0.5675 -0.60375,0.7525 -0.26625,0.185 -0.56,0.2775 -0.88,0.2775 m 0.9175,-2.05125 0,0 0.002,-0.11375 c 0,-0.1875 -0.0388,-0.3275 -0.1175,-0.4175 -0.0788,-0.0913 -0.2,-0.13625 -0.36125,-0.13625 -0.20375,0 -0.3725,0.0888 -0.5075,0.26625 -0.0775,0.10375 -0.14375,0.2375 -0.2,0.40125 l 1.18375,0 z"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
-       id="path2918" />
-    <path
-       d="m 631.63825,112.79524 -1.57875,3.22625 c -0.29125,0.6 -0.51875,0.98 -0.6825,1.14125 -0.16375,0.16125 -0.4,0.2425 -0.71,0.2425 -0.14125,0 -0.26,-0.007 -0.355,-0.0213 l 0.125,-0.68125 c 0.0163,0.009 0.0663,0.0125 0.15,0.0125 0.20625,0 0.34875,-0.045 0.425,-0.135 0.0512,-0.0575 0.11625,-0.1875 0.195,-0.38875 l -0.45875,-3.39625 0.42625,0 0.42625,0 0.17625,2.425 1.05625,-2.425 0.4025,0 0.4025,0 z"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
-       id="path2920" />
-    <path
-       d="m 632.78075,116.13149 c -0.37375,0 -0.67,-0.11125 -0.8875,-0.3325 -0.2175,-0.2225 -0.3275,-0.525 -0.32875,-0.90625 0,-0.0662 0.002,-0.14 0.0113,-0.2225 0.009,-0.0825 0.0187,-0.1625 0.0337,-0.2375 0.0975,-0.52875 0.30875,-0.9475 0.6325,-1.25875 0.32375,-0.31 0.71375,-0.465 1.17,-0.465 0.375,0 0.67125,0.11125 0.88875,0.33625 0.2175,0.22625 0.32625,0.53125 0.32625,0.91875 0,0.0662 -0.005,0.1425 -0.0138,0.22625 -0.009,0.0825 -0.02,0.165 -0.035,0.2425 -0.095,0.52125 -0.305,0.935 -0.63,1.24 -0.32375,0.30625 -0.7125,0.45875 -1.1675,0.45875 m 0.13375,-0.71875 c 0.23125,0 0.42,-0.0862 0.5675,-0.2575 0.1475,-0.17125 0.2525,-0.42875 0.31625,-0.77375 0.01,-0.0562 0.0187,-0.1125 0.0237,-0.1675 0.006,-0.0563 0.009,-0.10625 0.009,-0.1525 0,-0.20125 -0.0488,-0.3575 -0.14375,-0.4675 -0.0962,-0.11125 -0.2325,-0.16625 -0.4075,-0.16625 -0.23125,0 -0.42,0.0875 -0.5675,0.26125 -0.1475,0.175 -0.25375,0.4375 -0.31875,0.78875 -0.009,0.0525 -0.0163,0.10625 -0.0225,0.16 -0.006,0.055 -0.009,0.105 -0.006,0.15 0,0.19875 0.0462,0.3525 0.1425,0.46125 0.095,0.10875 0.23,0.16375 0.4075,0.16375"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
-       id="path2922" />
-    <path
-       d="m 636.17575,112.79524 -0.37125,2.0075 c -0.0388,0.20625 -0.0288,0.36125 0.0287,0.46 0.0588,0.1 0.16875,0.15 0.32875,0.15 0.19375,0 0.36,-0.0662 0.49375,-0.2 0.13625,-0.1325 0.22375,-0.315 0.26625,-0.55125 l 0.34375,-1.86625 0.3825,0 0.385,0 -0.59875,3.25 -0.36875,0 -0.37,0 0.0837,-0.475 c -0.03,0.0475 -0.0662,0.0962 -0.10875,0.14375 -0.24,0.27875 -0.5325,0.4175 -0.87625,0.4175 -0.3125,0 -0.53875,-0.10875 -0.6775,-0.3275 -0.0888,-0.1425 -0.1325,-0.32125 -0.1325,-0.53875 0,-0.11125 0.0125,-0.23375 0.0375,-0.3675 l 0.38875,-2.1025 0.38125,0 0.38375,0 z"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
-       id="path2924" />
-    <path
-       d="m 642.37825,114.85899 0,0 c -0.1225,0.39125 -0.325,0.70125 -0.60625,0.92875 -0.28125,0.23 -0.60125,0.34375 -0.9625,0.34375 -0.3475,0 -0.615,-0.0975 -0.80125,-0.2925 -0.18625,-0.195 -0.28,-0.47625 -0.28,-0.845 0,-0.0838 0.005,-0.17375 0.015,-0.27125 0.01,-0.0962 0.0238,-0.19375 0.0413,-0.29 0.0987,-0.54125 0.29875,-0.9625 0.6,-1.2675 0.30125,-0.305 0.66875,-0.45625 1.10375,-0.45625 0.37125,0 0.65,0.10875 0.83625,0.3275 0.155,0.18 0.23125,0.41875 0.23,0.7175 l -0.0113,0.2 -0.7725,0 c -0.007,-0.185 -0.0437,-0.31875 -0.11,-0.40125 -0.065,-0.0825 -0.1675,-0.125 -0.305,-0.125 -0.19875,0 -0.36375,0.0875 -0.49375,0.26125 -0.13125,0.175 -0.22875,0.43625 -0.295,0.785 -0.01,0.065 -0.0187,0.13125 -0.0263,0.19875 -0.007,0.0662 -0.0113,0.1275 -0.0113,0.18375 0,0.18125 0.0363,0.3225 0.1075,0.42125 0.07,0.1 0.17125,0.15 0.3,0.15 0.1475,0 0.2825,-0.0525 0.405,-0.1575 0.1225,-0.105 0.21,-0.24125 0.26375,-0.41125 l 0.7725,0 z"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
-       id="path2926" />
-    <path
-       d="m 643.3945,116.13149 c -0.2375,0 -0.42375,-0.0625 -0.56,-0.18875 -0.135,-0.12625 -0.20375,-0.3025 -0.20375,-0.5275 0,-0.0362 0.003,-0.0762 0.006,-0.1225 0.005,-0.0462 0.0125,-0.09 0.02,-0.135 0.05,-0.27125 0.17,-0.4975 0.3575,-0.68 0.18875,-0.18375 0.42,-0.29625 0.6925,-0.3375 l 0.645,-0.1025 c 0.06,-0.01 0.1175,-0.0263 0.17,-0.0512 0.0675,-0.0288 0.11875,-0.0725 0.155,-0.12875 0.035,-0.0575 0.0525,-0.12375 0.0512,-0.19875 -0.002,-0.08 -0.0263,-0.14125 -0.0725,-0.1825 -0.0662,-0.0588 -0.185,-0.0875 -0.3575,-0.0875 -0.13,0 -0.2425,0.0387 -0.335,0.11625 -0.0925,0.0763 -0.16375,0.19 -0.21625,0.34125 l -0.72125,0 c 0.075,-0.3725 0.23875,-0.655 0.49,-0.84875 0.25125,-0.1925 0.5825,-0.28875 0.9925,-0.28875 0.37625,0 0.64625,0.0812 0.8125,0.24375 0.125,0.12125 0.18625,0.28125 0.18375,0.485 0.003,0.0687 -0.005,0.145 -0.02,0.22375 l -0.32875,1.77125 c -0.0263,0.14375 -0.0337,0.25375 -0.0237,0.33 0.0113,0.0775 0.0425,0.13 0.0937,0.16 l 0,0.004 -0.0213,0.115 -0.41375,0 -0.41375,0 0,0 c -0.0125,-0.1275 -0.0113,-0.25375 0.005,-0.37875 -0.3,0.3125 -0.62875,0.46875 -0.9875,0.46875 m 1.12,-1.26875 0.0713,-0.395 c -0.0725,0.0463 -0.1525,0.08 -0.24,0.1025 l -0.30875,0.0675 c -0.2025,0.0462 -0.3475,0.105 -0.435,0.17375 -0.0888,0.07 -0.14375,0.17125 -0.16875,0.305 -0.004,0.0187 -0.004,0.0187 0,0 -0.004,0.0187 -0.006,0.04 -0.009,0.0588 -10e-4,0.0212 -0.003,0.0387 -0.003,0.0575 0,0.0912 0.0263,0.1625 0.0788,0.2125 0.0525,0.05 0.12625,0.0738 0.22,0.0738 0.24125,0 0.455,-0.10625 0.64125,-0.3225 0.0325,-0.035 0.0625,-0.085 0.0912,-0.14875 0.03,-0.0662 0.05,-0.1275 0.0612,-0.185"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
-       id="path2928" />
-    <path
-       d="m 645.71825,116.04524 0.6,-3.25 0.37,0 0.3725,0 -0.0862,0.46625 0.1075,-0.135 c 0.24125,-0.27875 0.53375,-0.4175 0.8775,-0.4175 0.3125,0 0.54,0.0987 0.67875,0.2975 0.14,0.1975 0.1775,0.47125 0.1125,0.8225 l -0.40875,2.21625 -0.38,0 -0.38375,0 0.37,-2.0075 c 0.0375,-0.20625 0.0263,-0.36125 -0.0312,-0.46 -0.0588,-0.1 -0.16875,-0.15 -0.32875,-0.15 -0.19625,0 -0.36125,0.0662 -0.49625,0.19875 -0.13625,0.1325 -0.225,0.31625 -0.2675,0.5525 l -0.3425,1.86625 -0.38,0 -0.38375,0 z"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
-       id="path2930" />
-    <path
-       d="m 650.627,116.04524 0.81,-4.39125 0.4075,0 1.51875,0 c 0.32375,0 0.5725,0.0762 0.745,0.2275 0.1725,0.15125 0.25875,0.36875 0.26125,0.65375 -0.002,0.0525 -0.005,0.1075 -0.0113,0.16625 -0.005,0.0587 -0.0125,0.11875 -0.0237,0.1775 -0.055,0.29625 -0.2175,0.53625 -0.49,0.71625 -0.0425,0.0312 -0.0875,0.0575 -0.135,0.0813 0.055,0.0238 0.105,0.0537 0.14875,0.0888 0.1975,0.155 0.295,0.375 0.295,0.66375 0,0.0462 -0.003,0.0937 -0.008,0.145 -0.005,0.0513 -0.0113,0.10125 -0.0213,0.15125 -0.0762,0.41375 -0.265,0.7375 -0.56625,0.97 -0.30125,0.23375 -0.68,0.35 -1.13875,0.35 l -1.385,0 -0.4075,0 z m 1.48375,-3.62375 -0.175,0.9475 0.96125,0 c 0.19,0 0.3375,-0.0387 0.44375,-0.115 0.105,-0.0762 0.1725,-0.195 0.2025,-0.35375 0.004,-0.0263 0.006,-0.05 0.01,-0.0737 0.002,-0.0225 0.004,-0.0463 0.004,-0.0725 0,-0.11625 -0.0375,-0.2 -0.11375,-0.2525 -0.0775,-0.0525 -0.19875,-0.08 -0.36625,-0.08 l -0.96625,0 z m -0.31625,1.6975 -0.21125,1.15875 0.94,0 c 0.2275,0 0.40375,-0.0475 0.53,-0.14125 0.1275,-0.0937 0.2075,-0.2375 0.24375,-0.4325 0.006,-0.0337 0.0113,-0.065 0.015,-0.0925 0.004,-0.0275 0.005,-0.0538 0.003,-0.0775 0,-0.13875 -0.0425,-0.24375 -0.1275,-0.3125 -0.085,-0.0687 -0.21375,-0.1025 -0.3875,-0.1025 l -1.005,0 z"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
-       id="path2932" />
-    <path
-       d="m 654.26075,116.04524 2.24,-4.39125 0.47125,0 0.47125,0 0.54875,4.39125 -0.445,0 -0.4475,0 -0.0875,-0.92 -1.45125,0 -0.435,0.92 -0.43125,0 -0.43375,0 z m 2.51,-3.42375 -0.855,1.77875 1.02875,0 -0.17625,-1.77875 0.002,0 z"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
-       id="path2934" />
-    <path
-       d="m 659.22825,116.04524 0,0 -0.38125,0 -0.38125,0 0.81,-4.39125 0.42875,0 0.43,0 1.01125,3.11 0.575,-3.11 0.38125,0 0.38,0 -0.81,4.39125 -0.40375,0 -0.40875,0 -1.0525,-3.1575 -0.57875,3.1575 z"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
-       id="path2936" />
-    <path
-       d="m 662.50325,116.04524 0.81,-4.39125 0.40875,0 0.4075,0 -0.3325,1.8075 1.86,-1.8075 0.525,0 0.525,0 -1.93,1.82375 1.19,2.5675 -0.5275,0 -0.53,0 -0.8275,-1.915 -0.49625,0.47125 -0.26625,1.44375 -0.4075,0 -0.40875,0 z"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
-       id="path2938" />
-    <path
-       d="m 669.212,112.79524 -0.37125,2.0075 c -0.0388,0.20625 -0.03,0.36125 0.0287,0.46 0.0588,0.1 0.16875,0.15 0.32875,0.15 0.19375,0 0.36,-0.0662 0.49375,-0.2 0.13625,-0.1325 0.22375,-0.315 0.26625,-0.55125 l 0.34375,-1.86625 0.3825,0 0.385,0 -0.59875,3.25 -0.36875,0 -0.37,0 0.0838,-0.475 c -0.03,0.0475 -0.0663,0.0962 -0.10875,0.14375 -0.24,0.27875 -0.5325,0.4175 -0.87625,0.4175 -0.3125,0 -0.53875,-0.10875 -0.6775,-0.3275 -0.0888,-0.1425 -0.1325,-0.32125 -0.1325,-0.53875 0,-0.11125 0.0125,-0.23375 0.0362,-0.3675 l 0.39,-2.1025 0.38125,0 0.38375,0 z"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
-       id="path2940" />
-    <path
-       d="m 671.7495,112.79524 0,0 0.35875,0 0.35875,0 -0.0825,0.46625 0.0575,-0.0687 c 0.2875,-0.32375 0.60375,-0.48375 0.9475,-0.48375 0.295,0 0.52625,0.1 0.69125,0.30125 0.16625,0.20125 0.24875,0.48 0.24875,0.83625 -0.001,0.0813 -0.008,0.1725 -0.0163,0.275 -0.01,0.10125 -0.0237,0.20125 -0.0412,0.29875 -0.0913,0.49 -0.2825,0.8975 -0.57375,1.22375 -0.2925,0.325 -0.6125,0.4875 -0.9625,0.4875 -0.35125,0 -0.6,-0.1525 -0.745,-0.46 l -0.005,-0.0113 -0.30625,1.6575 -0.38125,0 -0.3825,0 0.83375,-4.5225 z m 0.9025,2.6325 c 0.19375,0 0.365,-0.0888 0.5175,-0.26625 0.15,-0.1775 0.2525,-0.41125 0.30625,-0.70125 0.0113,-0.065 0.0213,-0.12875 0.0287,-0.1925 0.008,-0.0662 0.01,-0.12625 0.008,-0.1825 0,-0.2 -0.0425,-0.35625 -0.12875,-0.46625 -0.0863,-0.11125 -0.20875,-0.16625 -0.36625,-0.16625 -0.18875,0 -0.35875,0.0887 -0.51125,0.26625 -0.1525,0.1775 -0.255,0.40375 -0.305,0.68125 l 0.002,0 c -0.0612,0.3275 -0.0538,0.58125 0.025,0.76 0.0775,0.17875 0.21875,0.2675 0.42375,0.2675"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
-       id="path2942" />
-    <path
-       d="m 675.81325,116.13149 c -0.37375,0 -0.67,-0.11125 -0.8875,-0.3325 -0.2175,-0.2225 -0.3275,-0.525 -0.32875,-0.90625 0,-0.0662 0.002,-0.14 0.0112,-0.2225 0.008,-0.0825 0.0188,-0.1625 0.0338,-0.2375 0.0975,-0.52875 0.30875,-0.9475 0.6325,-1.25875 0.32375,-0.31 0.71375,-0.465 1.17,-0.465 0.375,0 0.67125,0.11125 0.88875,0.33625 0.2175,0.22625 0.32625,0.53125 0.32625,0.91875 0,0.0662 -0.005,0.1425 -0.0138,0.22625 -0.009,0.0825 -0.02,0.165 -0.035,0.2425 -0.095,0.52125 -0.305,0.935 -0.63,1.24 -0.32375,0.30625 -0.7125,0.45875 -1.1675,0.45875 m 0.13375,-0.71875 c 0.23125,0 0.42,-0.0862 0.5675,-0.2575 0.1475,-0.17125 0.2525,-0.42875 0.31625,-0.77375 0.01,-0.0562 0.0187,-0.1125 0.0237,-0.1675 0.006,-0.0563 0.009,-0.10625 0.009,-0.1525 0,-0.20125 -0.0487,-0.3575 -0.14375,-0.4675 -0.0963,-0.11125 -0.2325,-0.16625 -0.4075,-0.16625 -0.23125,0 -0.42,0.0875 -0.5675,0.26125 -0.1475,0.175 -0.25375,0.4375 -0.31875,0.78875 -0.01,0.0525 -0.0162,0.10625 -0.0225,0.16 -0.006,0.055 -0.009,0.105 -0.006,0.15 0,0.19875 0.0462,0.3525 0.1425,0.46125 0.095,0.10875 0.23,0.16375 0.4075,0.16375"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
-       id="path2944" />
-    <path
-       d="m 677.83575,116.04524 0.59875,-3.25 0.37125,0 0.3725,0 -0.0863,0.46625 0.10625,-0.135 c 0.2425,-0.27875 0.535,-0.4175 0.87875,-0.4175 0.3125,0 0.53875,0.0987 0.67875,0.2975 0.14,0.1975 0.1775,0.47125 0.1125,0.8225 l -0.41,2.21625 -0.38,0 -0.3825,0 0.37,-2.0075 c 0.0375,-0.20625 0.0262,-0.36125 -0.0312,-0.46 -0.06,-0.1 -0.16875,-0.15 -0.33,-0.15 -0.195,0 -0.36,0.0662 -0.49625,0.19875 -0.135,0.1325 -0.22375,0.31625 -0.2675,0.5525 l -0.34125,1.86625 -0.38,0 -0.38375,0 z"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
-       id="path2946" />
-    <path
-       d="m 681.74825,114.84149 0.17125,-2.105 0.19625,-1.06125 0.4175,0 0.42125,0 -0.1975,1.06125 -0.6075,2.105 -0.20125,0 -0.2,0 z m -0.26375,0.34 0.80375,0 -0.15625,0.86375 -0.805,0 0.1575,-0.86375 z"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
-       id="path2948" />
-    <path
-       d="m 554.602,95.872735 5.05375,0 0,19.646255 -5.05375,0 0,-4.83375 c -4.425,1.65 -8.57,1.80125 -12.395,-1.985 -1.58625,-1.66875 -2.4625,-3.9325 -2.08625,-7.9 0.045,-0.585 -0.2275,-3.045005 -0.94375,-4.611255 l 4.48875,0 c 2.0875,3.3725 -0.65,7.317505 2.56875,10.066255 4.37,2.8725 8.19,-0.54875 8.3675,-3.66375 l 0,-6.718755 z m -5.02,2.11625 c 2.385,0 4.33125,1.9425 4.33125,4.325005 0,2.38125 -1.94625,4.32375 -4.33125,4.32375 -2.38625,0 -4.3325,-1.9425 -4.3325,-4.32375 0,-2.382505 1.94625,-4.325005 4.3325,-4.325005"
-       style="fill:#fbbc09;fill-opacity:1;fill-rule:evenodd;stroke:none"
-       id="path2950" />
-    <path
-       d="m 567.002,102.13774 c 1.94375,0 3.52875,1.61125 3.52875,3.58875 0,2.4275 -2.35875,3.99625 -4.6025,3.26125 l 0,-1.6325 c 1.22875,0.73 2.82625,-0.0162 2.82625,-1.4975 0,-1.055 -0.845,-1.915 -1.88125,-1.915 -1.0375,0 -1.8825,0.86 -1.8825,1.915 0,2.2025 -0.0488,4.4075 -0.0488,6.6125 l -1.46875,0 0,-6.74375 0.015,-0.335 c 0.0388,-1.77875 1.61375,-3.2325 3.51375,-3.25375"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none"
-       id="path2952" />
-    <path
-       d="m 571.05325,102.44149 1.5525,0 0,3.525 c -0.11375,2.06625 3.11,2.21875 3.03375,0 l 0,-3.525 1.555,0 0,3.6175 c 0.15375,4.49125 -6.37125,4.18375 -6.14125,0 l 0,-3.6175 z"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none"
-       id="path2954" />
-    <path
-       d="m 578.01575,109.11524 1.5525,0 0,-3.52625 c -0.11375,-2.06625 3.11,-2.21875 3.03375,0 l 0,3.52625 1.55625,0 0,-3.61875 c 0.1525,-4.49125 -6.3725,-4.18375 -6.1425,0 l 0,3.61875 z"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none"
-       id="path2956" />
-    <path
-       d="m 599.3845,109.36899 c 1.94375,0 3.52875,-1.61125 3.52875,-3.58875 0,-2.4275 -2.35875,-3.99625 -4.6025,-3.2625 l 0,1.6325 c 1.22875,-0.72875 2.82625,0.0175 2.82625,1.49875 0,1.055 -0.845,1.91375 -1.88125,1.91375 -1.03625,0 -1.8825,-0.85875 -1.8825,-1.91375 0,-2.2025 -0.0475,-4.40875 -0.0475,-6.613755 l -1.47,0 0,6.745005 0.0163,0.33375 c 0.0375,1.78 1.6125,3.2325 3.5125,3.255"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none"
-       id="path2958" />
-    <path
-       d="m 584.58575,104.06149 0,-1.605 3.07875,0 0,6.495 c 0.015,2.01625 -1.37125,3.58875 -3.37375,3.7525 l 0,-1.4575 c 0.98625,-0.405 1.74875,-0.985 1.7725,-2.32125 l 0,-4.86375 -1.4775,0 z"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none"
-       id="path2960" />
-    <path
-       d="m 588.232,106.21524 c -0.16,-1.90375 1.23625,-3.2425 2.5675,-3.655 1.88625,-0.555 4.245,0.43 4.33,3.0975 l 0,3.37125 -1.43625,0 0.0113,-3.42125 c -0.1,-1.56375 -2.4675,-2.2175 -3.44,-0.73625 -0.40625,0.775 -0.49875,1.9825 0.60875,2.60875 0.53125,0.19125 1.12875,0.28375 1.8725,0.16 l 0,1.45625 c -1.18375,0.35875 -2.36,0.27125 -3.52125,-0.8 -0.5825,-0.6 -0.86375,-1.29375 -0.9925,-2.08125"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none"
-       id="path2962" />
-    <path
-       d="m 605.302,109.11524 1.5525,0 0,-3.52625 c -0.11375,-2.06625 3.10875,-2.21875 3.03375,0 l 0,3.52625 1.555,0 0,-3.61875 c 0.15375,-4.49125 -6.3725,-4.18375 -6.14125,0 l 0,3.61875 z"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none"
-       id="path2964" />
-    <path
-       d="m 612.13325,106.21524 c -0.16,-1.90375 1.23625,-3.2425 2.5675,-3.655 1.88625,-0.555 4.245,0.43 4.33,3.0975 l 0,3.37125 -1.43625,0 0.0113,-3.42125 c -0.1,-1.56375 -2.4675,-2.2175 -3.44,-0.73625 -0.40625,0.775 -0.49875,1.9825 0.60875,2.60875 0.53125,0.19125 1.12875,0.28375 1.8725,0.16 l 0,1.45625 c -1.18375,0.35875 -2.36,0.27125 -3.52125,-0.8 -0.5825,-0.6 -0.86375,-1.29375 -0.9925,-2.08125"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none"
-       id="path2966" />
-    <path
-       d="m 634.06825,109.11524 1.5525,0 0,-3.52625 c -0.11375,-2.06625 3.10875,-2.21875 3.03375,0 l 0,3.52625 1.555,0 0,-3.61875 c 0.15375,-4.49125 -6.3725,-4.18375 -6.14125,0 l 0,3.61875 z"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none"
-       id="path2968" />
-    <path
-       d="m 640.8995,106.21524 c -0.16,-1.90375 1.2375,-3.2425 2.5675,-3.655 1.88625,-0.555 4.245,0.43 4.33,3.0975 l 0,3.37125 -1.435,0 0.01,-3.42125 c -0.1,-1.56375 -2.4675,-2.2175 -3.44,-0.73625 -0.40625,0.775 -0.49875,1.9825 0.60875,2.60875 0.53125,0.19125 1.12875,0.28375 1.8725,0.16 l 0,1.45625 c -1.18375,0.35875 -2.36,0.27125 -3.52125,-0.8 -0.5825,-0.6 -0.86375,-1.29375 -0.9925,-2.08125"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none"
-       id="path2970" />
-    <path
-       d="m 625.04325,99.216485 c 0.67875,0 1.23,0.55125 1.23,1.230005 0,0.68 -0.55125,1.23125 -1.23,1.23125 -0.68,0 -1.23125,-0.55125 -1.23125,-1.23125 0,-0.678755 0.55125,-1.230005 1.23125,-1.230005"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none"
-       id="path2972" />
-    <path
-       d="m 624.24575,102.50774 1.7375,0 0,6.6075 -1.7375,0 0,-6.6075 z"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none"
-       id="path2974" />
-    <path
-       d="m 619.87825,100.20899 1.665,0 0,2.3225 2.0275,0 0,1.5975 -2.0275,0 0,1.09 c -0.06,1.94125 0.54625,2.36375 1.93,2.71 l -0.005,1.30625 c -2.67,0.23 -3.615,-1.3775 -3.59,-4.01625 l 0,-5.01 z"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none"
-       id="path2976" />
-    <path
-       d="m 630.03575,102.47899 c 1.89625,0 3.44375,1.54625 3.44375,3.44375 0,1.89625 -1.5475,3.44375 -3.44375,3.44375 -1.89625,0 -3.44375,-1.5475 -3.44375,-3.44375 0,-1.8975 1.5475,-3.44375 3.44375,-3.44375 m 0,1.65375 c 0.985,0 1.79,0.80375 1.79,1.79 0,0.985 -0.805,1.79 -1.79,1.79 -0.98625,0 -1.79,-0.805 -1.79,-1.79 0,-0.98625 0.80375,-1.79 1.79,-1.79"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none"
-       id="path2978" />
-    <path
-       d="m 662.937,106.21524 c -0.16,-1.90375 1.23625,-3.2425 2.5675,-3.655 1.88625,-0.555 4.24375,0.43 4.33,3.0975 l 0,3.37125 -1.43625,0 0.0113,-3.42125 c -0.1,-1.56375 -2.4675,-2.2175 -3.44,-0.73625 -0.4075,0.775 -0.49875,1.9825 0.6075,2.60875 0.5325,0.19125 1.13,0.28375 1.8725,0.16 l 0,1.45625 c -1.1825,0.35875 -2.35875,0.27125 -3.52,-0.8 -0.5825,-0.6 -0.86375,-1.29375 -0.9925,-2.08125"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none"
-       id="path2980" />
-    <path
-       d="m 670.732,109.11524 1.5525,0 0,-3.52625 c -0.11375,-2.06625 3.10875,-2.21875 3.0325,0 l 0,3.52625 1.55625,0 0,-3.61875 c 0.1525,-4.49125 -6.3725,-4.18375 -6.14125,0 l 0,3.61875 z"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none"
-       id="path2982" />
-    <path
-       d="m 658.9495,109.36899 c 1.9425,0 3.52875,-1.61125 3.52875,-3.58875 0,-2.4275 -2.35875,-3.99625 -4.60375,-3.2625 l 0,1.6325 c 1.23,-0.72875 2.8275,0.0175 2.8275,1.49875 0,1.055 -0.845,1.91375 -1.8825,1.91375 -1.03625,0 -1.88125,-0.85875 -1.88125,-1.91375 0,-2.2025 -0.0488,-4.40875 -0.0488,-6.613755 l -1.47,0 0,6.745005 0.0162,0.33375 c 0.0388,1.78 1.61375,3.2325 3.51375,3.255"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none"
-       id="path2984" />
-    <path
-       d="m 648.62825,99.158985 1.51375,0 0,5.591255 c -0.0913,2.2425 0.8975,2.80625 2.49875,3.025 l -0.005,1.4575 c -2.98125,0.2575 -4.035,-1.5375 -4.0075,-4.4825 l 0,-5.591255 z"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none"
-       id="path2986" />
-    <path
-       d="m 677.672,99.080235 1.69875,0 0,5.188755 c 0.49375,-1.3525 1.66875,-2.30875 3.03375,-2.30875 0.0975,0 0.19375,0.005 0.29,0.015 l 0,1.62875 c -1.1,0.24 -1.91875,1.13375 -1.91875,2.19375 0,1.05875 0.81875,1.9525 1.91875,2.1925 l 0,1.4225 c -0.0963,0.009 -0.1925,0.015 -0.29,0.015 -1.365,0 -2.54,-0.9575 -3.03375,-2.31 l 0,1.9975 -1.69875,0 0,-10.035005 z"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none"
-       id="path2988" />
-  </g>
-                </svg>
-              </svg>
-              <span>PNB</span>
-            </button>
-          </div>
-          <div class="pg-field-wrap" style="margin-top:14px">
-            <label class="pg-label">Or select your bank</label>
-            <select id="pg-bank-select" onfocus="selectPGMethod('netbanking', 'netbanking')" onchange="onBankSelectChange(sel)" class="pg-input pg-select">
-              <option value="">-- Select Bank --</option>
-              <option value="sbi">State Bank of India</option>
-              <option value="hdfc">HDFC Bank</option>
-              <option value="icici">ICICI Bank</option>
-              <option value="axis">Axis Bank</option>
-              <option value="kotak">Kotak Mahindra Bank</option>
-              <option value="pnb">Punjab National Bank</option>
-              <option value="bob">Bank of Baroda</option>
-              <option value="canara">Canara Bank</option>
-              <option value="union">Union Bank</option>
-              <option value="idbi">IDBI Bank</option>
-            </select>
-          </div>
-          <div class="pg-trust-row">
-            <span>🔒 Bank-grade Encryption</span>
-            <span>✅ 2FA Protected</span>
-          </div>
-        </div>
-
-        <!-- 6. Cash on Delivery Section -->
-        <div id="pgSection-cod" class="pg-section-container" onclick="selectPGMethod('cod', 'cod')">
-          <div class="pg-section-header" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; border-bottom: 1px dashed var(--border, #fcd9c9); padding-bottom: 8px;">
-            <div style="display: flex; align-items: center; gap: 8px;">
-              <input type="radio" name="pg-active-method" id="pgRadio-cod" style="accent-color: var(--accent);" />
-              <span style="font-size: 0.9rem; font-weight: 800; color: var(--text); text-transform: uppercase; letter-spacing: 0.05em;">Cash on Delivery</span>
-            </div>
-            <span style="font-size: 1.1rem;">💵</span>
-          </div>
-          
-          <div class="pg-cod-box">
-            <div class="pg-cod-icon">💵</div>
-            <div class="pg-cod-title">Pay when you receive</div>
-            <div class="pg-cod-sub">Keep exact change ready. Our delivery partner will collect payment at your door.</div>
-            <div class="pg-cod-tags">
-              <span>✅ No online payment needed</span>
-              <span>✅ 100% safe delivery</span>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Bottom Confirm Button -->
-      <div class="sco-pay-bar" style="position: sticky; bottom: 0; box-shadow: 0 -4px 20px rgba(0,0,0,0.08); background: #fff;">
-        <button class="btn-primary" style="border-radius:50px;width:100%;padding:.9rem 2rem; background: linear-gradient(135deg,var(--accent),#ff6b2b); color: #fff; border: none; font-weight: 700; cursor: pointer;" onclick="backToCheckout()">Confirm Payment Method</button>
-      </div>
-    </div>
-  </div>
 
 <!-- SUCCESS -->
   <div id="orderSuccessPage" style="display:none">
@@ -2422,7 +1538,7 @@
     </button>
     <div class="mob-search-input-wrap">
       <span class="s-icon"><i data-lucide="search" style="width:16px;height:16px"></i></span>
-      <input type="text" id="mobSearchInput" placeholder="Search dishes, cuisines"�" oninput="renderMobileSearch(this.value)" autocomplete="off"/>
+      <input type="text" id="mobSearchInput" placeholder="Search dishes, cuisines..." oninput="renderMobileSearch(this.value)" autocomplete="off"/>
       <button class="mob-search-clear" onclick="clearMobileSearch()" id="mobSearchClear" style="display:none">✕</button>
     </div>
   </div>
@@ -2463,12 +1579,12 @@
 
 <script>
 window.onerror = function(message, source, lineno, colno, error) {
-  // Log to console only "” never show popup toasts for internal errors
+  // Log to console only — never show popup toasts for internal errors
   console.error("Global JS Error:", message, "at", source, ":", lineno, ":", colno, error);
   return false; // prevent default browser error dialog
 };
 window.onunhandledrejection = function(event) {
-  // Log to console only "” suppress popup toasts for promise rejections on load
+  // Log to console only — suppress popup toasts for promise rejections on load
   console.warn("Unhandled Promise Rejection:", event.reason);
 };
 
@@ -2498,7 +1614,7 @@ const DEMO_USERS=[
   {id:'u2',name:'Delivery Rider',email:'rider@svad.in',password:'Rider@123',phone:'9999999999',role:'rider'},
   {id:'u3',name:'Kitchen Display',email:'kitchen@svad.in',password:'Kitchen@123',phone:'9999999992',role:'kds'}
 ];
-// Menu version "” bump this whenever DEFAULT_MENU changes to auto-clear cache
+// Menu version — bump this whenever DEFAULT_MENU changes to auto-clear cache
 const MENU_VERSION = '13';
 const DEFAULT_MENU=[
   // Professional generated dish-specific menu photos
@@ -2520,7 +1636,7 @@ const DEFAULT_MENU=[
    img:'/images/menu-pro/m4-crispy-corn.jpg', available:true},
 
   {id:'m5', name:'Mushroom Pepper Fry', price:170, category:'starters', rating:4.5,
-   desc:'Button mushrooms saut�ed with black pepper and herbs',
+   desc:'Button mushrooms sautéed with black pepper and herbs',
    img:'/images/menu-pro/m5-mushroom-pepper-fry.jpg', available:true},
 
   {id:'m6', name:'Chicken 65', price:220, category:'starters', rating:4.8,
@@ -2715,7 +1831,7 @@ img:'/images/menu-pro/m3-hara-bhara-kabab.jpg', available:true},
    img:'/images/menu-pro/m4-crispy-corn.jpg', available:true},
 
   {id:'m5', name:'Mushroom Pepper Fry', price:170, category:'starters', rating:4.5,
-   desc:'Button mushrooms saut�ed with black pepper and herbs',
+   desc:'Button mushrooms sautéed with black pepper and herbs',
    img:'/images/menu-pro/m5-mushroom-pepper-fry.jpg', available:true},
 
   {id:'m6', name:'Chicken 65', price:220, category:'starters', rating:4.8,
@@ -2930,7 +2046,7 @@ const saveOrders=o=>localStorage.setItem(OK,JSON.stringify(o));
 if(localStorage.getItem('svad_menu_version') !== MENU_VERSION) {
   localStorage.removeItem(MK);
   localStorage.setItem('svad_menu_version', MENU_VERSION);
-  console.log('🍽 Menu updated to v'+MENU_VERSION+' "” cache cleared');
+  console.log('🍽 Menu updated to v'+MENU_VERSION+' — cache cleared');
 }
 const getMenu=()=>window.activeRestaurantMenu||JSON.parse(localStorage.getItem(MK)||'null')||DEFAULT_MENU;
 const saveMenu=m=>localStorage.setItem(MK,JSON.stringify(m));
@@ -3040,7 +2156,7 @@ async function doEmailPasswordLogin() {
   if (err) err.textContent = '';
 
   if (!email || !password) {
-    if (err) err.textContent = '�Œ Email and password are required.';
+    if (err) err.textContent = '❌ Email and password are required.';
     // Shake animation on error
     const form = $('loginEmailSection');
     if (form) { form.style.animation = 'shake 0.4s ease'; setTimeout(() => form.style.animation = '', 400); }
@@ -3068,7 +2184,7 @@ async function doEmailPasswordLogin() {
       throw new Error(data.message || 'Invalid credentials');
     }
     
-    // Success "” show green feedback
+    // Success — show green feedback
     if (btn) {
       btn.textContent = '✅ Success!';
       btn.style.background = 'linear-gradient(135deg, #16a34a, #22c55e)';
@@ -3102,7 +2218,7 @@ async function doEmailPasswordLogin() {
     }
     
 
-    if (err) err.textContent = '�Œ ' + (e.message || 'Server connection failed.');
+    if (err) err.textContent = '❌ ' + (e.message || 'Server connection failed.');
     toast(e.message || 'Login failed. Please check your connection.', 'error');
     // Shake the form
     const form = $('loginEmailSection');
@@ -3117,7 +2233,7 @@ async function sendLoginOtp() {
   if (err) err.textContent = '';
 
   if (!mobile || !/^\d{10}$/.test(mobile)) {
-    if (err) err.textContent = '�Œ Please enter a valid 10-digit mobile number.';
+    if (err) err.textContent = '❌ Please enter a valid 10-digit mobile number.';
     return;
   }
 
@@ -3149,7 +2265,7 @@ async function verifyLoginOtp() {
   if (err) err.textContent = '';
 
   if (!otp || otp.length !== 6) {
-    if (err) err.textContent = '�Œ Please enter a valid 6-digit OTP.';
+    if (err) err.textContent = '❌ Please enter a valid 6-digit OTP.';
     return;
   }
 
@@ -3189,7 +2305,7 @@ async function sendRegOtp() {
   if (err) err.textContent = '';
 
   if (!mobile || !/^\d{10}$/.test(mobile)) {
-    if (err) err.textContent = '�Œ Please enter a valid 10-digit mobile number.';
+    if (err) err.textContent = '❌ Please enter a valid 10-digit mobile number.';
     return;
   }
 
@@ -3221,7 +2337,7 @@ async function verifyRegOtp() {
   if (err) err.textContent = '';
 
   if (!otp || otp.length !== 6) {
-    if (err) err.textContent = '�Œ Please enter a valid 6-digit OTP.';
+    if (err) err.textContent = '❌ Please enter a valid 6-digit OTP.';
     return;
   }
 
@@ -3267,15 +2383,15 @@ async function doRegister(){
   const phone=$('regPhone').value.trim();
   const password=$('regPassword').value.trim();
   const err=$('regError'); err.textContent='';
-  if(!name||!email||!phone||!password){err.textContent='�Œ All fields are required.';return}
-  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){err.textContent='�Œ Invalid email address.';return}
-  if(!/^\d{10}$/.test(phone)){err.textContent='�Œ Enter a valid 10-digit phone number.';return}
-  if(password.length < 6){err.textContent='�Œ Password must be at least 6 characters.';return}
+  if(!name||!email||!phone||!password){err.textContent='❌ All fields are required.';return}
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){err.textContent='❌ Invalid email address.';return}
+  if(!/^\d{10}$/.test(phone)){err.textContent='❌ Enter a valid 10-digit phone number.';return}
+  if(password.length < 6){err.textContent='❌ Password must be at least 6 characters.';return}
 
   // Check if phone OTP was verified (token stored by verifyRegOtp)
   const regToken = localStorage.getItem('regToken');
   const regUser = localStorage.getItem('regUser');
-  if(!regToken || !regUser){err.textContent='�Œ Please verify your mobile number first.';return}
+  if(!regToken || !regUser){err.textContent='❌ Please verify your mobile number first.';return}
 
   // Use the verified session from OTP
   const user = JSON.parse(regUser);
@@ -3358,29 +2474,29 @@ function closeForgotModal(){
 function fpGoToStep(n){
   document.querySelectorAll('.modal-step').forEach((s,i)=>s.classList.toggle('active',i===n-1));
 }
-function fpSendOtp(){
+async function fpSendOtp(){
   const email=$('fpEmail').value.trim().toLowerCase();
   const err=$('fpError'); err.textContent='';
-  if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){err.textContent='�Œ Enter a valid email address.';return}
-  const user=getUsers().find(u=>u.email===email);
-  if(!user){err.textContent='�Œ No account found with this email.';return}
-  fpEmail=email;
-  fpOtp=Math.floor(100000+Math.random()*900000).toString();
-  // Show OTP in a visible alert for demo (production would email it)
-  alert('Demo OTP for ' + email + ': ' + fpOtp + '\n(In production this would be emailed)');
-  $('fpOtpSub').textContent='OTP sent to '+email+'. Check your inbox (demo: check the alert above).';
-  for(let i=0;i<6;i++){const b=$('otp'+i);b.value='';b.style.borderColor='';}
-  $('otpError').textContent='';
-  fpGoToStep(2);
-  $('otp0').focus();
-  startResendTimer(30);
+  if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){err.textContent='❌ Enter a valid email address.';return}
+  try {
+    await fetch(API_BASE_URL + '/api/auth/forgot-password', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
+    });
+    fpGoToStep(4);
+    const successStep = document.getElementById('fp-step4');
+    if (successStep) {
+      const h = successStep.querySelector('h3');
+      if (h) h.textContent = 'Check your email';
+      const sub = successStep.querySelector('.modal-sub');
+      if (sub) sub.textContent = 'If an account exists for ' + email + ', we have emailed a password reset link. Please check your inbox and spam folder.';
+    }
+  } catch (e) {
+    err.textContent = '❌ Could not send reset email. Please try again later.';
+  }
 }
-function fpResend(){
-  fpOtp=Math.floor(100000+Math.random()*900000).toString();
-  alert('New Demo OTP: ' + fpOtp);
-  toast('New OTP sent!','success');
-  startResendTimer(30);
-}
+function fpResend(){ toast('Please use the reset link emailed to you.', 'info'); }
 function startResendTimer(sec){
   clearInterval(resendTI);
   const el=$('resendTimer'), btn=$('resendBtn');
@@ -3395,9 +2511,9 @@ function startResendTimer(sec){
 function fpVerify(){
   const entered=[0,1,2,3,4,5].map(i=>$('otp'+i).value).join('');
   const err=$('otpError'); err.textContent='';
-  if(entered.length<6){err.textContent='�Œ Please enter all 6 digits.';return}
+  if(entered.length<6){err.textContent='❌ Please enter all 6 digits.';return}
   if(entered!==fpOtp){
-    err.textContent='�Œ Incorrect OTP. Try again.';
+    err.textContent='❌ Incorrect OTP. Try again.';
     [0,1,2,3,4,5].forEach(i=>{$('otp'+i).style.borderColor='var(--red)';});
     return;
   }
@@ -3407,8 +2523,8 @@ function fpVerify(){
 function fpReset(){
   const np=$('fpNewPass').value, cp=$('fpConfPass').value;
   const err=$('passError'); err.textContent='';
-  if(np.length<6){err.textContent='�Œ Password must be at least 6 characters.';return}
-  if(np!==cp){err.textContent='�Œ Passwords do not match.';return}
+  if(np.length<6){err.textContent='❌ Password must be at least 6 characters.';return}
+  if(np!==cp){err.textContent='❌ Passwords do not match.';return}
   const users=getUsers(), u=users.find(u=>u.email===fpEmail);
   if(u){u.password=np; saveUsers(users);}
   fpGoToStep(4);
@@ -3469,9 +2585,12 @@ function handleOtpPaste(e, prefix) {
 
 // Your Google Client ID - CONFIGURED ✅
 const GOOGLE_CLIENT_ID = '1059195985501-uqjnuv2n5cpmbhq7umoguovc2hmne250.apps.googleusercontent.com';
-const API_BASE_URL = window.location.origin.includes('localhost:5000') || window.location.origin.includes('127.0.0.1:5000')
-  ? ''
-  : 'http://localhost:5000';
+// API and frontend are served from the SAME origin (Express serves index.html + /api).
+// Use same-origin relative URLs so it works identically on localhost and in production.
+// Optional override: set window.__API_BASE__ before this script to point at a separate API host.
+const API_BASE_URL = (typeof window !== 'undefined' && window.__API_BASE__)
+  ? window.__API_BASE__
+  : '';
 
 // Global flag to prevent checkBackendStatus from interfering with an active login
 window._loginInProgress = false;
@@ -3489,7 +2608,7 @@ async function checkBackendStatus() {
     banner.style.background = 'rgba(239, 68, 68, 0.1)';
     banner.style.color = '#dc2626';
     banner.style.border = '1px solid rgba(239, 68, 68, 0.2)';
-    banner.innerHTML = `⚠� Running via local file protocol (file://). Browser security will block live database requests. Please open <a href="http://localhost:5000" target="_blank" style="color:#dc2626; text-decoration:underline; font-weight:700;">http://localhost:5000</a> in your browser.`;
+    banner.innerHTML = `⚠️ Running via local file protocol (file://). Browser security will block live database requests. Please open <a href="http://localhost:5000" target="_blank" style="color:#dc2626; text-decoration:underline; font-weight:700;">http://localhost:5000</a> in your browser.`;
     return;
   }
 
@@ -3514,7 +2633,7 @@ async function checkBackendStatus() {
             localStorage.removeItem('authToken');
             localStorage.removeItem('currentUser');
             currentUser = null;
-            banner.innerHTML = `⚠� Session reset "” server is live. Please log in with your real credentials.`;
+            banner.innerHTML = `⚠️ Session reset — server is live. Please log in with your real credentials.`;
             banner.style.display = 'block';
             banner.style.background = 'rgba(217, 119, 6, 0.1)';
             banner.style.color = '#d97706';
@@ -3563,7 +2682,7 @@ async function checkBackendStatus() {
   }
 }
 
-// Call checkBackendStatus after 1.5s "” give login flow time to complete first
+// Call checkBackendStatus after 1.5s — give login flow time to complete first
 setTimeout(checkBackendStatus, 1500);
 
 // Mock Authentication toggle functions
@@ -3600,8 +2719,6 @@ function handleCustomGoogleClick(event) {
 }
 
 async function doQuickDemoLogin(role) {
-  // Show loading state on all quick demo buttons
-  document.querySelectorAll('.quick-demo-wrapper button').forEach(b => { b.disabled = true; b.style.opacity = '0.6'; });
   window._loginInProgress = true;
   toast(`Logging in as ${role.toUpperCase()}...`, 'info');
   
@@ -3650,8 +2767,6 @@ async function doQuickDemoLogin(role) {
     window._loginInProgress = false;
   } catch (e) {
     window._loginInProgress = false;
-    // Re-enable quick demo buttons on failure
-    document.querySelectorAll('.quick-demo-wrapper button').forEach(b => { b.disabled = false; b.style.opacity = ''; });
     toast(`Quick login failed: ${e.message}`, 'error');
   }
 }
@@ -3669,7 +2784,7 @@ function createAppIcons() {
   if (window.lucide && typeof lucide.createIcons === 'function') {
     lucide.createIcons();
   } else {
-    // lucide is deferred "” wait for it via a one-time load event check
+    // lucide is deferred — wait for it via a one-time load event check
     if (!window._lucideIconsScheduled) {
       window._lucideIconsScheduled = true;
       document.addEventListener('DOMContentLoaded', function() {
@@ -3745,7 +2860,7 @@ function initializeGoogleSignIn() {
       console.log(`⏳ Waiting for Google SDK... retry ${retryCount} in ${Math.round(delay)}ms`);
       setTimeout(initializeGoogleSignIn, delay);
     } else {
-      console.log('ℹ� Google SDK not available "” operating in Demo/Mock mode only');
+      console.log('ℹ️ Google SDK not available — operating in Demo/Mock mode only');
     }
   }
 }
@@ -4103,10 +3218,10 @@ function orderRow(o,showAddr=false){
   return`<tr>
     <td style="font-family:monospace;font-size:.76rem;color:var(--muted)">#${o.id}</td>
     <td style="font-weight:600">${o.custName}</td>
-    <td style="font-size:.79rem;max-width:150px;color:var(--text2)">${o.items.map(i=>i.name+'�—'+i.qty).join(', ')}</td>
-    ${showAddr?`<td style="font-size:.78rem;color:var(--muted)">${o.city||'"”'}</td>`:''}
+    <td style="font-size:.79rem;max-width:150px;color:var(--text2)">${o.items.map(i=>i.name+' × '+i.qty).join(', ')}</td>
+    ${showAddr?`<td style="font-size:.78rem;color:var(--muted)">${o.city||'—'}</td>`:''}
     <td style="font-weight:700;color:var(--accent)">₹${o.grand}</td>
-    ${showAddr?`<td style="font-size:.78rem">${o.payMethod?.toUpperCase()||'"”'}</td>`:''}
+    ${showAddr?`<td style="font-size:.78rem">${o.payMethod?.toUpperCase()||'—'}</td>`:''}
     <td><span class="badge badge-${o.status}">${o.status}</span></td>
     <td style="font-size:.78rem;color:var(--muted)">${showAddr?'':o.time}</td>
     <td><select class="input-sm" onchange="updateStatus('${o.id}',this.value)">${statusSel}</select></td>
@@ -4142,7 +3257,7 @@ function renderMenuMgr(){
         <div class="mmprice">₹${m.price}</div>
         <div class="mmcat">${m.category}</div>
         <div class="menu-mgr-actions">
-          <button class="btn-sm btn-sm-danger" onclick="deleteMenuItem('${m.id}')">🍗‘ Remove</button>
+          <button class="btn-sm btn-sm-danger" onclick="deleteMenuItem('${m.id}')">🗑 Remove</button>
           <label style="display:flex;align-items:center;gap:.4rem;font-size:.77rem;color:var(--text2);cursor:pointer;margin-left:auto">
             <input type="checkbox" ${m.available?'checked':''} onchange="toggleAvail('${m.id}',this.checked)"/> Available
           </label>
@@ -4178,7 +3293,7 @@ function renderUsers(){
     const uo=orders.filter(o=>o.userId===u.id);
     return`<div class="user-card">
       <div class="user-card-av" style="background:${cols[i%cols.length]}">${u.name[0]}</div>
-      <h4>${u.name}</h4><p>✉� ${u.email}</p><p>📞 ${u.phone||'"”'}</p>
+      <h4>${u.name}</h4><p>✉️ ${u.email}</p><p>📞 ${u.phone||'—'}</p>
       <div class="user-meta">
         <span class="badge badge-delivered">${uo.length} orders</span>
         <span class="badge badge-preparing">₹${uo.reduce((s,o)=>s+o.grand,0)} spent</span>
@@ -4206,7 +3321,7 @@ function renderAnalytics(){
       <div style="background:var(--bg3);border-radius:50px;height:9px;overflow:hidden;border:1px solid var(--border)">
         <div style="background:linear-gradient(90deg,var(--accent),#ff8c42);height:100%;width:${(c/max*100).toFixed(0)}%;border-radius:50px;transition:.6s"></div>
       </div>
-    </div>`).join(''):'<div class="empty-state"><div class="ei">�Š</div><p>No order data yet.</p></div>';
+    </div>`).join(''):'<div class="empty-state"><div class="ei">📊</div><p>No order data yet.</p></div>';
   // category revenue
   const catRev={nonveg:0,veg:0,dessert:0,drinks:0};
   const menuMap={}; getMenu().forEach(m=>menuMap[m.name]={cat:m.category,price:m.price});
@@ -4223,7 +3338,7 @@ function renderAnalytics(){
       <div style="background:var(--bg3);border-radius:50px;height:9px;overflow:hidden;border:1px solid var(--border)">
         <div style="background:${catColors[cat]||'#888'};height:100%;width:${(rev/catTotal*100).toFixed(0)}%;border-radius:50px;transition:.6s"></div>
       </div>
-    </div>`).join('')||'<div class="empty-state"><div class="ei">�Š</div><p>No revenue data yet.</p></div>';
+    </div>`).join('')||'<div class="empty-state"><div class="ei">📊</div><p>No revenue data yet.</p></div>';
 }
 
 // ===== USER =====
@@ -4324,6 +3439,45 @@ async function submitOrderRating() {
   } catch(e) {
     console.error(e);
     toast(e.message || 'Failed to submit rating', 'error');
+  }
+}
+
+async function saveProfile() {
+  const nameEl = document.getElementById('pName');
+  const phoneEl = document.getElementById('pPhone');
+  const name = (nameEl?.value || '').trim();
+  const phone = (phoneEl?.value || '').trim();
+  if (!name) { toast('Please enter your name', 'error'); return; }
+  if (phone && !/^\+?\d{7,15}$/.test(phone.replace(/\s/g,''))) { toast('Please enter a valid phone number', 'error'); return; }
+  const token = localStorage.getItem('authToken');
+  const isMock = !token || token.startsWith('mock_jwt_token_') || token.startsWith('offline_token_');
+  if (currentUser) {
+    currentUser.name = name;
+    currentUser.phone = phone;
+    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+    const av = document.getElementById('profileAv'); if (av && name) av.textContent = name[0].toUpperCase();
+    const pn = document.getElementById('profileName'); if (pn) pn.textContent = name;
+    const avatarBtn = document.getElementById('avatarBtn'); if (avatarBtn && name) avatarBtn.textContent = name[0].toUpperCase();
+    const dd = document.getElementById('ddUserName'); if (dd) dd.textContent = name;
+  }
+  if (isMock) { toast('Profile saved', 'success'); return; }
+  try {
+    const res = await fetch(API_BASE_URL + '/api/auth/update-profile', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify({ name, phone })
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.message || 'Failed to save profile');
+    if (data.user && currentUser) {
+      currentUser.name = data.user.name || name;
+      currentUser.phone = data.user.phone || phone;
+      localStorage.setItem('currentUser', JSON.stringify(currentUser));
+    }
+    toast('Profile updated successfully', 'success');
+  } catch (e) {
+    console.error('saveProfile error:', e);
+    toast(e.message || 'Could not save profile. Try again.', 'error');
   }
 }
 
@@ -4578,7 +3732,7 @@ async function renderUserOrders() {
 
   } catch (error) {
     console.error('Failed to render user orders:', error);
-    container.innerHTML = `<p style="text-align:center;padding:3rem;color:var(--red);">⚠� Error loading orders: ${error.message}</p>`;
+    container.innerHTML = `<p style="text-align:center;padding:3rem;color:var(--red);">⚠️ Error loading orders: ${error.message}</p>`;
   }
 }
 
@@ -4600,14 +3754,18 @@ function positionRiderOnPath(orderId, progress) {
 }
 
 function showSection(sec){
-  ['menuSection','ordersSection','profileSection','heroSection','checkoutPage','orderSuccessPage','paymentPage']
+  // removed: legacy checkout cleanup (dropped 'paymentPage' from list)
+  ['menuSection','ordersSection','profileSection','heroSection','checkoutPage','orderSuccessPage']
     .forEach(id=>{const e=$(id);if(e)e.style.display='none';});
+  document.body.classList.remove('order-open');
   closeDropdown();
   if(sec==='orders'){$('ordersSection').style.display='block';renderUserOrders();}
   if(sec==='profile'){$('profileSection').style.display='block';}
 }
 function backToMenu(){
-  ['checkoutPage','orderSuccessPage','ordersSection','profileSection','paymentPage'].forEach(id=>{const e=$(id);if(e)e.style.display='none';});
+  // removed: legacy checkout cleanup (dropped 'paymentPage' from list)
+  ['checkoutPage','orderSuccessPage','ordersSection','profileSection'].forEach(id=>{const e=$(id);if(e)e.style.display='none';});
+  document.body.classList.remove('order-open');
   
   // Hide floating checkout paybar
   const fpb = document.getElementById('floatingCheckoutPaybar');
@@ -4759,7 +3917,7 @@ function renderCartDrawer(){
         </div>
       </div>
       <div style="display:flex;flex-direction:column;align-items:flex-end;gap:.3rem">
-        <button class="remove-item-btn" onclick="removeFromCart('${c.id}')" title="Remove">🍗‘</button>
+        <button class="remove-item-btn" onclick="removeFromCart('${c.id}')" title="Remove">🗑</button>
         <span class="cart-item-sub">₹${c.price*c.qty}</span>
       </div>
     </div>`).join('');
@@ -4916,7 +4074,7 @@ function renderSavedAddresses() {
       </span>
       <strong>${addr.name || 'Customer'}</strong>
       <span>${addr.line1}, ${addr.line2}</span>
-      <small>${addr.city} ${addr.pincode} � ${addr.phone}</small>
+      <small>${addr.city} ${addr.pincode} • ${addr.phone}</small>
     </button>
   `).join('');
   syncSelectedAddressToCheckout();
@@ -4935,14 +4093,36 @@ function syncSelectedAddressToCheckout() {
   setVal('co-city', addr.city);
   setVal('co-pin', addr.pincode);
   setVal('co-state', addr.state);
-  const line = document.querySelector('#checkoutPage .sco-header .sco-address-line');
-  if (line) line.textContent = `${addr.type || 'Address'} | ${addr.line2}, ${addr.city}`;
+  // use unified updater so header stays in sync
+  if (typeof updateCheckoutHeaderAddress === 'function') updateCheckoutHeaderAddress();
 }
+
+function updateCheckoutHeaderAddress() {
+  const line = document.querySelector('#checkoutPage .love-cart-header .sco-address-line')
+             || document.querySelector('#checkoutPage .sco-address-line');
+  if (!line) return;
+  try {
+    const list = (typeof getSavedAddresses === 'function') ? getSavedAddresses() : [];
+    const selectedId = localStorage.getItem('aakali_selected_address');
+    const addr = list.find(a => a.id === selectedId) || list[0];
+    if (addr) {
+      const type = addr.type || 'Home';
+      const parts = [addr.line1, addr.line2, addr.city].filter(Boolean).join(', ');
+      line.innerHTML = `<i data-lucide="map-pin" style="width:14px;height:14px;vertical-align:-2px;color:#e11d48"></i> Delivering to <strong>${type}</strong> &middot; ${parts}`;
+    } else {
+      line.innerHTML = `<i data-lucide="map-pin-off" style="width:14px;height:14px;vertical-align:-2px;color:#e11d48"></i> Add a delivery address to continue`;
+    }
+    if (window.lucide && typeof lucide.createIcons === 'function') lucide.createIcons();
+  } catch (e) { /* noop */ }
+}
+// expose for cross-file (js/main.js) callers
+if (typeof window !== 'undefined') window.updateCheckoutHeaderAddress = updateCheckoutHeaderAddress;
 
 function selectSavedAddress(id) {
   selectedAddressId = id;
   localStorage.setItem('aakali_selected_address', id);
   renderSavedAddresses();
+  if (typeof updateCheckoutHeaderAddress === 'function') updateCheckoutHeaderAddress();
   toast('Delivery address selected', 'success');
 }
 
@@ -4985,6 +4165,7 @@ function saveNewAddress() {
   ['addr-line1','addr-line2','addr-city','addr-pin','addr-state'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
   toggleNewAddressForm(false);
   renderSavedAddresses();
+  if (typeof updateCheckoutHeaderAddress === 'function') updateCheckoutHeaderAddress();
   toast('Address saved for checkout', 'success');
 
   // Persist to the backend so it syncs across devices (best-effort)
@@ -5009,13 +4190,75 @@ function goToCheckout(){
   if(cd) cd.classList.remove('open');
   const co = document.getElementById('cartOverlay');
   if(co) co.classList.remove('open');
-  ['heroSection','menuSection','ordersSection','profileSection','orderSuccessPage','paymentPage'].forEach(id=>{const e=$(id);if(e)e.style.display='none';});
+  // removed: legacy checkout cleanup (dropped 'paymentPage' from list)
+  ['heroSection','menuSection','ordersSection','profileSection','orderSuccessPage'].forEach(id=>{const e=$(id);if(e)e.style.display='none';});
+  document.body.classList.remove('order-open');
   $('checkoutPage').style.display='block';
   document.body.classList.add('checkout-open');
   const fpb = document.getElementById('floatingCheckoutPaybar');
   if (fpb) fpb.classList.remove('fp-hidden');
   renderSwiggycheckout();
   window.scrollTo({top:0,behavior:'instant'});
+}
+
+// Cooking instructions modal + cutlery toggle (Swiggy/Zomato-style action strip helpers)
+function openCookingRequestModal() {
+  const existing = document.getElementById('cookRequestOverlay');
+  if (existing) { existing.remove(); }
+  const overlay = document.createElement('div');
+  overlay.id = 'cookRequestOverlay';
+  overlay.className = 'cook-req-overlay';
+  const currentNote = localStorage.getItem('aakali_cook_note') || '';
+  overlay.innerHTML = `
+    <div class="cook-req-card" role="dialog" aria-modal="true">
+      <div class="cook-req-head">
+        <div>
+          <span class="cook-req-eyebrow">Cooking instructions</span>
+          <h3>Special request for the chef?</h3>
+        </div>
+        <button class="cook-req-close" type="button" aria-label="Close" onclick="closeCookingRequestModal()">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+      <p class="cook-req-help">The restaurant will try its best to accommodate. This cannot be a reason for a refund or cancellation.</p>
+      <textarea id="cookReqTextarea" class="cook-req-textarea" maxlength="240" placeholder="e.g. Less spicy, no onion, extra napkins...">${currentNote.replace(/</g,'&lt;')}</textarea>
+      <div class="cook-req-foot">
+        <span id="cookReqCount" class="cook-req-count">${currentNote.length}/240</span>
+        <div class="cook-req-actions">
+          <button class="cook-req-cancel" type="button" onclick="closeCookingRequestModal()">Cancel</button>
+          <button class="cook-req-save" type="button" onclick="saveCookingRequest()">Save note</button>
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  requestAnimationFrame(() => overlay.classList.add('open'));
+  if (window.lucide && typeof lucide.createIcons === 'function') lucide.createIcons();
+  const ta = document.getElementById('cookReqTextarea');
+  const ct = document.getElementById('cookReqCount');
+  if (ta && ct) {
+    ta.addEventListener('input', () => { ct.textContent = ta.value.length + '/240'; });
+    ta.focus();
+  }
+}
+function closeCookingRequestModal() {
+  const o = document.getElementById('cookRequestOverlay');
+  if (o) { o.classList.remove('open'); setTimeout(() => o.remove(), 200); }
+}
+function saveCookingRequest() {
+  const ta = document.getElementById('cookReqTextarea');
+  const note = (ta && ta.value.trim()) || '';
+  localStorage.setItem('aakali_cook_note', note);
+  const prev = document.getElementById('lar-cook-note-preview');
+  if (prev) prev.textContent = note ? note.slice(0, 60) + (note.length > 60 ? '…' : '') : 'Add a note for the restaurant';
+  if (typeof toast === 'function') toast(note ? 'Cooking note saved' : 'Cooking note cleared', 'success');
+  closeCookingRequestModal();
+}
+function toggleCutleryPreference(el) {
+  // checkbox checked => user does NOT want cutlery
+  const noCutlery = !!(el && el.checked);
+  localStorage.setItem('aakali_cutlery_needed', noCutlery ? 'false' : 'true');
+  if (typeof toast === 'function') toast(noCutlery ? 'Thanks! No cutlery will be sent 🌱' : 'Cutlery will be included', 'success');
 }
 
 function renderLoveableCheckoutPage() {
@@ -5042,13 +4285,7 @@ function renderLoveableCheckoutPage() {
 
       <section class="love-checkout-grid">
         <main class="love-checkout-main">
-          <div class="love-savings-strip" id="sco-savings-banner">
-            <div class="love-spark"><i data-lucide="badge-percent"></i></div>
-            <div>
-              <strong>Savings unlocked</strong>
-              <span id="sco-savings-text">Add more favourites to unlock bigger rewards.</span>
-            </div>
-          </div>
+          <!-- removed: savings-unlocked banner -->
 
           <section class="love-card love-basket-card">
             <div class="love-section-title">
@@ -5056,12 +4293,39 @@ function renderLoveableCheckoutPage() {
                 <span>Basket</span>
                 <h2>Review your food</h2>
               </div>
-              <button class="love-soft-btn" onclick="backToMenu()" type="button">
-                <i data-lucide="plus"></i>
-                <span>Add items</span>
-              </button>
             </div>
             <div class="checkout-items-list love-items-list" id="sco-cart-items"></div>
+          </section>
+
+          <!-- ACTION STRIP (Swiggy/Zomato style — after items) -->
+          <section class="love-card love-actions-card">
+            <button type="button" class="love-action-row" onclick="backToMenu()">
+              <span class="lar-icon"><i data-lucide="plus-circle"></i></span>
+              <span class="lar-text">
+                <strong>Add more items</strong>
+                <small>Back to menu</small>
+              </span>
+              <i data-lucide="chevron-right" class="lar-arrow"></i>
+            </button>
+            <button type="button" class="love-action-row" onclick="openCookingRequestModal()">
+              <span class="lar-icon"><i data-lucide="chef-hat"></i></span>
+              <span class="lar-text">
+                <strong>Cooking instructions</strong>
+                <small id="lar-cook-note-preview">Add a note for the restaurant</small>
+              </span>
+              <i data-lucide="chevron-right" class="lar-arrow"></i>
+            </button>
+            <label class="love-action-row love-action-toggle" for="cutleryToggle">
+              <span class="lar-icon"><i data-lucide="utensils"></i></span>
+              <span class="lar-text">
+                <strong>Don't send cutlery with this order</strong>
+                <small>Help us reduce plastic waste</small>
+              </span>
+              <span class="lar-switch">
+                <input type="checkbox" id="cutleryToggle" onchange="toggleCutleryPreference(this)"/>
+                <span class="lar-slider"></span>
+              </span>
+            </label>
           </section>
 
           <section class="love-card vc-address-card">
@@ -5129,6 +4393,22 @@ function renderLoveableCheckoutPage() {
               <label class="vc-option"><input type="radio" name="deliverySpeed" value="scheduled"> <span>Schedule</span><small>Plan ahead</small></label>
             </div>
             <div class="sco-form-group love-note"><label>Delivery note</label><input type="text" id="co-note" placeholder="Ring bell twice, leave at reception..."/></div>
+          </section>
+
+          <!-- CANCELLATION POLICY (Swiggy verbiage) -->
+          <section class="love-card love-policy-card">
+            <div class="love-policy-title">
+              <i data-lucide="info"></i>
+              <span>Cancellation Policy</span>
+            </div>
+            <p class="love-policy-text">
+              Orders cannot be cancelled once packed for delivery. In case of unexpected delays, a refund will be provided, if applicable.
+            </p>
+            <div class="love-policy-links">
+              <a href="#" onclick="return false" class="love-policy-link">Read full policy</a>
+              <span class="lpl-dot">·</span>
+              <a href="#" onclick="return false" class="love-policy-link">Refund policy</a>
+            </div>
           </section>
         </main>
 
@@ -5233,6 +4513,17 @@ function renderLoveableCheckoutPage() {
 
   page.dataset.loveableCart = 'true';
   if (window.lucide && typeof lucide.createIcons === 'function') lucide.createIcons();
+  if (typeof updateCheckoutHeaderAddress === 'function') updateCheckoutHeaderAddress();
+
+  // Restore cutlery toggle state (checked = "don't send cutlery" i.e. skip cutlery)
+  const cutlBox = document.getElementById('cutleryToggle');
+  if (cutlBox) cutlBox.checked = localStorage.getItem('aakali_cutlery_needed') === 'false';
+  // Restore cooking-note preview
+  const cookPrev = document.getElementById('lar-cook-note-preview');
+  if (cookPrev) {
+    const note = localStorage.getItem('aakali_cook_note') || '';
+    cookPrev.textContent = note ? note.slice(0, 60) + (note.length > 60 ? '…' : '') : 'Add a note for the restaurant';
+  }
 }
 
 let selectedDeliveryTip = 0;
@@ -5252,7 +4543,7 @@ function renderSwiggycheckout() {
   if(iconEl) iconEl.innerHTML = defaultSvg;
   
   const sub = cart.reduce((s,c)=>s+c.price*c.qty, 0);
-  // deliveryFeePaise may be 0 or undefined "” safe fallback to 0
+  // deliveryFeePaise may be 0 or undefined — safe fallback to 0
   const delivery = swadSelectedRestaurant ? ((swadSelectedRestaurant.deliveryFeePaise || 0) / 100) : 0;
   const discount = window.activePromoDiscount || 0;
   
@@ -5281,8 +4572,8 @@ function renderSwiggycheckout() {
   const saveEl = document.getElementById('sco-total-saving');
   const payBtnEl = document.getElementById('sco-pay-btn-label');
   const tipEl = document.getElementById('sco-tip');
-  const savingsBannerEl = document.getElementById('sco-savings-text');
-  
+  // removed: savings-unlocked banner element lookup
+
   const origDelEl = document.getElementById('sco-delivery-orig');
   if(origDelEl && swadSelectedRestaurant) {
     origDelEl.textContent = '₹' + ((swadSelectedRestaurant.deliveryFeePaise || 0) / 100);
@@ -5306,13 +4597,7 @@ function renderSwiggycheckout() {
   if(tipEl) tipEl.textContent = selectedDeliveryTip ? '₹'+selectedDeliveryTip.toFixed(2) : '₹0';
   if(saveEl) saveEl.textContent = '₹'+saved.toFixed(2);
   if(payBtnEl) payBtnEl.textContent = 'Pay ₹'+grand.toFixed(2);
-  if(savingsBannerEl) {
-    if (discount > 0) {
-      savingsBannerEl.textContent = `🎉 You saved ₹${discount.toFixed(2)} with coupon ${window.activePromoCode}!`;
-    } else {
-      savingsBannerEl.textContent = `🎉 Add more items to unlock even bigger savings!`;
-    }
-  }
+  // removed: savings-unlocked banner text update
 
   // Update floating checkout paybar values
   const floatingGrandEl = document.getElementById('sco-floating-grand');
@@ -5343,8 +4628,10 @@ function renderSwiggycheckout() {
     };
   });
 
+  // restore restaurant name on header (was hardcoded 'View Cart')
   const restTitle = document.getElementById('sco-rest-name');
-  if (restTitle) restTitle.textContent = 'View Cart';
+  if (restTitle) restTitle.textContent = (typeof swadSelectedRestaurant !== 'undefined' && swadSelectedRestaurant && swadSelectedRestaurant.name) ? swadSelectedRestaurant.name : 'Your Order';
+  if (typeof updateCheckoutHeaderAddress === 'function') updateCheckoutHeaderAddress();
 
   const couponLabel = document.querySelector('.sco-coupon-label');
   if (couponLabel && window.activePromoCode) couponLabel.textContent = `Coupon Applied: ${window.activePromoCode}`;
@@ -5681,6 +4968,11 @@ async function submitPromoCode(code) {
   }
 }
 
+// Lightweight payment diagnostics — logs the exact reason a payment can't proceed.
+function logPaymentDiag(stage, detail) {
+  try { console.info('[PayDiag] ' + stage + (detail ? ' — ' + detail : '')); } catch(e) {}
+}
+
 async function placeOrder(bypassGateway = false) {
   if (!cart.length) {
     toast('Cart is empty!', 'error');
@@ -5700,7 +4992,21 @@ async function placeOrder(bypassGateway = false) {
   const note = noteEls.length ? noteEls[noteEls.length - 1].value.trim() : '';
 
   if (!name || !phone || !email || !addr1 || !addr2 || !city || !pincode || !state) {
-    toast('Please fill in all required delivery details!', 'error');
+    const missing = [];
+    if (!name) missing.push('Name');
+    if (!phone) missing.push('Phone');
+    if (!email) missing.push('Email');
+    if (!addr1) missing.push('Address line 1');
+    if (!addr2) missing.push('Address line 2');
+    if (!city) missing.push('City');
+    if (!pincode) missing.push('Pincode');
+    if (!state) missing.push('State');
+    let msg = 'Missing delivery details: ' + missing.join(', ') + '. Please select or add an address.';
+    try {
+      const savedCount = (typeof getSavedAddresses === 'function') ? getSavedAddresses().length : 0;
+      if (!savedCount) msg += ' Tap "Add address" to continue.';
+    } catch (e) {}
+    toast(msg, 'error');
     return;
   }
 
@@ -5813,6 +5119,8 @@ async function placeOrder(bypassGateway = false) {
       if (successPopup) successPopup.classList.remove('active');
       $('checkoutPage').style.display = 'none';
       $('orderSuccessPage').style.display = 'block';
+      document.body.classList.add('order-open');
+      document.body.classList.remove('checkout-open');
       showTaskbar(true);
       
       // Start live delivery tracking
@@ -5828,6 +5136,7 @@ async function placeOrder(bypassGateway = false) {
 
   try {
     toast('Initializing transaction...', 'info');
+    logPaymentDiag('creating order');
     const res = await fetch(API_BASE_URL + '/api/orders', {
       method: 'POST',
       headers: {
@@ -5851,10 +5160,11 @@ async function placeOrder(bypassGateway = false) {
 
     const data = await res.json();
     if (!res.ok) {
-      throw new Error(data.message || 'Failed to place order');
+      throw new Error('Order failed (' + res.status + '): ' + (data.message || 'Failed to place order'));
     }
 
     const order = data.data;
+    logPaymentDiag('order created', 'gwOrderId=' + (order.gatewayOrderId || 'NONE') + ' total=' + order.totalPaise);
 
     // Hide floating checkout paybar during authorization
     const fpb = document.getElementById('floatingCheckoutPaybar');
@@ -5898,18 +5208,18 @@ async function placeOrder(bypassGateway = false) {
         const s = document.createElement('script');
         s.src = 'https://checkout.razorpay.com/v1/checkout.js';
         s.onload = resolve;
-        s.onerror = () => reject(new Error('Unable to load payment module. Please check your internet connection.'));
+        s.onerror = () => reject(new Error('Unable to load payment module. Check your internet connection or disable ad-blockers, then try again.'));
         document.head.appendChild(s);
       });
     }
     if (typeof window.Razorpay === 'undefined') {
-      throw new Error('Unable to load payment module. Please check your internet connection and try again.');
+      throw new Error('Unable to load payment module. Check your internet connection or disable ad-blockers, then try again.');
     }
 
     if (!order.gatewayOrderId) {
       // Backend didn't create a Razorpay order — usually means server-side
       // Razorpay credentials are missing or invalid.
-      throw new Error('Payment gateway is not configured. Please contact support or choose Cash on Delivery.');
+      throw new Error('Payment gateway did not return an order. This usually means the server\'s Razorpay keys are missing or invalid, or the server needs a restart after adding keys. Choose Cash on Delivery or contact support.');
     }
 
     const keyRes = await fetch(API_BASE_URL + '/api/orders/razorpay-key', {
@@ -5919,7 +5229,14 @@ async function placeOrder(bypassGateway = false) {
     const rzpKey = keyData.key;
 
     if (!rzpKey || rzpKey.startsWith('YOUR_')) {
-      throw new Error('Payment gateway is not configured. Please contact support or choose Cash on Delivery.');
+      throw new Error('Payment gateway key is not configured on the server. Add RAZORPAY_KEY_ID/SECRET to the server environment and restart. You can use Cash on Delivery meanwhile.');
+    }
+
+    // Test-vs-live mode hint (does not block payment — test mode is valid)
+    if (rzpKey.startsWith('rzp_test_')) {
+      console.info('[Razorpay] Running in TEST mode — use test cards only (e.g. 4111 1111 1111 1111).');
+    } else if (rzpKey.startsWith('rzp_live_')) {
+      console.info('[Razorpay] Running in LIVE mode.');
     }
 
     const options = {
@@ -6050,18 +5367,24 @@ async function placeOrder(bypassGateway = false) {
       const err = response && response.error;
       console.error('Razorpay payment.failed:', err);
       const reason = (err && (err.description || err.reason)) || 'Payment failed at the gateway';
+      logPaymentDiag('payment.failed', reason);
       toast('❌ ' + reason, 'error');
       if (fpb) fpb.classList.remove('fp-hidden');
     });
 
-    rzp.open();
+    logPaymentDiag('opening Razorpay modal');
+    try {
+      rzp.open();
+    } catch (openErr) {
+      console.error('Razorpay open error:', openErr);
+      toast('Could not open the payment window: ' + (openErr && openErr.message ? openErr.message : 'unknown error'), 'error');
+      if (fpb) fpb.classList.remove('fp-hidden');
+    }
   } catch (error) {
     console.error('Order placement error:', error);
-    // Give the user something actionable when common failures happen
+    // Surface the ACTUAL reason so payment failures are never silent.
     let userMessage = error.message || 'Failed to place order. Please try again.';
-    if (/gateway|razorpay|authentication/i.test(userMessage)) {
-      userMessage = 'Payment gateway is temporarily unavailable. Please try again in a moment, or choose Cash on Delivery.';
-    }
+    if (userMessage.length > 180) userMessage = userMessage.slice(0, 180);
     toast(userMessage, 'error');
     // Restore floating checkout paybar so the user can retry
     const fpb = document.getElementById('floatingCheckoutPaybar');
@@ -6299,34 +5622,7 @@ function formatExpiry(input) {
   if (display) display.textContent = input.value || 'MM/YY';
 }
 
-function confirmPremiumPaymentMethod() {
-  selectPGMethod(_pgMethod || 'upi');
-  // Hide payment page, show checkout briefly, then trigger actual payment
-  const pe = document.getElementById('paymentPage'); if (pe) pe.style.display = 'none';
-  const co = document.getElementById('checkoutPage'); if (co) co.style.display = 'block';
-  placeOrder();
-}
-
-function refreshPremiumPaymentTotals() {
-  const sub = cart.reduce((s, c) => s + c.price * c.qty, 0);
-  const delivery = swadSelectedRestaurant ? ((swadSelectedRestaurant.deliveryFeePaise || 0) / 100) : 0;
-  const discount = window.activePromoDiscount || 0;
-  const grand = Math.max(0, sub + delivery + selectedDeliveryTip - discount);
-  const itemCount = cart.reduce((s, c) => s + c.qty, 0);
-  const restaurantName = swadSelectedRestaurant ? swadSelectedRestaurant.name : 'Aakali Restaurant';
-
-  [
-    ['premium-pay-amount', `Rs. ${grand.toFixed(2)}`],
-    ['premium-summary-total', `Rs. ${grand.toFixed(2)}`],
-    ['pg-summary-total', `Rs. ${grand.toFixed(2)}`],
-    ['premium-pay-items', `${itemCount} item${itemCount === 1 ? '' : 's'}`],
-    ['pg-summary-items', `${itemCount} item${itemCount === 1 ? '' : 's'}`],
-    ['premium-pay-restaurant', restaurantName]
-  ].forEach(([id, value]) => {
-    const el = document.getElementById(id);
-    if (el) el.textContent = value;
-  });
-}
+// removed: legacy checkout cleanup (confirmPremiumPaymentMethod + refreshPremiumPaymentTotals only targeted #paymentPage DOM)
 
 function configureRazorpayKey() {
   const currentKey = localStorage.getItem('razorpayKey') || '';
@@ -6338,16 +5634,12 @@ function configureRazorpayKey() {
       toast('🔑 Real Razorpay Gateway Enabled!', 'success');
     } else {
       localStorage.removeItem('razorpayKey');
-      toast('ℹ� Switched to Simulated Sandbox Mode (Offline/Mock).', 'info');
+      toast('ℹ️ Switched to Simulated Sandbox Mode (Offline/Mock).', 'info');
     }
   }
 }
 
-function renderAdvancedPaymentPage() {
-  // Payment page removed "” using direct Razorpay checkout from cart
-}
-
-renderAdvancedPaymentPage();
+// removed: legacy checkout cleanup (renderAdvancedPaymentPage was an empty stub for the removed #paymentPage)
 
 // ============================================================
 //  PREMIUM TASKBAR + MOBILE SEARCH
@@ -6564,43 +5856,7 @@ function mobSearchChangeQty(id, d) {
   renderMenu($('navSearch') ? $('navSearch').value : '');
   renderMobileSearch(document.getElementById('mobSearchInput')?.value || '');
 }
-// ===== Bottom Sheet Payment Drawer Functions =====
-function openPaymentDrawer() {
-  const drawer = document.getElementById('paymentDrawer');
-  const overlay = document.getElementById('paymentDrawerOverlay');
-  if (drawer && overlay) {
-    drawer.classList.add('active');
-    overlay.classList.add('active');
-  }
-}
-
-function closePaymentDrawer() {
-  const drawer = document.getElementById('paymentDrawer');
-  const overlay = document.getElementById('paymentDrawerOverlay');
-  if (drawer && overlay) {
-    drawer.classList.remove('active');
-    overlay.classList.remove('active');
-  }
-}
-
-function selectPaymentOption(method, label, element) {
-  // Update radio inputs
-  const radios = document.getElementsByName('pay');
-  radios.forEach(radio => {
-    radio.checked = (radio.value === method);
-  });
-  
-  // Update UI selection classes
-  document.querySelectorAll('.pd-option-row').forEach(row => {
-    row.classList.remove('selected');
-  });
-  if (element) {
-    element.classList.add('selected');
-  }
-  
-  // Refresh checkout paybar
-  renderSwiggycheckout();
-}
+// removed: legacy checkout cleanup (openPaymentDrawer / closePaymentDrawer / selectPaymentOption managed the removed #paymentDrawer bottom sheet)
 
 // Global state for live tracking
 let liveTrackingInterval = null;
@@ -6865,7 +6121,7 @@ function contactSupportOption(type) {
   } else if (type === 'chat') {
     toast('💬 Initiating 24/7 Support Live Chat...', 'success');
   } else {
-    toast('ℹ� Loading Aakali Help Center & FAQs...', 'info');
+    toast('ℹ️ Loading Aakali Help Center & FAQs...', 'info');
   }
 }
 
@@ -6933,183 +6189,6 @@ function contactSupportOption(type) {
   </div>
 </div>
 
-<!-- Payment Drawer Overlay -->
-<div class="pd-overlay-sw" id="paymentDrawerOverlay" onclick="closePaymentDrawer()"></div>
-
-<!-- Sliding Bottom Sheet Payment Drawer -->
-<div class="payment-drawer-sw" id="paymentDrawer">
-  <div class="pd-handle" onclick="closePaymentDrawer()"></div>
-  <div class="pd-header">
-    <h3 class="pd-title">Select Payment Method</h3>
-    <button class="pd-close-btn" onclick="closePaymentDrawer()">✕</button>
-  </div>
-  
-  <div class="pd-options-list">
-    <!-- Razorpay UPI option -->
-    <div class="pd-option-row selected" onclick="selectPaymentOption('upi', 'Razorpay UPI', this)">
-      <span class="pd-opt-icon">📱</span>
-      <div class="pd-opt-details">
-        <span class="pd-opt-name">Razorpay Secure UPI</span>
-        <span class="pd-opt-desc">Pay instantly using Google Pay, PhonePe, Paytm & more</span>
-      </div>
-      <div class="pd-opt-radio">
-        <input type="radio" name="pay" value="upi" checked style="display:none;"/>
-      </div>
-    </div>
-    
-    <!-- Razorpay Card option -->
-    <div class="pd-option-row" onclick="selectPaymentOption('card', 'Credit/Debit Card', this)">
-      <span class="pd-opt-icon">💳</span>
-      <div class="pd-opt-details">
-        <span class="pd-opt-name">Credit or Debit Card</span>
-        <span class="pd-opt-desc">Visa, Mastercard, RuPay, Maestro, Diners Club</span>
-      </div>
-      <div class="pd-opt-radio">
-        <input type="radio" name="pay" value="card" style="display:none;"/>
-      </div>
-    </div>
-    
-    <!-- Razorpay Net Banking option -->
-    <div class="pd-option-row" onclick="selectPaymentOption('netbanking', 'Net Banking', this)">
-      <span class="pd-opt-icon">🏦</span>
-      <div class="pd-opt-details">
-        <span class="pd-opt-name">Net Banking</span>
-        <span class="pd-opt-desc">All major Indian banks supported securely</span>
-      </div>
-      <div class="pd-opt-radio">
-        <input type="radio" name="pay" value="netbanking" style="display:none;"/>
-      </div>
-    </div>
-    
-    <!-- Wallets option -->
-    <div class="pd-option-row" onclick="selectPaymentOption('wallet', 'Wallets', this)">
-      <span class="pd-opt-icon">👛</span>
-      <div class="pd-opt-details">
-        <span class="pd-opt-name">Wallets</span>
-        <span class="pd-opt-desc">Paytm, Amazon Pay, PhonePe, Freecharge & more</span>
-      </div>
-      <div class="pd-opt-radio">
-        <input type="radio" name="pay" value="wallet" style="display:none;"/>
-      </div>
-    </div>
-    
-    <!-- Pay Later option -->
-    <div class="pd-option-row" onclick="selectPaymentOption('paylater', 'Pay Later', this)">
-      <span class="pd-opt-icon">⏳</span>
-      <div class="pd-opt-details">
-        <span class="pd-opt-name">Pay Later</span>
-        <span class="pd-opt-desc">Simpl, LazyPay, ICICI PayLater</span>
-      </div>
-      <div class="pd-opt-radio">
-        <input type="radio" name="pay" value="paylater" style="display:none;"/>
-      </div>
-    </div>
-    
-    <!-- Meal Cards option -->
-    <div class="pd-option-row" onclick="selectPaymentOption('mealcard', 'Pluxee / Sodexo', this)">
-      <span class="pd-opt-icon">💳</span>
-      <div class="pd-opt-details">
-        <span class="pd-opt-name">Pluxee / Sodexo</span>
-        <span class="pd-opt-desc">Sodexo Meal Pass, Zeta, Edenred</span>
-      </div>
-      <div class="pd-opt-radio">
-        <input type="radio" name="pay" value="mealcard" style="display:none;"/>
-      </div>
-    </div>
-    
-    <!-- Cash on Delivery option -->
-    <div class="pd-option-row" onclick="selectPaymentOption('cod', 'Cash on Delivery', this)">
-      <span class="pd-opt-icon">💵</span>
-      <div class="pd-opt-details">
-        <span class="pd-opt-name">Cash on Delivery</span>
-        <span class="pd-opt-desc">Pay with cash or card upon delivery</span>
-      </div>
-      <div class="pd-opt-radio">
-        <input type="radio" name="pay" value="cod" style="display:none;"/>
-      </div>
-    </div>
-  </div>
-  
-  <div class="pd-security-badge">
-    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
-    </svg>
-    <span>🔒 PCI-DSS Compliant & Secured by Razorpay Gateway</span>
-  </div>
-  
-  <div class="pd-action-area">
-    <button class="pd-btn-confirm" onclick="closePaymentDrawer()">Confirm & Continue</button>
-  </div>
-</div>
-
-<!-- Simulated Razorpay Gateway Overlay -->
-<div class="rzp-gateway-overlay" id="razorpayGatewayModal">
-  <div class="rzp-gateway-card">
-    <div class="rzp-header">
-      <div class="rzp-logo-group">
-        <span class="rzp-logo-badge">Secure</span>
-        <span class="rzp-logo-text">Razor<span>pay</span></span>
-      </div>
-      <div class="rzp-secure-tag">
-        <i data-lucide="shield-check" style="width:12px;height:12px"></i> Secure
-      </div>
-    </div>
-    
-    <div class="rzp-body">
-      <div class="rzp-spinner-container">
-        <div class="rzp-spinner"></div>
-        <i data-lucide="lock" class="rzp-lock-icon"></i>
-      </div>
-      
-      <h3 class="rzp-status-title">Authorizing Payment</h3>
-      <p class="rzp-status-desc">Please do not refresh or close this window. We are establishing a secure connection to your bank.</p>
-      
-      <div class="rzp-details-box">
-        <div class="rzp-detail-row">
-          <span class="rzp-detail-lbl">Merchant:</span>
-          <span class="rzp-detail-val" id="rzp-merchant-name">Aakali Restaurant</span>
-        </div>
-        <div class="rzp-detail-row">
-          <span class="rzp-detail-lbl">Amount:</span>
-          <span class="rzp-detail-val" id="rzp-pay-amount">₹0.00</span>
-        </div>
-        <div class="rzp-detail-row">
-          <span class="rzp-detail-lbl">Payment Method:</span>
-          <span class="rzp-detail-val" id="rzp-payment-method">Razorpay UPI</span>
-        </div>
-      </div>
-      
-      <div class="rzp-features-list">
-        <div class="rzp-feature-item">
-          <i data-lucide="check-circle-2" class="rzp-feature-icon"></i>
-          <div class="rzp-feature-text">
-            PCI-DSS Level 1 Compliant
-            <span>Highest security compliance in the industry</span>
-          </div>
-        </div>
-        <div class="rzp-feature-item">
-          <i data-lucide="check-circle-2" class="rzp-feature-icon"></i>
-          <div class="rzp-feature-text">
-            Secure 256-bit SSL Encryption
-            <span>All your credentials are 100% encrypted & secure</span>
-          </div>
-        </div>
-        <div class="rzp-feature-item">
-          <i data-lucide="check-circle-2" class="rzp-feature-icon"></i>
-          <div class="rzp-feature-text">
-            Instant Refund Support
-            <span>Direct credit back to source within minutes if cancelled</span>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <div class="rzp-footer">
-      <i data-lucide="shield-check" style="width:14px;height:14px;color:#3b82f6"></i>
-      <span>Secured by Razorpay. Trusted by millions.</span>
-    </div>
-  </div>
-</div>
 
 <!-- Confetti Success Popup Overlay -->
 <div id="premiumSuccessPopup" class="success-popup-overlay">
@@ -7165,19 +6244,7 @@ function contactSupportOption(type) {
   </div>
 </div>
 
-<!-- SWIGGY FLOATING BOTTOM CART PAYBAR -->
-<div class="swiggy-floating-cart-paybar" id="floatingCartPaybar" style="display:none;" onclick="toggleCart()">
-  <div class="swiggy-fp-info">
-    <span class="swiggy-fp-count" id="fpCartCount">1 ITEM</span>
-    <span class="swiggy-fp-price" id="fpCartTotal">₹0</span>
-  </div>
-  <div class="swiggy-fp-btn">
-    <span>VIEW CART</span>
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:16px;height:16px"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-  </div>
-</div>
-
-<script src="js/main.js?v=39" defer></script>
+<script src="js/main.js?v=48" defer></script>
 </body>
 </html>
  

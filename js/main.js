@@ -223,13 +223,12 @@ function updateFloatingCartBar() {
   const isUser = currentUser && currentUser.role !== 'admin';
   const hasItems = cart && cart.length > 0;
   
-  // Check if checkoutPage or orderSuccessPage or paymentPage is currently displayed
+  // removed: legacy checkout cleanup (dropped paymentEl visibility check)
+  // Check if checkoutPage or orderSuccessPage is currently displayed
   const checkoutEl = document.getElementById('checkoutPage');
   const successEl = document.getElementById('orderSuccessPage');
-  const paymentEl = document.getElementById('paymentPage');
   const isCheckoutOrSuccess = (checkoutEl && checkoutEl.style.display !== 'none') || 
-                              (successEl && successEl.style.display !== 'none') ||
-                              (paymentEl && paymentEl.style.display !== 'none');
+                              (successEl && successEl.style.display !== 'none');
   
   if (isUser && hasItems && !isCheckoutOrSuccess) {
     renderFloatingCartBarItems();
@@ -404,9 +403,11 @@ function updateLocationUI(displayName, area, city, pincode) {
   if (coCity) coCity.value = city;
   if (coPin) coPin.value = pincode;
   
-  const coHeaderAddr = document.querySelector('.sco-address-line');
-  if (coHeaderAddr) {
-    coHeaderAddr.textContent = `📍 Delivering to: ${displayName}`;
+  if (typeof window.updateCheckoutHeaderAddress === 'function') {
+    window.updateCheckoutHeaderAddress();
+  } else {
+    const coHeaderAddr = document.querySelector('.sco-address-line');
+    if (coHeaderAddr) coHeaderAddr.textContent = `📍 Delivering to: ${displayName}`;
   }
 }
 
@@ -510,38 +511,9 @@ function initLocation() {
   }
 }
 
-function goToPaymentPage() {
-  ['checkoutPage', 'orderSuccessPage', 'ordersSection', 'profileSection', 'heroSection', 'menuSection'].forEach(id => {
-    const e = $(id); if(e) e.style.display = 'none';
-  });
-  const pe = $('paymentPage'); if(pe) pe.style.display = 'block';
-  window.scrollTo(0,0);
-  
-  // Calculate and update order summary panel
-  const sub = cart.reduce((s,c)=>s+c.price*c.qty, 0);
-  const totalQty = cart.reduce((s,c)=>s+c.qty, 0);
-  const saved = 30; // saved on delivery
-  
-  const pgItemsEl = document.getElementById('pg-summary-items');
-  const pgTotalEl = document.getElementById('pg-summary-total');
-  const pgSavingsEl = document.getElementById('pg-summary-savings');
-  
-  if (pgItemsEl) pgItemsEl.textContent = `${totalQty} Item${totalQty > 1 ? 's' : ''}`;
-  if (pgTotalEl) pgTotalEl.textContent = '₹' + sub;
-  if (pgSavingsEl) pgSavingsEl.textContent = `Saving ₹${saved}`;
+// removed: legacy checkout cleanup (goToPaymentPage only showed the removed #paymentPage and populated its DOM)
 
-  if (typeof updateFloatingCartBar === 'function') updateFloatingCartBar();
-  if (window.lucide && typeof lucide.createIcons === 'function') {
-    lucide.createIcons();
-  }
-}
-
-function backToCheckout() {
-  const pe = $('paymentPage'); if(pe) pe.style.display = 'none';
-  const co = $('checkoutPage'); if(co) co.style.display = 'block';
-  window.scrollTo(0,0);
-  if (typeof updateFloatingCartBar === 'function') updateFloatingCartBar();
-}
+// removed: legacy checkout cleanup (backToCheckout was only called from the removed #paymentPage HTML)
 
 function selectUPIAppNew(btn, app, event) {
   if (event) event.stopPropagation();
@@ -969,7 +941,7 @@ function showRestaurantsSkeleton() {
   const grid = document.getElementById('swadRestGrid');
   const popGrid = document.getElementById('aakaliPopularGrid');
   if (grid) grid.innerHTML = generateRestCardSkeleton(6);
-  if (popGrid) popGrid.innerHTML = generatePopularSkeleton(4);
+  if (popGrid) popGrid.innerHTML = generatePopularSkeleton(3);
 }
 
 function showMenuSkeleton() {
@@ -1462,9 +1434,19 @@ function generateRestCardSkeleton(count) {
 }
 
 function generatePopularSkeleton(count) {
+  // Phase 3: shimmer skeleton mirroring the premium featured-card layout
   let html = '';
-  for (let i = 0; i < count; i++) {
-    html += `<div class="skeleton-pop-card"></div>`;
+  const n = Math.max(3, count || 3);
+  for (let i = 0; i < n; i++) {
+    html += `
+      <div class="skeleton-pop-card skeleton-pop-card-lg">
+        <div class="sk-pop-img"></div>
+        <div class="sk-pop-body">
+          <div class="sk-line sk-pop-title"></div>
+          <div class="sk-line sk-pop-sub"></div>
+          <div class="sk-line sk-pop-chip"></div>
+        </div>
+      </div>`;
   }
   return html;
 }
@@ -1512,6 +1494,8 @@ function swadBannerGoTo(idx) {
 }
 
 function swadBannerStart() {
+  // guard: no-op when banner markup is absent (prevents a pointless 5s timer)
+  if (!document.getElementById('swadBannerTrack')) return;
   if (swadBannerInterval) clearInterval(swadBannerInterval);
   swadBannerInterval = setInterval(() => {
     swadBannerGoTo(swadBannerCurrent + 1);
@@ -1531,29 +1515,81 @@ initUser = function() { _origInitUserTheme(); };
 // Kick off banner on load
 window.addEventListener('load', () => { swadBannerGoTo(0); swadBannerStart(); });
 
-// --- Popular Near You: show top 4 rated restaurants ---
+// --- Popular right now (Phase 3): Zomato-style featured cards ---
+// Renders the top-5 highest-rated restaurants as premium horizontal cards
+// with rating pill, delivery-time chip, trending/new tag and an offer banner.
 function renderPopularNearYou(restaurants) {
+  const section = document.getElementById('aakaliPopular');
   const grid = document.getElementById('aakaliPopularGrid');
-  if (!grid || !restaurants || !restaurants.length) return;
-  const top4 = [...restaurants].sort((a, b) => b.rating - a.rating).slice(0, 4);
-  grid.innerHTML = top4.map((r, i) => `
-    <div class="aakali-pop-card" onclick="openRestaurant('${r.id}')">
-      <div class="aakali-pop-img">
-        <img src="${r.img}" alt="${r.name}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&q=80'"/>
-        <div class="aakali-pop-overlay"></div>
-        <div class="aakali-pop-rank">#${i + 1}</div>
-        <div class="aakali-pop-info">
-          <div class="aakali-pop-name">${r.name}</div>
-          <div class="aakali-pop-meta">
-            <span class="aakali-pop-rating">★ ${r.rating}</span>
-            <span class="aakali-pop-time">${r.deliveryTime}</span>
-          </div>
-          <div class="aakali-pop-cuisine">${r.cuisine}</div>
+  if (!grid) return;
+
+  // Hide the whole section entirely when there are literally no restaurants
+  if (!restaurants || !restaurants.length) {
+    if (section) section.style.display = 'none';
+    return;
+  }
+  if (section) section.style.display = '';
+
+  const top = [...restaurants].sort((a, b) => (b.rating || 0) - (a.rating || 0)).slice(0, 5);
+
+  // Fallback: mark the top-2 rated as trending if no explicit trending flag exists
+  const trendingIds = new Set(top.slice(0, 2).map(r => r.id));
+
+  const esc = (s) => String(s == null ? '' : s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+
+  // Extract a short "28 min" style delivery hint from "25–35 min"
+  const shortTime = (t) => {
+    if (!t) return '';
+    const nums = String(t).match(/\d+/g);
+    if (!nums || !nums.length) return t;
+    return nums[nums.length - 1] + ' min';
+  };
+
+  grid.innerHTML = top.map((r) => {
+    const isTrending = r.trending === true || trendingIds.has(r.id);
+    const isNew = r.isNew === true;
+    let tag = '';
+    if (isTrending) tag = '<span class="aakali-pop-tag aakali-pop-tag-trending">TRENDING 🔥</span>';
+    else if (isNew) tag = '<span class="aakali-pop-tag aakali-pop-tag-new">NEW ⭐</span>';
+
+    const offer = r.discount ? `<div class="aakali-pop-offer">${esc(r.discount)}</div>` : '';
+    const rating = (r.rating || 0).toFixed(1);
+    const timeChip = shortTime(r.deliveryTime);
+    const cost = r.priceRange || '';
+
+    return `
+      <article class="aakali-pop-card" role="listitem" tabindex="0"
+               onclick="openRestaurant('${esc(r.id)}')"
+               onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openRestaurant('${esc(r.id)}')}">
+        <div class="aakali-pop-img">
+          <img src="${esc(r.img)}" alt="${esc(r.name)}" loading="lazy"
+               onerror="this.src='https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&q=80'"/>
+          <div class="aakali-pop-overlay"></div>
+          ${timeChip ? `<span class="aakali-pop-badge-time">⏱ ${esc(timeChip)}</span>` : ''}
+          <span class="aakali-pop-badge-rating">${esc(rating)} ★</span>
+          ${tag}
         </div>
-      </div>
-    </div>
-  `).join('');
+        <div class="aakali-pop-body">
+          <h3 class="aakali-pop-name">${esc(r.name)}</h3>
+          <p class="aakali-pop-cuisine">${esc(r.cuisine)}</p>
+          ${cost ? `<span class="aakali-pop-cost">${esc(cost)}</span>` : ''}
+        </div>
+        ${offer}
+      </article>
+    `;
+  }).join('');
 }
+
+// Scroll the main restaurant grid into view when user clicks "See all"
+function aakaliPopSeeAll() {
+  const grid = document.getElementById('swadRestGrid');
+  if (grid && typeof grid.scrollIntoView === 'function') {
+    grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+if (typeof window !== 'undefined') window.aakaliPopSeeAll = aakaliPopSeeAll;
 
 // ============================================================
 // Context-aware taskbar
@@ -1898,33 +1934,6 @@ initUser = function() {
   renderAppTaskbar();
 };
 
-// Floating Cart Paybar Manager
-function updateFloatingCartPaybar() {
-  const paybar = document.getElementById('floatingCartPaybar');
-  if (!paybar) return;
-
-  const totalQty = cart.reduce((sum, item) => sum + (item.qty || item.quantity || 0), 0);
-  const totalPrice = cart.reduce((sum, item) => sum + (item.price || 0) * (item.qty || item.quantity || 0), 0);
-
-  const countEl = document.getElementById('fpCartCount');
-  const priceEl = document.getElementById('fpCartTotal');
-
-  if (totalQty > 0) {
-    if (countEl) countEl.textContent = `${totalQty} ITEM${totalQty > 1 ? 'S' : ''}`;
-    if (priceEl) priceEl.textContent = `₹${totalPrice}`;
-    paybar.style.display = 'flex';
-  } else {
-    paybar.style.display = 'none';
-  }
-}
-
-// Override updateCartBadge to also sync Floating Cart Paybar
-const _origUpdateCartBadgePaybar = updateCartBadge;
-updateCartBadge = function() {
-  _origUpdateCartBadgePaybar();
-  updateFloatingCartPaybar();
-};
-
 // Scroll listener for Compact Sticky Top Header & Swiggy Scroll Behavior
 window.addEventListener('scroll', () => {
   const scrollY = window.scrollY || window.pageYOffset;
@@ -1964,7 +1973,6 @@ function dismissSwiggyOpeningSplash() {
 window.addEventListener('load', () => {
   renderAppTaskbar();
   syncAppTaskbarCartBadges();
-  updateFloatingCartPaybar();
   dismissSwiggyOpeningSplash();
 });
 
@@ -2423,4 +2431,284 @@ function stopRiderLocationShare() {
     _riderGeoWatchId = null;
   }
   if (_riderSimTimer) { clearInterval(_riderSimTimer); _riderSimTimer = null; }
+}
+
+
+/* ═══════════════════════════════════════════════════
+   NAV OVERHAUL — Premium Warm Glass Navigation System
+   Handles: scroll-shrink, cart badge pop-bounce, idle
+   cart wiggle, location text sync.
+   ═══════════════════════════════════════════════════ */
+(function aakaliNavOverhaul(){
+  var reducedMotion = false;
+  try { reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch(e){}
+
+  // ── Scroll-shrink for top nav + user nav ──
+  var lastY = window.scrollY || 0;
+  var scrolledClassOn = false;
+  var rafPending = false;
+
+  function onScroll(){
+    if (rafPending) return;
+    rafPending = true;
+    requestAnimationFrame(function(){
+      var y = window.scrollY || 0;
+
+      // Top nav shrink
+      var wantScrolled = y > 20;
+      if (wantScrolled !== scrolledClassOn) {
+        scrolledClassOn = wantScrolled;
+        document.querySelectorAll('.aknav.aknav-top, .aknav.aknav-ctx').forEach(function(n){
+          n.classList.toggle('scrolled', wantScrolled);
+        });
+      }
+
+      lastY = y;
+      rafPending = false;
+    });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  // ── Cart badge pop-bounce + count sync across all three badges ──
+  var LAST_CART_COUNT = -1;
+  function computeCartCount(){
+    try {
+      if (typeof cart !== 'undefined' && Array.isArray(cart)) {
+        return cart.reduce(function(s, c){ return s + (c.qty || c.quantity || 0); }, 0);
+      }
+    } catch(e){}
+    return 0;
+  }
+  function applyCartBadge(el, count){
+    if (!el) return;
+    el.textContent = count > 99 ? '99+' : String(count);
+    el.setAttribute('data-count', String(count));
+    if (count > 0) {
+      el.style.display = 'inline-flex';
+    } else {
+      el.style.display = 'none';
+    }
+  }
+  function bounceBadges(){
+    ['swadNavCartBadge','cartBadge'].forEach(function(id){
+      var el = document.getElementById(id);
+      if (!el) return;
+      el.classList.remove('bounce');
+      // eslint-disable-next-line no-unused-expressions
+      void el.offsetWidth;
+      el.classList.add('bounce');
+      setTimeout(function(){ el.classList.remove('bounce'); }, 620);
+    });
+  }
+  function syncCartBadges(force){
+    var count = computeCartCount();
+    ['swadNavCartBadge','cartBadge'].forEach(function(id){
+      applyCartBadge(document.getElementById(id), count);
+    });
+    if (count !== LAST_CART_COUNT) {
+      if (LAST_CART_COUNT >= 0 && count > LAST_CART_COUNT && !reducedMotion) {
+        bounceBadges();
+      }
+      LAST_CART_COUNT = count;
+    } else if (force && !reducedMotion) {
+      bounceBadges();
+    }
+    // reset idle timer on cart change
+    scheduleCartIdleWiggle();
+  }
+  window.aakaliSyncCartBadges = syncCartBadges;
+
+  // Wrap existing updateCartBadge if present so every call syncs all three UIs.
+  if (typeof window.updateCartBadge === 'function' && !window.updateCartBadge.__aakaliWrapped) {
+    var _origUpdate = window.updateCartBadge;
+    window.updateCartBadge = function(){
+      try { _origUpdate.apply(this, arguments); } catch(e){}
+      syncCartBadges(false);
+    };
+    window.updateCartBadge.__aakaliWrapped = true;
+  }
+  // Poll briefly in case scripts wrap it later, then run initial sync.
+  var polls = 0;
+  var pollId = setInterval(function(){
+    polls++;
+    if (typeof window.updateCartBadge === 'function' && !window.updateCartBadge.__aakaliWrapped) {
+      var _o = window.updateCartBadge;
+      window.updateCartBadge = function(){
+        try { _o.apply(this, arguments); } catch(e){}
+        syncCartBadges(false);
+      };
+      window.updateCartBadge.__aakaliWrapped = true;
+    }
+    syncCartBadges(false);
+    if (polls > 20) clearInterval(pollId);
+  }, 500);
+
+  // ── Idle cart wiggle after 30s if items in cart ──
+  var wiggleTimer = null;
+  function scheduleCartIdleWiggle(){
+    if (reducedMotion) return;
+    if (wiggleTimer) clearTimeout(wiggleTimer);
+    if (computeCartCount() <= 0) return;
+    wiggleTimer = setTimeout(function(){
+      var top = document.getElementById('aknavCartBtnTop');
+      var ctx = document.getElementById('aknavCartBtnCtx');
+      [top, ctx].forEach(function(btn){
+        if (!btn) return;
+        btn.classList.remove('is-idle-wiggle');
+        void btn.offsetWidth;
+        btn.classList.add('is-idle-wiggle');
+        setTimeout(function(){ btn.classList.remove('is-idle-wiggle'); }, 1400);
+      });
+      scheduleCartIdleWiggle();
+    }, 30000);
+  }
+  ['mousemove','click','keydown','touchstart','scroll'].forEach(function(ev){
+    window.addEventListener(ev, function(){
+      if (wiggleTimer) { clearTimeout(wiggleTimer); wiggleTimer = null; }
+      scheduleCartIdleWiggle();
+    }, { passive: true });
+  });
+
+  // ── Location text sync from localStorage ──
+  function readLoc(){
+    try {
+      var raw = localStorage.getItem('swad_detected_location');
+      if (raw) {
+        var j = JSON.parse(raw);
+        return j.area || j.city || j.displayName || 'Hyderabad';
+      }
+    } catch(e){}
+    return 'Hyderabad';
+  }
+  function syncLoc(){
+    var el = document.getElementById('swadNavLoc');
+    if (el) el.textContent = readLoc();
+  }
+  window.addEventListener('storage', function(e){
+    if (e && e.key === 'swad_detected_location') syncLoc();
+  });
+
+  // ── Boot: initial state ──
+  function boot(){
+    // Sync location text into new nav
+    syncLoc();
+    // Initial cart badge state
+    syncCartBadges(false);
+    // Kick idle wiggle scheduler
+    scheduleCartIdleWiggle();
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
+  }
+})();
+
+// ============================================================
+//  ADMIN / OWNER / SUPER-ADMIN PANEL HANDLERS
+//  (previously referenced via onclick but undefined)
+// ============================================================
+
+// --- Super Admin panel navigation ---
+function superNav(section, el) {
+  document.querySelectorAll('.super-nav-item').forEach(n => n.classList.remove('active'));
+  if (el) el.classList.add('active');
+  ['settings', 'hubs', 'revenue'].forEach(s => {
+    const v = document.getElementById('super-sec-' + s);
+    if (v) v.style.display = (s === section) ? 'block' : 'none';
+  });
+  const title = document.getElementById('superPageTitle');
+  if (title) title.textContent = { settings: 'System Settings', hubs: 'Culinary Hubs', revenue: 'Global Revenue' }[section] || 'System Settings';
+}
+
+// --- Super Admin: save global system settings ---
+function saveSystemSettings() {
+  const tax = document.getElementById('sysTax');
+  const del = document.getElementById('sysDelFee');
+  const settings = { taxPct: tax ? tax.value : '5', baseDeliveryFee: del ? del.value : '40' };
+  try { localStorage.setItem('aakali_system_settings', JSON.stringify(settings)); } catch (e) {}
+  if (typeof toast === 'function') toast('System configuration saved', 'success');
+}
+
+// --- Restaurant Admin panel navigation ---
+function restNav(section, el) {
+  document.querySelectorAll('.rest-nav-item').forEach(n => n.classList.remove('active'));
+  if (el) el.classList.add('active');
+  ['menu', 'orders'].forEach(s => {
+    const v = document.getElementById('rest-sec-' + s);
+    if (v) v.style.display = (s === section) ? 'block' : 'none';
+  });
+  const title = document.getElementById('restPageTitle');
+  if (title) title.textContent = { menu: 'Menu Catalog', orders: 'Kitchen Orders' }[section] || 'Menu Catalog';
+  if (section === 'menu' && typeof renderRestMenu === 'function') renderRestMenu();
+  if (section === 'orders' && typeof loadRestOrders === 'function') loadRestOrders('all');
+}
+
+// --- Restaurant Admin: render the active menu catalog ---
+function renderRestMenu() {
+  const grid = document.getElementById('restMenuGrid');
+  if (!grid || typeof getMenu !== 'function') return;
+  const menu = getMenu();
+  grid.innerHTML = menu.map(m => `
+    <div class="menu-mgr-card">
+      <img src="${m.img}" alt="${m.name}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x148?text=No+Image'"/>
+      <div class="menu-mgr-card-body">
+        <div class="mmname">${m.name}</div>
+        <div class="mmprice">₹${m.price}</div>
+        <div class="mmcat">${m.category}</div>
+      </div>
+    </div>`).join('');
+}
+
+// --- Restaurant Admin: add a dish to the catalog ---
+function restAddMenuItem() {
+  const name = (document.getElementById('restNiName')?.value || '').trim();
+  const price = parseInt(document.getElementById('restNiPrice')?.value || '0', 10);
+  const cat = (document.getElementById('restNiCat')?.value || 'Indian');
+  const img = (document.getElementById('restNiImg')?.value || '').trim();
+  const desc = (document.getElementById('restNiDesc')?.value || '').trim();
+  if (!name || !price || price < 1) {
+    if (typeof toast === 'function') toast('Name and a valid price are required', 'error');
+    return;
+  }
+  if (typeof getMenu !== 'function' || typeof saveMenu !== 'function') return;
+  const menu = getMenu();
+  menu.push({
+    id: 'm' + Date.now(),
+    name,
+    price,
+    category: cat.toLowerCase(),
+    desc: desc || 'Freshly prepared dish.',
+    rating: 4.5,
+    img: img || ('https://via.placeholder.com/400x300?text=' + encodeURIComponent(name)),
+    available: true
+  });
+  saveMenu(menu);
+  ['restNiName', 'restNiPrice', 'restNiImg', 'restNiDesc'].forEach(id => { const e = document.getElementById(id); if (e) e.value = ''; });
+  renderRestMenu();
+  if (typeof toast === 'function') toast(name + ' added to catalog', 'success');
+}
+
+// --- Restaurant Admin: render incoming orders table ---
+function loadRestOrders(filter) {
+  const tb = document.getElementById('restOrdersTable');
+  if (!tb) return;
+  let orders = (typeof getOrders === 'function') ? getOrders().slice().reverse() : [];
+  if (filter && filter !== 'all') orders = orders.filter(o => o.status === filter);
+  if (!orders.length) {
+    tb.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:2rem;color:#999">No orders found.</td></tr>';
+    return;
+  }
+  tb.innerHTML = orders.map(o => {
+    const items = (o.items || []).map(i => (i.item_name || i.name || 'Item') + ' × ' + (i.quantity || i.qty || 1)).join(', ');
+    const total = o.totalPaise ? (o.totalPaise / 100).toFixed(2) : (o.grand || 0);
+    return `<tr>
+      <td>#${(o._id || o.id || '').toString().slice(-6)}</td>
+      <td>${o.custName || (o.deliveryAddress && o.deliveryAddress.phone) || 'Customer'}</td>
+      <td style="max-width:200px">${items}</td>
+      <td>₹${total}</td>
+      <td>${o.status || 'pending'}</td>
+      <td>—</td>
+    </tr>`;
+  }).join('');
 }
