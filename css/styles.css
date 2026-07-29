@@ -10641,3 +10641,39 @@ body.checkout-open .aknav.aknav-ctx { display: none !important; }
 body.checkout-open #userPanel > :not(#checkoutPage):not(script):not(style) { display: none !important; }
 body.checkout-open #userPanel { display: block !important; }
 body.checkout-open #checkoutPage { display: block !important; }
+
+/* ============================================================
+   VIEW CART — UNIFIED TYPOGRAPHIC THEME
+   One font family + consistent weights across the whole page
+   (Plus Jakarta Sans maxes at 900; avoid faux-bold 950)
+   ============================================================ */
+.love-cart-page,
+.love-cart-page *,
+.cook-req-overlay,
+.cook-req-overlay * {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Normalize the heavy display weights to a real, loaded weight (900) */
+.love-cart-header h1,
+.love-section-title h2 {
+  font-weight: 900;
+  letter-spacing: -0.01em;
+}
+
+/* Unify the two eyebrow/label greens into a single consistent accent */
+.love-eyebrow,
+.love-section-title span {
+  color: #047857;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+/* Body copy / helper text — consistent weight + tone */
+.love-cart-header p,
+.love-policy-text,
+.love-gateway-note span,
+.love-action-row .lar-text small,
+.cook-req-help {
+  font-weight: 600;
+}
