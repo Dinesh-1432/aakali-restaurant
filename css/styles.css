@@ -36,8 +36,8 @@
   
   --text:#282c3f;         /* Official Swiggy Dark Slate Primary Text */
   --text2:#3d4152;        /* Official Swiggy Secondary Text */
-  --muted:#686b78;        /* Official Swiggy Muted Subtitles */
-  --muted2:#93959f;       /* Official Swiggy Meta Text */
+  --muted:#5c5f6b;        /* Muted subtitles — darkened for AA contrast */
+  --muted2:#6d7079;       /* Meta text — darkened from #93959f for readability */
   
   --border:#e9e9eb;       /* Official Swiggy Crisp Light Grey Border */
   --border2:#d4d5d9;
